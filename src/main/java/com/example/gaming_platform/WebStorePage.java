@@ -1,6 +1,15 @@
 package com.example.gaming_platform;
-import jakarta.persistence.*;
 import java.util.List;
+
+import com.example.gaming_platform.entity.VideoGame;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+
 
 @Entity
 public class WebStorePage {

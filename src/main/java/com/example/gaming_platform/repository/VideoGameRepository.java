@@ -1,10 +1,12 @@
 package com.example.gaming_platform.repository;
 
-import com.example.gaming_platform.entity.VideoGame;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-import java.util.Date;
+import com.example.gaming_platform.entity.Category;
+import com.example.gaming_platform.entity.VideoGame;
 
 public interface VideoGameRepository extends CrudRepository<VideoGame, Long> {
     VideoGame findByName(String name);

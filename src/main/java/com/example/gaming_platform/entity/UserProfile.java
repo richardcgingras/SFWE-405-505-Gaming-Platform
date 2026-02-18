@@ -1,9 +1,14 @@
 package com.example.gaming_platform.entity;
 
-
-import jakarta.persistence.*;
-
 import java.util.List;
+
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class UserProfile {
@@ -17,13 +22,29 @@ public class UserProfile {
     @OneToMany // JoinColumn or cascading???
     private List<UserProfile> friends;
 
-    @OneToMany
+    /*
+     * ORIGINAL:
+     *
+     * @OneToMany
+     * private List<Category> preferredCategories;
+     *
+     * This breaks the app because Category is an enum right now (not an @Entity),
+     * and @OneToMany only works with entity relationships.
+     *
+     * For Phase 1, we just want the app to run + basic REST working,
+     * so we store the enum values as strings in a simple collection table instead.
+     */
+    // @OneToMany
+    // private List<Category> preferredCategories;
+
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
     private List<Category> preferredCategories;
 
     @OneToMany
     private List<VideoGame> gameLibrary;
 
-    public UserProfile() {};
+    public UserProfile() {}
 
     // constructor
     public UserProfile(String email, String userName, String status, List<UserProfile> friends,
@@ -37,30 +58,30 @@ public class UserProfile {
     }
 
     // setters
-    public void setEmail(String email) {this.email = email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public void setUserName(String userName) {this.userName = userName; }
+    public void setUserName(String userName) { this.userName = userName; }
 
-    public void setStatus(String status) {this.status = status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public void setFriends(List<UserProfile> friends) {this.friends = friends; }
+    public void setFriends(List<UserProfile> friends) { this.friends = friends; }
 
-    public void setPreferredCategories(List<Category> categories) {this.preferredCategories = categories; }
+    public void setPreferredCategories(List<Category> categories) { this.preferredCategories = categories; }
 
-    public void setGameLibrary(List<VideoGame> games) {this.gameLibrary = games; }
+    public void setGameLibrary(List<VideoGame> games) { this.gameLibrary = games; }
 
     // getters
-    public String getEmail() {return this.email; }
+    public String getEmail() { return this.email; }
 
-    public String getUserName() {return this.userName; }
+    public String getUserName() { return this.userName; }
 
-    public String getStatus() {return this.status; }
+    public String getStatus() { return this.status; }
 
-    public List<UserProfile> getFriends() {return this.friends; }
+    public List<UserProfile> getFriends() { return this.friends; }
 
-    public List<Category> getPreferredCategories() {return this.preferredCategories; }
+    public List<Category> getPreferredCategories() { return this.preferredCategories; }
 
-    public List<VideoGame> getGameLibrary() {return this.gameLibrary; }
+    public List<VideoGame> getGameLibrary() { return this.gameLibrary; }
 
     // add friend
     public void addFriend(UserProfile friend) {
@@ -76,5 +97,4 @@ public class UserProfile {
     public void addGame(VideoGame game) {
         gameLibrary.add(game);
     }
-
 }
