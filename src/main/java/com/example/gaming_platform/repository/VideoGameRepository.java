@@ -1,4 +1,4 @@
-package com.example.gaming_platform.entity;
+package com.example.gaming_platform.repository;
 
 import com.example.gaming_platform.entity.VideoGame;
 import org.springframework.data.repository.CrudRepository;
