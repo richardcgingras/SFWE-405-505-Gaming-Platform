@@ -5,7 +5,7 @@ import com.example.gaming_platform.repository.WebStoreRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+//s
 @RestController
 @RequestMapping("/api/webstore")
 @CrossOrigin(origins = "*")

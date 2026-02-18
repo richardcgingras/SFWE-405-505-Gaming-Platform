@@ -8,7 +8,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 
-
+//s
 @Entity
 public class WebStorePage {
     @Id
