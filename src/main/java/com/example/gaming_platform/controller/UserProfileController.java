@@ -39,7 +39,7 @@ public class UserProfileController {
     }
 
     // POST /api/user-profiles
-    @PostMapping
+    @PostMapping(consumes = "application/json")
     public ResponseEntity<UserProfile> createUserProfile(@RequestBody UserProfile userProfile) {
         UserProfile saved = userProfileRepository.save(userProfile);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);

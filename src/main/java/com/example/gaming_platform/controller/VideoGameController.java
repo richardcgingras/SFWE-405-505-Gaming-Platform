@@ -39,7 +39,7 @@ public class VideoGameController {
     }
 
     // POST /api/video-games
-    @PostMapping
+    @PostMapping(consumes = "application/json")
     public ResponseEntity<VideoGame> createVideoGame(@RequestBody VideoGame videoGame) {
         VideoGame saved = videoGameRepository.save(videoGame);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
