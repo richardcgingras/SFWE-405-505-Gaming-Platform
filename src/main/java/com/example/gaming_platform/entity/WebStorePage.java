@@ -1,7 +1,5 @@
-package com.example.gaming_platform;
+package com.example.gaming_platform.entity;
 import java.util.List;
-
-import com.example.gaming_platform.entity.VideoGame;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
