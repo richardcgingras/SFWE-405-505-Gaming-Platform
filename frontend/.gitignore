@@ -22,3 +22,35 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+
+# Compiled Java classes
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Maven build directory
+target/
+
+# Gradle build directory
+/build/
+.gradle/
+
+# IDE specific files and directories
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+
+# Virtual machine crash logs
+hs_err_pid*
+
+# Logs
+*.log
+logs/
