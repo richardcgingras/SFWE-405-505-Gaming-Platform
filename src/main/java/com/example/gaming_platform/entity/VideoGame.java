@@ -10,7 +10,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-// import jakarta.persistence.OneToMany;  // commented out because it caused a JPA error
+import jakarta.persistence.ManyToMany;
 
 
 @Entity
@@ -24,8 +24,8 @@ public class VideoGame {
 
     Date releaseDate;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    @ManyToMany
+    private List<Category> category;
 
 
     /*
@@ -62,7 +62,7 @@ public class VideoGame {
      * Changed List<Blob> to List<String> for the same reason explained above.
      */
 
-    public VideoGame(String name, Date releaseDate, Category category,
+    public VideoGame(String name, Date releaseDate, List<Category> category,
                      List<String> files, Device system) {
         this.name = name;
         this.releaseDate = releaseDate;
@@ -78,8 +78,8 @@ public class VideoGame {
     public Date getReleaseDate() { return releaseDate; }
     public void setReleaseDate(Date releaseDate) { this.releaseDate = releaseDate; }
 
-    public Category getCategory() { return category; }
-    public void setCategory(Category category) { this.category = category; }
+    public List<Category> getCategory() { return category; }
+    public void setCategory(List<Category> category) { this.category = category; }
 
     /*
      * ORIGINAL:

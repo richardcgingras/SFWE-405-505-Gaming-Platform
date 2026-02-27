@@ -1,25 +1,16 @@
 package com.example.gaming_platform.entity;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 
 @Entity
-public class Category {
+public class UserTypes {
     @Id
     @GeneratedValue
     private Long id;
 
     private String type;
-
-    @ManyToMany
-    private List<UserProfile> userProfile;
-
-    @ManyToMany
-    private List<VideoGame> videoGame;
 
     private String description;
 }
