@@ -24,6 +24,8 @@ public class VideoGame {
 
     Date releaseDate;
 
+    float price;
+
     @ManyToMany
     private List<Category> category;
 
@@ -63,12 +65,13 @@ public class VideoGame {
      */
 
     public VideoGame(String name, Date releaseDate, List<Category> category,
-                     List<String> files, Device system) {
+                     List<String> files, Device system, float price) {
         this.name = name;
         this.releaseDate = releaseDate;
         this.category = category;
         this.files = files;
         this.system = system;
+        this.price = price;
     }
 
     // Setters and Getters
@@ -77,6 +80,9 @@ public class VideoGame {
 
     public Date getReleaseDate() { return releaseDate; }
     public void setReleaseDate(Date releaseDate) { this.releaseDate = releaseDate; }
+
+    public float getPrice() { return price; }
+    public void setPrice(float price) { this.price = price; }
 
     public List<Category> getCategory() { return category; }
     public void setCategory(List<Category> category) { this.category = category; }
