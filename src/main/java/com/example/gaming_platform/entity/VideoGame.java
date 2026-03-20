@@ -24,6 +24,8 @@ public class VideoGame {
 
     Date releaseDate;
 
+    float price;
+
     @ManyToMany
     private List<Category> category;
 
@@ -50,6 +52,8 @@ public class VideoGame {
     @Enumerated(EnumType.STRING)
     private Device system;
 
+    private float size; // in GB
+
     public VideoGame(){}
 
     // Constructor
@@ -63,12 +67,14 @@ public class VideoGame {
      */
 
     public VideoGame(String name, Date releaseDate, List<Category> category,
-                     List<String> files, Device system) {
+                     List<String> files, Device system, float price, float size) {
         this.name = name;
         this.releaseDate = releaseDate;
         this.category = category;
         this.files = files;
         this.system = system;
+        this.size = size;
+        this.price = price;
     }
 
     // Setters and Getters
@@ -78,8 +84,14 @@ public class VideoGame {
     public Date getReleaseDate() { return releaseDate; }
     public void setReleaseDate(Date releaseDate) { this.releaseDate = releaseDate; }
 
+    public float getPrice() { return price; }
+    public void setPrice(float price) { this.price = price; }
+
     public List<Category> getCategory() { return category; }
     public void setCategory(List<Category> category) { this.category = category; }
+
+    public float getSize() { return size; }
+    public void setSize(float size) { this.size = size; }
 
     /*
      * ORIGINAL:
