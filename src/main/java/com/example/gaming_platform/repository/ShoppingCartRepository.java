@@ -1,0 +1,9 @@
+package com.example.gaming_platform.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.example.gaming_platform.entity.ShoppingCart;
+
+public interface ShoppingCartRepository extends CrudRepository<ShoppingCart, Long> {
+
+}
