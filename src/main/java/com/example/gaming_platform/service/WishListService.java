@@ -24,4 +24,13 @@ public class WishListService {
         }
         return total;
     }
+
+    // calculate total disk size of games in the wish list
+    public float calculateTotalDiskSize(WishList wishList) {
+        float total = 0.0f;
+        for (VideoGame game : wishList.getGames()) {
+            total += game.getSize();
+        }
+        return total;
+    }
 }
