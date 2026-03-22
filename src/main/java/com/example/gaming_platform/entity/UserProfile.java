@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class UserProfile {
@@ -40,6 +41,9 @@ public class UserProfile {
 
     @OneToMany
     private List<VideoGame> gameLibrary;
+
+    @OneToOne
+    private ShoppingCart shoppingCart;
 
     public UserProfile() {}
 
@@ -79,6 +83,8 @@ public class UserProfile {
     public List<Category> getPreferredCategories() { return this.preferredCategories; }
 
     public List<VideoGame> getGameLibrary() { return this.gameLibrary; }
+
+    public ShoppingCart getCart() { return this.shoppingCart; }
 
     // add friend
     public void addFriend(UserProfile friend) {

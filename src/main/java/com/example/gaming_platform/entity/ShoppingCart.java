@@ -2,10 +2,13 @@ package com.example.gaming_platform.entity;
 
 import java.util.List;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
+@Entity
 public class ShoppingCart {
     @Id
     @GeneratedValue
@@ -13,6 +16,9 @@ public class ShoppingCart {
 
     @OneToMany
     private List<VideoGame> games;
+
+    @OneToOne
+    private UserProfile account;
 
     private double totalPrice;
 
@@ -23,4 +29,5 @@ public class ShoppingCart {
     // Getters
     public List<VideoGame> getGames(){return games;}
     public double getTotal(){return totalPrice;}
+    public UserProfile getAccount(){return account;}
 }

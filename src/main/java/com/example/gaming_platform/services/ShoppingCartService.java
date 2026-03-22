@@ -8,17 +8,24 @@ import org.springframework.stereotype.Service;
 import com.example.gaming_platform.entity.ShoppingCart;
 import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
+import com.example.gaming_platform.entity.Orders;
 import com.example.gaming_platform.repository.OrdersRepository;
 import com.example.gaming_platform.repository.ShoppingCartRepository;
+import com.example.gaming_platform.repository.UserProfileRepository;
 
 @Service
 public class ShoppingCartService {
 
-    // private final OrdersRepository ordersRepository;
+    private final OrdersRepository ordersRepository;
+    private final UserProfileRepository userProfileRepository;
     private final ShoppingCartRepository shoppingCartRepository;
 
-    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository) {
+    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository,
+                                OrdersRepository ordersRepository,
+                                UserProfileRepository userProfileRepository) {
         this.shoppingCartRepository = shoppingCartRepository;
+        this.ordersRepository = ordersRepository;
+        this.userProfileRepository = userProfileRepository;
     }
 
     public boolean addGame(ShoppingCart shoppingCart, VideoGame gameTooAdd){
@@ -45,7 +52,7 @@ public class ShoppingCartService {
         List<VideoGame> currentGamesList = shoppingCart.getGames();
         currentGamesList.add(gameTooAdd);
         shoppingCart.setGames(currentGamesList);
-
+        shoppingCartRepository.save(shoppingCart);
         return success;
     }
 
@@ -54,6 +61,7 @@ public class ShoppingCartService {
         List<VideoGame> currentGamesList = shoppingCart.getGames();
         currentGamesList.remove(gameTooRemove);
         shoppingCart.setGames(currentGamesList);
+        shoppingCartRepository.save(shoppingCart);
     }
 
     public double calcTotalPrice(ShoppingCart shoppingCart){
@@ -88,11 +96,26 @@ public class ShoppingCartService {
 
             // Process payment for the total amount
             // TODO: 0 idea how we plan on handling this, given it would all be faked can we just do a static true?
-            
+
             if (success){
                 // Payment was successful. For each game, go through and process an order (each order is for a single game)
+                for (VideoGame game : shoppingCart.getGames()) {
+                    Date d1 = new Date();
+                    // Create and save the order
+                    Orders newOrder = new Orders();
+                    newOrder.setDestinationAccount(destinationAccount);
+                    newOrder.setGame(game);
+                    newOrder.setDate(d1);
+                    newOrder.setPaymentProcessed(true);
+                    ordersRepository.save(newOrder);
+                    // Attach the game to the user account
+                    destinationAccount.addGame(game);
+                    userProfileRepository.save(destinationAccount);
+                }
+                // Set the shopping cart to empty
+                shoppingCart.setGames(null);
+                shoppingCartRepository.save(shoppingCart);
             }
-            
         }
         // Return if successful or not
         return success;
