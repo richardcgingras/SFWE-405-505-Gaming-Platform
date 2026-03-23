@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -16,6 +17,7 @@ public class WishList {
 
     // not sure about the relationship at this point
     // will it not change when we decide how to link things??
+    @OneToMany
     List<VideoGame> games;
 
     float totalPrice;

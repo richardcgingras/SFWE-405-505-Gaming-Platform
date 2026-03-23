@@ -7,6 +7,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 //s
 @Entity
