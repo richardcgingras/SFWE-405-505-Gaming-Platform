@@ -45,17 +45,21 @@ public class UserProfile {
     @OneToOne
     private ShoppingCart shoppingCart;
 
+    private String bio;
+
     public UserProfile() {}
 
     // constructor
     public UserProfile(String email, String userName, String status, List<UserProfile> friends,
-                       List<Category> preferredCategories, List<VideoGame> gameLibrary) {
+                       List<Category> preferredCategories, List<VideoGame> gameLibrary,
+                    String bio) {
         this.email = email;
         this.userName = userName;
         this.status = status;
         this.friends = friends;
         this.preferredCategories = preferredCategories;
         this.gameLibrary = gameLibrary;
+        this.bio = bio;
     }
 
     // setters
@@ -70,6 +74,8 @@ public class UserProfile {
     public void setPreferredCategories(List<Category> categories) { this.preferredCategories = categories; }
 
     public void setGameLibrary(List<VideoGame> games) { this.gameLibrary = games; }
+
+    public void setBio(String bio) { this.bio = bio; }
 
     // getters
     public String getEmail() { return this.email; }
@@ -95,9 +101,6 @@ public class UserProfile {
     public void addCategory(Category c) {
         preferredCategories.add(c);
     }
+    public String getBio() { return this.bio; }
 
-    // add game to library
-    public void addGame(VideoGame game) {
-        gameLibrary.add(game);
-    }
 }
