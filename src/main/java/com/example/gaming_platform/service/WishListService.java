@@ -33,4 +33,14 @@ public class WishListService {
         }
         return total;
     }
+
+    public void addGameToWishList(WishList wishList, VideoGame game) {
+        wishList.getGames().add(game);
+        wishListRepo.save(wishList);
+    }
+
+    public void removeGameFromWishList(WishList wishList, VideoGame game) {
+        wishList.getGames().remove(game);
+        wishListRepo.save(wishList);
+    }
 }
