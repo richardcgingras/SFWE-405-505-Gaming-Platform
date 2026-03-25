@@ -1,4 +1,4 @@
-package com.example.gaming_platform.services;
+package com.example.gaming_platform.service;
 
 import java.util.Date;
 import java.util.List;
