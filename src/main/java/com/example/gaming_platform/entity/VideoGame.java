@@ -4,13 +4,7 @@ package com.example.gaming_platform.entity;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 
 @Entity
@@ -54,6 +48,15 @@ public class VideoGame {
 
     private float size; // in GB
 
+<<<<<<< Updated upstream
+=======
+    private String ageRating;
+    private List<Integer> reviews;
+
+    @ManyToOne
+    private Developer publisher;
+
+>>>>>>> Stashed changes
     public VideoGame(){}
 
     // Constructor
@@ -103,6 +106,20 @@ public class VideoGame {
     public List<String> getFiles() { return files; }
     public void setFiles(List<String> files) { this.files = files; }
 
+<<<<<<< Updated upstream
     public Device getSystem(){ return system; }
     public void setSystem(Device system) { this.system = system; }
+=======
+    public List <Device> getSystem(){ return system; }
+    public void setSystem(List<Device> system) { this.system = system; }
+
+    public List<Integer> getReviews() { return reviews; }
+    public void setReviews(List<Integer> reviews) { this.reviews = reviews; }
+
+    public String getAgeRating() { return ageRating; }
+    public void setAgeRating(String ageRating) { this.ageRating = ageRating; }
+
+    public Developer getPublisher() { return publisher; }
+    public void setPublisher(Developer publisher) { this.publisher = publisher; }
+>>>>>>> Stashed changes
 }
