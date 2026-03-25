@@ -20,14 +20,14 @@ public class ShoppingCart {
     @OneToOne
     private UserProfile account;
 
-    private double totalPrice;
+    private float totalPrice;
 
     // Setters
     public void setGames(List<VideoGame> setGames){games = setGames;}
-    public void setPrice(double newPrice){totalPrice = newPrice;}
+    public void setPrice(float newPrice){totalPrice = newPrice;}
 
     // Getters
     public List<VideoGame> getGames(){return games;}
-    public double getTotal(){return totalPrice;}
+    public float getTotal(){return totalPrice;}
     public UserProfile getAccount(){return account;}
 }

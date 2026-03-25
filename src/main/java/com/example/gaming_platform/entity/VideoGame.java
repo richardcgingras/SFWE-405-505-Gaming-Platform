@@ -29,8 +29,6 @@ public class VideoGame {
     @ManyToMany
     private List<Category> category;
 
-    private double price;
-
     /*
      * ORIGINAL CODE:
      *
@@ -89,7 +87,6 @@ public class VideoGame {
     public void setPrice(float price) { this.price = price; }
 
     public List<Category> getCategory() { return category; }
-    public double getPrice() { return price; }
     public void setCategory(List<Category> category) { this.category = category; }
 
     public float getSize() { return size; }
@@ -108,5 +105,4 @@ public class VideoGame {
     public Device getSystem(){ return system; }
     public void setSystem(Device system) { this.system = system; }
 
-    public void setPrice(double newPrice) { price = newPrice; }
 }

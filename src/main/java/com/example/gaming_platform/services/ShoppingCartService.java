@@ -64,10 +64,10 @@ public class ShoppingCartService {
         shoppingCartRepository.save(shoppingCart);
     }
 
-    public double calcTotalPrice(ShoppingCart shoppingCart){
+    public float calcTotalPrice(ShoppingCart shoppingCart){
         // Calculates the total price of the shopping cart
         // This should probably be a private function as it should be called during the checkout process
-        double calcTotal = 0.0;
+        float calcTotal = 0.0f;
         // Iterate over the games and sum their prices
         for (VideoGame game : shoppingCart.getGames()) {
             calcTotal += game.getPrice();
@@ -91,7 +91,7 @@ public class ShoppingCartService {
         if (success){
             // All checks passed so we can continue with the order
             // Get final price
-            double cartTotal = calcTotalPrice(shoppingCart);
+            float cartTotal = calcTotalPrice(shoppingCart);
             shoppingCart.setPrice(cartTotal);
 
             // Process payment for the total amount
@@ -109,7 +109,9 @@ public class ShoppingCartService {
                     newOrder.setPaymentProcessed(true);
                     ordersRepository.save(newOrder);
                     // Attach the game to the user account
-                    destinationAccount.addGame(game);
+                    List<VideoGame> accountLibrary = destinationAccount.getGameLibrary();
+                    accountLibrary.add(game);
+                    destinationAccount.setGameLibrary(accountLibrary);
                     userProfileRepository.save(destinationAccount);
                 }
                 // Set the shopping cart to empty
