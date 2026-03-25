@@ -29,6 +29,7 @@ public class VideoGame {
     @ManyToMany
     private List<Category> category;
 
+
     /*
      * ORIGINAL CODE:
      *
@@ -104,5 +105,4 @@ public class VideoGame {
 
     public Device getSystem(){ return system; }
     public void setSystem(Device system) { this.system = system; }
-
 }
