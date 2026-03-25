@@ -20,11 +20,11 @@ public class VideoGame {
     private Long id;
 
     // private variables
-    String name;
+    private String name;
 
-    Date releaseDate;
+    private Date releaseDate;
 
-    float price;
+    private float price;
 
     @ElementCollection(targetClass = Category.class)
     @Enumerated(EnumType.STRING)
@@ -49,11 +49,14 @@ public class VideoGame {
     @ElementCollection
     private List<String> files;  // temporarily storing file names instead of Blob objects
 
-
+    @ElementCollection
     @Enumerated(EnumType.STRING)
-    private Device system;
+    private List<Device> system;
 
     private float size; // in GB
+
+    private String ageRating;
+    private List<Integer> reviews;
 
     public VideoGame(){}
 
@@ -68,7 +71,7 @@ public class VideoGame {
      */
 
     public VideoGame(String name, Date releaseDate, List<Category> category,
-                     List<String> files, Device system, float price, float size) {
+                     List<String> files, List<Device> system, float price, float size, String ageRating, List<Integer> reviews) {
         this.name = name;
         this.releaseDate = releaseDate;
         this.category = category;
@@ -76,6 +79,8 @@ public class VideoGame {
         this.system = system;
         this.size = size;
         this.price = price;
+        this.ageRating = ageRating;
+        this.reviews = reviews;
     }
 
     // Setters and Getters
@@ -104,6 +109,12 @@ public class VideoGame {
     public List<String> getFiles() { return files; }
     public void setFiles(List<String> files) { this.files = files; }
 
-    public Device getSystem(){ return system; }
-    public void setSystem(Device system) { this.system = system; }
+    public List <Device> getSystem(){ return system; }
+    public void setSystem(List<Device> system) { this.system = system; }
+
+    public List<Integer> getReviews() { return reviews; }
+    public void setReviews(List<Integer> reviews) { this.reviews = reviews; }
+
+    public String getAgeRating() { return ageRating; }
+    public void setAgeRating(String ageRating) { this.ageRating = ageRating; }
 }
