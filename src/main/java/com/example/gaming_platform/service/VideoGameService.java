@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @Service
 public class VideoGameService {
 
-    private VideoGameRepository videoGameRepository;
+    private final VideoGameRepository videoGameRepository;
 
     public VideoGameService(VideoGameRepository videoGameRepository) {
         this.videoGameRepository = videoGameRepository;
