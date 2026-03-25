@@ -22,4 +22,16 @@ public class Orders {
     private Date purchaseTimestamp;
 
     private Boolean paymentProcessed;
+
+    // Getters
+    public UserProfile getDestinationAccount(){return destinationAccount;}
+    public VideoGame getGame(){return game;}
+    public Date getDate(){return purchaseTimestamp;}
+    public Boolean getPaymentProcessed(){return paymentProcessed;}
+
+    // Setters
+    public void setDestinationAccount(UserProfile newDestinationAccount){destinationAccount = newDestinationAccount;}
+    public void setGame(VideoGame newGame){game = newGame;}
+    public void setDate(Date newDate){purchaseTimestamp = newDate;}
+    public void setPaymentProcessed(Boolean newBool){paymentProcessed = newBool;}
 }

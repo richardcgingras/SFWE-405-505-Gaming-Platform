@@ -26,7 +26,8 @@ public class VideoGame {
 
     private float price;
 
-    @ManyToMany
+    @ElementCollection(targetClass = Category.class)
+    @Enumerated(EnumType.STRING)
     private List<Category> category;
 
 

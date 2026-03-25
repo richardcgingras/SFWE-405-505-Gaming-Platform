@@ -14,12 +14,61 @@ public class Category {
     private Long id;
 
     private String type;
-
-    @ManyToMany
-    private List<UserProfile> userProfile;
-
-    @ManyToMany
-    private List<VideoGame> videoGame;
-
     private String description;
+
+    @ManyToMany
+    private List<UserProfile> userProfiles;
+
+    @ManyToMany
+    private List<VideoGame> videoGames;
+
+    public Category() {
+    }
+
+    public Category(String type, String description, List<UserProfile> userProfiles, List<VideoGame> videoGames) {
+        this.type = type;
+        this.description = description;
+        this.userProfiles = userProfiles;
+        this.videoGames = videoGames;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<UserProfile> getUserProfiles() {
+        return userProfiles;
+    }
+
+    public List<VideoGame> getVideoGames() {
+        return videoGames;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setUserProfiles(List<UserProfile> userProfiles) {
+        this.userProfiles = userProfiles;
+    }
+
+    public void setVideoGames(List<VideoGame> videoGames) {
+        this.videoGames = videoGames;
+    }
 }

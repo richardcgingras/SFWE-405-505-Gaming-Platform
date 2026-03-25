@@ -2,11 +2,15 @@ package com.example.gaming_platform.entity;
 
 import java.util.List;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class UserProfile {
@@ -35,11 +39,15 @@ public class UserProfile {
     // @OneToMany
     // private List<Category> preferredCategories;
 
-    @ManyToMany
+    @ElementCollection(targetClass = Category.class)
+    @Enumerated(EnumType.STRING)
     private List<Category> preferredCategories;
 
-    @OneToMany
+    @ManyToMany
     private List<VideoGame> gameLibrary;
+
+    @OneToOne
+    private ShoppingCart shoppingCart;
 
     private String bio;
 
@@ -85,6 +93,8 @@ public class UserProfile {
     public List<Category> getPreferredCategories() { return this.preferredCategories; }
 
     public List<VideoGame> getGameLibrary() { return this.gameLibrary; }
+
+    public ShoppingCart getCart() { return this.shoppingCart; }
 
     public String getBio() { return this.bio; }
 
