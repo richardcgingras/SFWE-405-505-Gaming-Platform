@@ -92,15 +92,6 @@ public class UserProfile {
 
     public ShoppingCart getCart() { return this.shoppingCart; }
 
-    // add friend
-    public void addFriend(UserProfile friend) {
-        friends.add(friend);
-    }
-
-    // add preferred category
-    public void addCategory(Category c) {
-        preferredCategories.add(c);
-    }
     public String getBio() { return this.bio; }
 
 }
