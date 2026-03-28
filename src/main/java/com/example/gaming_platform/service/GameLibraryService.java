@@ -80,7 +80,7 @@ public class GameLibraryService {
         return true;
     }
 
-    public List<GameLibrary> findByOwner(UserProfile owner) {
+    public GameLibrary findByOwner(UserProfile owner) {
         return gameLibraryRepository.findByOwner(owner);
     }
 }

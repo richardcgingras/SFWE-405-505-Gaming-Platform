@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface GameLibraryRepository extends CrudRepository<GameLibrary, Long> {
-    List<GameLibrary> findByOwner(UserProfile owner);
+    GameLibrary findByOwner(UserProfile owner);
 }
