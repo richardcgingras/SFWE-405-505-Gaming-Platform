@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class WebStoreController {
 
-    private WebStoreService webStoreService;
+    private final WebStoreService webStoreService;
 
     public WebStoreController(WebStoreService webStoreService) {
         this.webStoreService = webStoreService;

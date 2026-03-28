@@ -1,10 +1,13 @@
 package com.example.gaming_platform.service;
 
+import java.util.List;
+
 import com.example.gaming_platform.entity.GameLibrary;
 import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.repository.GameLibraryRepository;
 import com.example.gaming_platform.repository.VideoGameRepository;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -77,7 +80,7 @@ public class GameLibraryService {
         return true;
     }
 
-    public GameLibrary findByOwner(UserProfile owner) {
+    public List<GameLibrary> findByOwner(UserProfile owner) {
         return gameLibraryRepository.findByOwner(owner);
     }
 }

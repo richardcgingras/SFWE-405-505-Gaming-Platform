@@ -78,7 +78,7 @@ public class WebStoreService {
 
         if (page != null) {
             page.getDeveloperRecommendations()
-                    .removeIf(g -> g.getId().equals(gameId));
+                    .removeIf(g -> g.getId() == gameId);
             return repository.save(page);
         }
 

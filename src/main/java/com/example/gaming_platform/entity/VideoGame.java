@@ -10,7 +10,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 
 
 @Entity
@@ -30,6 +30,8 @@ public class VideoGame {
     @Enumerated(EnumType.STRING)
     private List<Category> category;
 
+    @OneToOne
+    private Developer publisher;
 
     /*
      * ORIGINAL CODE:
@@ -84,6 +86,7 @@ public class VideoGame {
     }
 
     // Setters and Getters
+    public long getId() { return this.id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
@@ -117,4 +120,7 @@ public class VideoGame {
 
     public String getAgeRating() { return ageRating; }
     public void setAgeRating(String ageRating) { this.ageRating = ageRating; }
+
+    public Developer getPublisher() { return publisher; }
+    public void setPublisher(Developer newPub) { this.publisher = newPub; }
 }
