@@ -32,7 +32,7 @@ public class VideoGame {
 
     private float price;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "video_game_category",
             joinColumns = @JoinColumn(name = "video_game_id"),

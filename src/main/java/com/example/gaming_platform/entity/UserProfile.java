@@ -39,7 +39,7 @@ public class UserProfile {
     // @OneToMany
     // private List<Category> preferredCategories;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "user_profile_category",
             joinColumns = @JoinColumn(name = "user_profile_id"),
@@ -47,7 +47,7 @@ public class UserProfile {
     )
     private List<Category> preferredCategories;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "user_profile_game_library",
             joinColumns = @JoinColumn(name = "user_profile_id"),
