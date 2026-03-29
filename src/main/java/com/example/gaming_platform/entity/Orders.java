@@ -23,6 +23,16 @@ public class Orders {
 
     private Boolean paymentProcessed;
 
+    // constructors
+    public Orders(){}
+
+    public Orders(UserProfile destinationAccount, VideoGame game, Date purchaseTimestamp, Boolean paymentProcessed) {
+        this.destinationAccount = destinationAccount;
+        this.game = game;
+        this.purchaseTimestamp = purchaseTimestamp;
+        this.paymentProcessed = paymentProcessed;
+    }
+
     // Getters
     public UserProfile getDestinationAccount(){return destinationAccount;}
     public VideoGame getGame(){return game;}
