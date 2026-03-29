@@ -2,6 +2,7 @@ package com.example.gaming_platform.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,10 +17,12 @@ public class Category {
     private String type;
     private String description;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "preferredCategories")
+    @JsonIgnore
     private List<UserProfile> userProfiles;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "category")
+    @JsonIgnore
     private List<VideoGame> videoGames;
 
     public Category() {
