@@ -12,6 +12,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
+/**
+ * Entity representing user profile data.
+ */
 @Entity
 public class UserProfile {
     @Id
@@ -51,6 +54,9 @@ public class UserProfile {
 
     private String bio;
 
+/**
+ * Creates a new UserProfile instance.
+ */
     public UserProfile() {}
 
     // constructor
@@ -67,6 +73,11 @@ public class UserProfile {
     }
 
     // setters
+/**
+ * Sets the email.
+ *
+ * @param email the email
+ */
     public void setEmail(String email) { this.email = email; }
 
     public void setUserName(String userName) { this.userName = userName; }

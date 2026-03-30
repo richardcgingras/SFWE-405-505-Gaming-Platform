@@ -7,6 +7,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+/**
+ * Entity representing orders data.
+ */
 @Entity
 public class Orders {
     @Id
@@ -24,6 +27,11 @@ public class Orders {
     private Boolean paymentProcessed;
 
     // Getters
+/**
+ * Gets the destination account.
+ *
+ * @return the destination account
+ */
     public UserProfile getDestinationAccount(){return destinationAccount;}
     public VideoGame getGame(){return game;}
     public Date getDate(){return purchaseTimestamp;}

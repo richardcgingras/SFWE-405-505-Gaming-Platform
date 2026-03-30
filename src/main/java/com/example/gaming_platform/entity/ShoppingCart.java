@@ -8,6 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
+/**
+ * Entity representing shopping cart data.
+ */
 @Entity
 public class ShoppingCart {
     @Id
@@ -23,6 +26,11 @@ public class ShoppingCart {
     private float totalPrice;
 
     // Setters
+/**
+ * Sets the games.
+ *
+ * @param setGames the set games
+ */
     public void setGames(List<VideoGame> setGames){games = setGames;}
     public void setPrice(float newPrice){totalPrice = newPrice;}
 

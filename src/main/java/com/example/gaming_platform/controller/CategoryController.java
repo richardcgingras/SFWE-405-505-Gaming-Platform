@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import com.example.gaming_platform.entity.Category;
 import com.example.gaming_platform.service.CategoryService;
 
+/**
+ * REST controller for category operations.
+ */
 @RestController
 @RequestMapping("/api/category")
 @CrossOrigin(origins = "*")
@@ -14,15 +17,31 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+/**
+ * Creates a new CategoryController instance.
+ *
+ * @param categoryService the category service
+ */
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
+/**
+ * Retrieves all categories.
+ *
+ * @return all categories
+ */
     @GetMapping
     public Iterable<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
+/**
+ * Retrieves a category by ID.
+ *
+ * @param id the ID
+ * @return the matching category when found
+ */
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         return categoryService.getCategoryById(id)
@@ -30,6 +49,12 @@ public class CategoryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+/**
+ * Creates a new category.
+ *
+ * @param category the category
+ * @return the created category
+ */
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         Category saved = categoryService.createCategory(category);

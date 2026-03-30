@@ -10,12 +10,22 @@ import com.example.gaming_platform.repository.UserProfileRepository;
 import com.example.gaming_platform.entity.Category;
 import com.example.gaming_platform.repository.CategoryRepository;
 
+/**
+ * Service for user profile business operations.
+ */
 @Service
 public class UserProfileService {
     private final UserProfileRepository userProfileRepo;
     private final WishListRepository wishListRepo;
     private final CategoryRepository categoryRepo;
 
+/**
+ * Creates a new UserProfileService instance.
+ *
+ * @param userProfileRepo the user profile repo
+ * @param wishListRepo the wish list repo
+ * @param categoryRepo the category repo
+ */
     public UserProfileService(UserProfileRepository userProfileRepo, WishListRepository wishListRepo, 
         CategoryRepository categoryRepo) {
         this.userProfileRepo = userProfileRepo;
@@ -24,6 +34,12 @@ public class UserProfileService {
     }
 
     // add a friend to the user's friend list
+/**
+ * Adds friend.
+ *
+ * @param userId the user ID
+ * @param friendId the friend ID
+ */
     public void addFriend(Long userId, Long friendId) {
         UserProfile user = userProfileRepo.findById(userId).orElseThrow();
         UserProfile friend = userProfileRepo.findById(friendId).orElseThrow();
@@ -32,6 +48,12 @@ public class UserProfileService {
     }
 
     // remove a friend from the user's friend list
+/**
+ * Removes friend.
+ *
+ * @param userId the user ID
+ * @param friendId the friend ID
+ */
     public void removeFriend(Long userId, Long friendId) {
         UserProfile user = userProfileRepo.findById(userId).orElseThrow();
         UserProfile friend = userProfileRepo.findById(friendId).orElseThrow();
@@ -40,6 +62,12 @@ public class UserProfileService {
     }
 
     // add a preferred category to the user's profile
+/**
+ * Adds preferred category.
+ *
+ * @param userId the user ID
+ * @param categoryId the category ID
+ */
     public void addPreferredCategory(Long userId, Long categoryId) {
         UserProfile user = userProfileRepo.findById(userId).orElseThrow();
         Category category = categoryRepo.findById(categoryId).orElseThrow();
@@ -48,6 +76,12 @@ public class UserProfileService {
     }
 
     // remove a preferred category from the user's profile
+/**
+ * Removes preferred category.
+ *
+ * @param userId the user ID
+ * @param categoryId the category ID
+ */
     public void removePreferredCategory(Long userId, Long categoryId) {
         UserProfile user = userProfileRepo.findById(userId).orElseThrow();
         Category category = categoryRepo.findById(categoryId).orElseThrow();
@@ -56,6 +90,12 @@ public class UserProfileService {
     }
 
     // edit status
+/**
+ * Executes the editStatus operation.
+ *
+ * @param userId the user ID
+ * @param newStatus the new status
+ */
     public void editStatus(Long userId, String newStatus) {
         UserProfile user = userProfileRepo.findById(userId).orElseThrow();
         user.setStatus(newStatus);
@@ -63,6 +103,12 @@ public class UserProfileService {
     }
 
     // edit bio
+/**
+ * Executes the editBio operation.
+ *
+ * @param userId the user ID
+ * @param newBio the new bio
+ */
     public void editBio(Long userId, String newBio) {
         // NOTE ----------
         // we need a way to limit the length of the bio
@@ -73,6 +119,11 @@ public class UserProfileService {
     }
 
     // validate bio
+/**
+ * Executes the validateBio operation.
+ *
+ * @param bio the bio
+ */
     public void validateBio(String bio) {
         // NOTE ----------
         // not sure if this is the best way to implement this

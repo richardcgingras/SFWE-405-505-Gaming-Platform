@@ -14,6 +14,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 //s
+/**
+ * Entity representing web store page data.
+ */
 @Entity
 public class WebStorePage {
     @Id
@@ -32,6 +35,9 @@ public class WebStorePage {
     @ManyToMany
     private List<VideoGame> developerRecommendations;
 
+/**
+ * Creates a new WebStorePage instance.
+ */
     public WebStorePage(){}
 
     public WebStorePage(String name, String description, byte[] imageUrl,
@@ -43,11 +49,21 @@ public class WebStorePage {
     }
 
     //setters
+/**
+ * Sets the ID.
+ *
+ * @param id the ID
+ */
     public void setId(Long id) { this.id = id; }
     public void setDescription(String description) { this.description = description; }
     public void setDeveloperRecommendations(List<VideoGame> developerRecommendations) {
         this.developerRecommendations = developerRecommendations;
     }
+/**
+ * Sets the game.
+ *
+ * @param game the game
+ */
     public void setGame(VideoGame game) { this.game = game; }
     public void setImageUrl(byte[] imageUrl) { this.imageUrl = imageUrl; }
     public void setName(String name) { this.name = name; }

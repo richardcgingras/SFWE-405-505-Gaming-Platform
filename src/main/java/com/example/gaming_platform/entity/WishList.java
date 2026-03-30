@@ -8,6 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
+/**
+ * Entity representing wish list data.
+ */
 @Entity
 public class WishList {
 
@@ -25,6 +28,9 @@ public class WishList {
     @OneToOne
     UserProfile user;
     
+/**
+ * Creates a new WishList instance.
+ */
     public WishList(){}
 
     public WishList(List<VideoGame> games, float totalPrice, UserProfile user) {
@@ -34,6 +40,11 @@ public class WishList {
     }
 
     // setters
+/**
+ * Sets the ID.
+ *
+ * @param id the ID
+ */
     public void setId(Long id) { this.id = id; }
     public void setGames(List<VideoGame> games) { this.games = games; }
     public void setTotalPrice(float totalPrice) { this.totalPrice = totalPrice; }

@@ -13,6 +13,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
 
+/**
+ * Entity representing video game data.
+ */
 @Entity
 public class VideoGame {
     @Id
@@ -60,6 +63,9 @@ public class VideoGame {
     private String ageRating;
     private List<Integer> reviews;
 
+/**
+ * Creates a new VideoGame instance.
+ */
     public VideoGame(){}
 
     // Constructor
@@ -86,6 +92,11 @@ public class VideoGame {
     }
 
     // Setters and Getters
+/**
+ * Gets the ID.
+ *
+ * @return the ID
+ */
     public long getId() { return this.id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
