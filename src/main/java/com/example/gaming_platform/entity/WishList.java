@@ -7,7 +7,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 
+/**
+ * Entity representing wish list data.
+ */
 @Entity
 public class WishList {
 
@@ -22,27 +26,26 @@ public class WishList {
 
     float totalPrice;
 
-    @OneToOne
-    UserProfile user;
-    
     public WishList(){}
 
-    public WishList(List<VideoGame> games, float totalPrice, UserProfile user) {
+    public WishList(List<VideoGame> games, float totalPrice) {
         this.games = games;
         this.totalPrice = totalPrice;
-        this.user = user;
     }
 
     // setters
+/**
+ * Sets the ID.
+ *
+ * @param id the ID
+ */
     public void setId(Long id) { this.id = id; }
     public void setGames(List<VideoGame> games) { this.games = games; }
     public void setTotalPrice(float totalPrice) { this.totalPrice = totalPrice; }
-    public void setUser(UserProfile user) { this.user = user; }
 
     // getters
     public Long getId() { return id; }
     public List<VideoGame> getGames() { return games; }
     public float getTotalPrice() { return totalPrice; }
-    public UserProfile getUser() { return user; }
     
 }

@@ -7,6 +7,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+/**
+ * Entity representing orders data.
+ */
 @Entity
 public class Orders {
     @Id
@@ -23,7 +26,22 @@ public class Orders {
 
     private Boolean paymentProcessed;
 
+    // constructors
+    public Orders(){}
+
+    public Orders(UserProfile destinationAccount, VideoGame game, Date purchaseTimestamp, Boolean paymentProcessed) {
+        this.destinationAccount = destinationAccount;
+        this.game = game;
+        this.purchaseTimestamp = purchaseTimestamp;
+        this.paymentProcessed = paymentProcessed;
+    }
+
     // Getters
+/**
+ * Gets the destination account.
+ *
+ * @return the destination account
+ */
     public UserProfile getDestinationAccount(){return destinationAccount;}
     public VideoGame getGame(){return game;}
     public Date getDate(){return purchaseTimestamp;}

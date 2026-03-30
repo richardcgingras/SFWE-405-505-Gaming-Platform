@@ -4,15 +4,24 @@ package com.example.gaming_platform.entity;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.ManyToAny;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 
 
+/**
+ * Entity representing video game data.
+ */
 @Entity
 public class VideoGame {
     @Id
@@ -26,8 +35,12 @@ public class VideoGame {
 
     private float price;
 
-    @ElementCollection(targetClass = Category.class)
-    @Enumerated(EnumType.STRING)
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "video_game_category",
+            joinColumns = @JoinColumn(name = "video_game_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private List<Category> category;
 
     @OneToOne
@@ -60,6 +73,9 @@ public class VideoGame {
     private String ageRating;
     private List<Integer> reviews;
 
+/**
+ * Creates a new VideoGame instance.
+ */
     public VideoGame(){}
 
     // Constructor
@@ -86,6 +102,11 @@ public class VideoGame {
     }
 
     // Setters and Getters
+/**
+ * Gets the ID.
+ *
+ * @return the ID
+ */
     public long getId() { return this.id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

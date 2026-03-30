@@ -1,47 +1,72 @@
 package com.example.gaming_platform.controller;
-
-import org.springframework.http.HttpStatus;
+import com.example.gaming_platform.entity.ChatMessage;
+import com.example.gaming_platform.service.ChatMessageService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-import com.example.gaming_platform.entity.Chat;
-import com.example.gaming_platform.repository.ChatRepository;
-
+/**
+ * REST controller for chat operations.
+ */
 @RestController
-@RequestMapping("/api/chat")
-@CrossOrigin(origins = "*")
 public class ChatController {
 
-    private final ChatRepository chatRepository;
+    private final SimpMessagingTemplate messagingTemplate;
+    private final ChatMessageService chatMessageService;
 
-    public ChatController(ChatRepository chatRepository) {
-        this.chatRepository = chatRepository;
+/**
+ * Creates a new ChatController instance.
+ *
+ * @param messagingTemplate the messaging template
+ * @param chatMessageService the chat message service
+ */
+    public ChatController(SimpMessagingTemplate messagingTemplate,
+                          ChatMessageService chatMessageService) {
+        this.messagingTemplate = messagingTemplate;
+        this.chatMessageService = chatMessageService;
     }
 
-    // GET /api/chat
-    @GetMapping
-    public Iterable<Chat> getAllChat() {
-        return chatRepository.findAll();
+/**
+ * Processes message.
+ *
+ * @param chatMessage the chat message
+ */
+    @MessageMapping("/chat")
+    public void processMessage(@Payload ChatMessage chatMessage) {
+        ChatMessage saved = chatMessageService.save(chatMessage);
+        messagingTemplate.convertAndSendToUser(
+                saved.getRecipientId(), "/queue/messages", saved
+        );
     }
 
-    // GET /api/chat/{id}
-    @GetMapping("/{id}")
-    public ResponseEntity<Chat> getChatById(@PathVariable Long id) {
-        return chatRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+/**
+ * Finds chat messages.
+ *
+ * @param senderId the sender ID
+ * @param recipientId the recipient ID
+ * @return the matching chat messages
+ */
+    @GetMapping("/api/messages/{senderId}/{recipientId}")
+    public ResponseEntity<List<ChatMessage>> findChatMessages(
+            @PathVariable String senderId,
+            @PathVariable String recipientId) {
+        return ResponseEntity.ok(chatMessageService.findChatMessages(senderId, recipientId));
     }
 
-    // POST /api/chat
-    @PostMapping(consumes = "application/json")
-    public ResponseEntity<Chat> createChat(@RequestBody Chat chat) {
-        Chat saved = chatRepository.save(chat);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+/**
+ * Counts new messages.
+ *
+ * @param senderId the sender ID
+ * @param recipientId the recipient ID
+ * @return the matching count
+ */
+    @GetMapping("/api/messages/{senderId}/{recipientId}/count")
+    public ResponseEntity<Long> countNewMessages(
+            @PathVariable String senderId,
+            @PathVariable String recipientId) {
+        return ResponseEntity.ok(chatMessageService.countNewMessages(senderId, recipientId));
     }
 }

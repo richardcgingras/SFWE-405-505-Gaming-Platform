@@ -17,6 +17,9 @@ import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.service.ShoppingCartService;
 
+/**
+ * REST controller for shopping cart operations.
+ */
 @RestController
 @RequestMapping("/api/shopping-cart")
 @CrossOrigin(origins = "*")
@@ -24,10 +27,22 @@ public class ShoppingCartController {
     // private final ShoppingCartRepository shoppingCartRepository;
     private final ShoppingCartService shoppingCartService;
 
+/**
+ * Creates a new ShoppingCartController instance.
+ *
+ * @param shoppingCartService the shopping cart service
+ */
     public ShoppingCartController(ShoppingCartService shoppingCartService){
         this.shoppingCartService = shoppingCartService;
     }
 
+/**
+ * Executes the postAddGame operation.
+ *
+ * @param shoppingCart the shopping cart
+ * @param gameTooAdd the game too add
+ * @return the result of the operation
+ */
     @PostMapping("game")
     public ResponseEntity postAddGame(@RequestBody ShoppingCart shoppingCart, VideoGame gameTooAdd) {
         boolean success;
@@ -39,12 +54,25 @@ public class ShoppingCartController {
         }
     }
 
+/**
+ * Deletes the remove game.
+ *
+ * @param shoppingCart the shopping cart
+ * @param gameTooAdd the game too add
+ * @return the result of the delete operation
+ */
     @DeleteMapping("game")
     public ResponseEntity deleteRemoveGame(@RequestBody ShoppingCart shoppingCart, VideoGame gameTooAdd) {
         shoppingCartService.addGame(shoppingCart, gameTooAdd);
         return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"");
     }
 
+/**
+ * Gets the total.
+ *
+ * @param shoppingCart the shopping cart
+ * @return the total
+ */
     @GetMapping("total")
     public ResponseEntity getTotal(@RequestParam ShoppingCart shoppingCart) {
         float total;
@@ -54,6 +82,13 @@ public class ShoppingCartController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     
+/**
+ * Executes the postCheckouString operation.
+ *
+ * @param shoppingCart the shopping cart
+ * @param destinationAccount the destination account
+ * @return the result of the operation
+ */
     @PostMapping("checkout")
     public ResponseEntity postCheckouString(@RequestBody ShoppingCart shoppingCart, UserProfile destinationAccount) {
         boolean success;

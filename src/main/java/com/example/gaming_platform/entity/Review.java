@@ -8,6 +8,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import java.time.LocalDateTime;
 
+/**
+ * Entity representing review data.
+ */
 @Entity
 public class Review {
     @Id
@@ -26,6 +29,9 @@ public class Review {
     private LocalDateTime sent;
     private int rating;
 
+/**
+ * Creates a new Review instance.
+ */
     public Review() {}
 
     public Review(UserProfile from, VideoGame game, String comments, int rating) {
@@ -37,6 +43,11 @@ public class Review {
     }
 
     //setters
+/**
+ * Sets the from.
+ *
+ * @param from the from
+ */
     public void setFrom(UserProfile from) { this.from = from; }
     public void setGame(VideoGame game) { this.game = game; }
     public void setComments(String comments) { this.comments = comments; }
