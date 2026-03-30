@@ -1,0 +1,1133 @@
+{
+  "info": {
+    "_postman_id": "66fd6428-7ab9-4449-9450-75ab5528d403",
+    "name": "SFWE_405_api_testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51782030",
+    "_collection_link": "https://go.postman.co/collection/51782030-66fd6428-7ab9-4449-9450-75ab5528d403?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Video Games",
+      "item": [
+        {
+          "name": "All Video Games",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/video-games",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "video-games"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Video Game By ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Halo Infinite\",\n  \"releaseDate\": \"2026-02-17T00:00:00.000+00:00\",\n  \"category\": \"ACTION\",\n  \"system\": \"XBOX\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/video-games/{id}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "video-games",
+                "{id}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Video game",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Halo Infinite\",\n  \"releaseDate\": \"2026-02-17T00:00:00.000+00:00\",\n  \"category\": \"ACTION\",\n  \"system\": \"XBOX\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/video-games",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "video-games"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Profiles",
+      "item": [
+        {
+          "name": "All User Profiles",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/user-profiles",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "user-profiles"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User Profile By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/user-profiles/{id}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "user-profiles",
+                "{id}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User Profile",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"renae@example.com\",\n  \"userName\": \"Gamer1\",\n  \"status\": \"ACTIVE\",\n  \"preferredCategories\": [\"RPG\", \"INDIE\"],\n  \"gameLibrary\": [],\n  \"id\":\"1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/user-profiles",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "user-profiles"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Types",
+      "item": [
+        {
+          "name": "All User Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/user-types",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "user-types"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User Type By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/user-types/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "user-types",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User Type",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"typeName\": \"ADMIN\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/user-types",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "user-types"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "All Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/orders",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Order By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/orders/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "orders",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"orderDate\": \"2026-03-24T12:00:00\",\r\n  \"totalAmount\": 59.99\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/orders",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/category",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "category"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Category By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "GET {{baseUrl}}{{api}}/category/{{id}}",
+              "host": [
+                "GET {{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "category",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"RPG\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "POST {{baseUrl}}{{api}}/category",
+              "host": [
+                "POST {{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "category"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Chat",
+      "item": [
+        {
+          "name": "All Chats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "GET {{baseUrl}}{{api}}/chat",
+              "host": [
+                "GET {{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "chat"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Chat By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/chat/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "chat",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Chat",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"message\": \"Hello world\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/chat",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "chat"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Developers",
+      "item": [
+        {
+          "name": "All Developers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/developers",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "developers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Developer By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/developers/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "developers",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Developer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Nintendo\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/developers",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "developers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Assign Game To Developer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/developers/{{developerId}}/games/{{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "developers",
+                "{{developerId}}",
+                "games",
+                "{{gameId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Developer Games",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/developers/{{developerId}}/games",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "developers",
+                "{{developerId}}",
+                "games"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Game Library",
+      "item": [
+        {
+          "name": "All Game Libraries",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/gamelibrary",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "gamelibrary"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Game Library By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/gamelibrary/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "gamelibrary",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Game Library",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Renae's Library\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/gamelibrary",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "gamelibrary"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Games In Library",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/gamelibrary/{{id}}/games",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "gamelibrary",
+                "{{id}}",
+                "games"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Game To Library",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/gamelibrary/{{id}}/games/{{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "gamelibrary",
+                "{{id}}",
+                "games",
+                "{{gameId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Game From Library",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/gamelibrary/{{id}}/games/{{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "gamelibrary",
+                "{{id}}",
+                "games",
+                "{{gameId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Library Has Game",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/gamelibrary/{{id}}/games/{{gameId}}/has",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "gamelibrary",
+                "{{id}}",
+                "games",
+                "{{gameId}}",
+                "has"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Library Total Size",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/gamelibrary/{{id}}/totalsize",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "gamelibrary",
+                "{{id}}",
+                "totalsize"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Game Library",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/gamelibrary/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "gamelibrary",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Submit Review",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/reviews/submit?userId={{userId}}&gameId={{gameId}}&rating={{rating}}&comment={{comment}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "reviews",
+                "submit"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "{{userId}}"
+                },
+                {
+                  "key": "gameId",
+                  "value": "{{gameId}}"
+                },
+                {
+                  "key": "rating",
+                  "value": "{{rating}}"
+                },
+                {
+                  "key": "comment",
+                  "value": "{{comment}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reviews By Game ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/reviews/game/{{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "reviews",
+                "game",
+                "{{gameId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Shopping Cart",
+      "item": [
+        {
+          "name": "Add Game To Cart",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/game?cartId={{cartId}}&gameId={{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "shopping-cart",
+                "game"
+              ],
+              "query": [
+                {
+                  "key": "cartId",
+                  "value": "{{cartId}}"
+                },
+                {
+                  "key": "gameId",
+                  "value": "{{gameId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Game From Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/game?cartId={{cartId}}&gameId={{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "shopping-cart",
+                "game"
+              ],
+              "query": [
+                {
+                  "key": "cartId",
+                  "value": "{{cartId}}"
+                },
+                {
+                  "key": "gameId",
+                  "value": "{{gameId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cart Total",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/total?cartId={{cartId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "shopping-cart",
+                "total"
+              ],
+              "query": [
+                {
+                  "key": "cartId",
+                  "value": "{{cartId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Checkout Cart",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout?cartId={{cartId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "shopping-cart",
+                "checkout"
+              ],
+              "query": [
+                {
+                  "key": "cartId",
+                  "value": "{{cartId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Webstore",
+      "item": [
+        {
+          "name": "All Webstores",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/webstore",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "webstore"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Webstore By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/webstore/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "webstore",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Webstore",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Main Store\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/webstore",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "webstore"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Webstore",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Updated Store Name\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/webstore/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "webstore",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Webstore",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/webstore/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "webstore",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Webstore Recommendations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/webstore/{{id}}/recommendations",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "webstore",
+                "{{id}}",
+                "recommendations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Recommendation",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/webstore/{{id}}/recommendations?gameId={{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "webstore",
+                "{{id}}",
+                "recommendations"
+              ],
+              "query": [
+                {
+                  "key": "gameId",
+                  "value": "{{gameId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Recommendation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/webstore/{{id}}/recommendations/{{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "webstore",
+                "{{id}}",
+                "recommendations",
+                "{{gameId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "api",
+      "value": ""
+    },
+    {
+      "key": "baseUrl",
+      "value": ""
+    },
+    {
+      "key": "id",
+      "value": ""
+    },
+    {
+      "key": "developerId",
+      "value": ""
+    },
+    {
+      "key": "gameId",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "cartId",
+      "value": ""
+    },
+    {
+      "key": "rating",
+      "value": ""
+    },
+    {
+      "key": "comment",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}
