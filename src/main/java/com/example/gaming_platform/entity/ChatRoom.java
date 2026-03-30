@@ -2,6 +2,9 @@ package com.example.gaming_platform.entity;
 
 import jakarta.persistence.*;
 
+/**
+ * Entity representing chat room data.
+ */
 @Entity
 @Table(name = "chat_rooms")
 public class ChatRoom {
@@ -19,6 +22,9 @@ public class ChatRoom {
     @Column(nullable = false)
     private String recipientId;
 
+/**
+ * Creates a new ChatRoom instance.
+ */
     public ChatRoom() {}
 
     public ChatRoom(String chatRoomId, String senderId, String recipientId) {
@@ -27,6 +33,11 @@ public class ChatRoom {
         this.recipientId = recipientId;
     }
 
+/**
+ * Gets the ID.
+ *
+ * @return the ID
+ */
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getChatRoomId() { return chatRoomId; }

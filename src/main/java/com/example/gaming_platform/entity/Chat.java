@@ -7,6 +7,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
+/**
+ * Entity representing chat data.
+ */
 @Entity
 public class Chat {
     @Id

@@ -7,6 +7,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+/**
+ * Entity representing wish list data.
+ */
 @Entity
 public class WishList {
 
@@ -29,6 +32,11 @@ public class WishList {
     }
 
     // setters
+/**
+ * Sets the ID.
+ *
+ * @param id the ID
+ */
     public void setId(Long id) { this.id = id; }
     public void setGames(List<VideoGame> games) { this.games = games; }
     public void setTotalPrice(float totalPrice) { this.totalPrice = totalPrice; }

@@ -3,6 +3,9 @@ package com.example.gaming_platform.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Entity representing chat message data.
+ */
 @Entity
 @Table(name = "chat_messages")
 public class ChatMessage {
@@ -31,6 +34,9 @@ public class ChatMessage {
     @Enumerated(EnumType.STRING)
     private MessageStatus status;
 
+/**
+ * Creates a new ChatMessage instance.
+ */
     public ChatMessage() {}
 
     public Long getId() { return id; }

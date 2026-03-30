@@ -13,6 +13,9 @@ import com.example.gaming_platform.repository.OrdersRepository;
 import com.example.gaming_platform.repository.ShoppingCartRepository;
 import com.example.gaming_platform.repository.UserProfileRepository;
 
+/**
+ * Service for shopping cart business operations.
+ */
 @Service
 public class ShoppingCartService {
 
@@ -20,6 +23,13 @@ public class ShoppingCartService {
     private final UserProfileRepository userProfileRepository;
     private final ShoppingCartRepository shoppingCartRepository;
 
+/**
+ * Creates a new ShoppingCartService instance.
+ *
+ * @param shoppingCartRepository the shopping cart repository
+ * @param ordersRepository the orders repository
+ * @param userProfileRepository the user profile repository
+ */
     public ShoppingCartService(ShoppingCartRepository shoppingCartRepository,
                                 OrdersRepository ordersRepository,
                                 UserProfileRepository userProfileRepository) {
@@ -28,6 +38,13 @@ public class ShoppingCartService {
         this.userProfileRepository = userProfileRepository;
     }
 
+/**
+ * Adds game.
+ *
+ * @param shoppingCart the shopping cart
+ * @param gameTooAdd the game too add
+ * @return the updated result
+ */
     public boolean addGame(ShoppingCart shoppingCart, VideoGame gameTooAdd){
         // Attempt too add the specified game to the shopping cart
         // If a check fails return false, else true
@@ -56,6 +73,12 @@ public class ShoppingCartService {
         return success;
     }
 
+/**
+ * Removes game.
+ *
+ * @param shoppingCart the shopping cart
+ * @param gameTooRemove the game too remove
+ */
     public void removeGame(ShoppingCart shoppingCart, VideoGame gameTooRemove){
         // Remove the game to the list
         List<VideoGame> currentGamesList = shoppingCart.getGames();
@@ -64,6 +87,12 @@ public class ShoppingCartService {
         shoppingCartRepository.save(shoppingCart);
     }
 
+/**
+ * Calculates the total price.
+ *
+ * @param shoppingCart the shopping cart
+ * @return the calculated total price
+ */
     public float calcTotalPrice(ShoppingCart shoppingCart){
         // Calculates the total price of the shopping cart
         // This should probably be a private function as it should be called during the checkout process
@@ -75,6 +104,13 @@ public class ShoppingCartService {
         return calcTotal;
     }
 
+/**
+ * Completes the checkout process.
+ *
+ * @param shoppingCart the shopping cart
+ * @param destinationAccount the destination account
+ * @return {@code true} when checkout succeeds
+ */
     public boolean checkout(ShoppingCart shoppingCart, UserProfile destinationAccount){
         // Returns a boolean based on if the checkout process was a success
         boolean success = true;
