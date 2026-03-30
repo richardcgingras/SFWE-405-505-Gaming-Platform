@@ -1,0 +1,64 @@
+{
+	"id": "a67111e4-f95d-4a1f-be12-2af157cf35d4",
+	"name": "SFWE_405_Local_Variables",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "api",
+			"value": "/api",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "id",
+			"value": "1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "developerId",
+			"value": "1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "gameId",
+			"value": "1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "userId",
+			"value": "1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "cartId",
+			"value": "1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "rating",
+			"value": "5",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "comment",
+			"value": "Great game!",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": 300,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-03-30T15:24:14.658Z",
+	"_postman_exported_using": "Postman/12.4.0"
+}
