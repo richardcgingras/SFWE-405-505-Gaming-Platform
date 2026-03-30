@@ -26,6 +26,16 @@ public class Orders {
 
     private Boolean paymentProcessed;
 
+    // constructors
+    public Orders(){}
+
+    public Orders(UserProfile destinationAccount, VideoGame game, Date purchaseTimestamp, Boolean paymentProcessed) {
+        this.destinationAccount = destinationAccount;
+        this.game = game;
+        this.purchaseTimestamp = purchaseTimestamp;
+        this.paymentProcessed = paymentProcessed;
+    }
+
     // Getters
 /**
  * Gets the destination account.
