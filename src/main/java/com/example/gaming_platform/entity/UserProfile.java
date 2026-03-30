@@ -9,7 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -21,7 +20,7 @@ public class UserProfile {
     // private variables
     private String email, userName, status;
 
-    @OneToMany // JoinColumn or cascading???
+    @ManyToMany // JoinColumn or cascading???
     private List<UserProfile> friends;
 
     /*
@@ -82,6 +81,8 @@ public class UserProfile {
     public void setBio(String bio) { this.bio = bio; }
 
     // getters
+    public Long getId() { return this.id; }
+
     public String getEmail() { return this.email; }
 
     public String getUserName() { return this.userName; }

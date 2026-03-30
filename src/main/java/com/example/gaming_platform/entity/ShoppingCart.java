@@ -25,6 +25,7 @@ public class ShoppingCart {
     // Setters
     public void setGames(List<VideoGame> setGames){games = setGames;}
     public void setPrice(float newPrice){totalPrice = newPrice;}
+    public void setAccount(UserProfile newAccount){account = newAccount;}
 
     // Getters
     public List<VideoGame> getGames(){return games;}
