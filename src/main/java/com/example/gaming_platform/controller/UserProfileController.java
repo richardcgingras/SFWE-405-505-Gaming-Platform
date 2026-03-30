@@ -44,4 +44,25 @@ public class UserProfileController {
         UserProfile saved = userProfileRepository.save(userProfile);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
+
+    // GET user profile by username
+    @GetMapping("/username/{userName}")
+    public ResponseEntity<UserProfile> getUserProfileByUserName(@PathVariable String userName) {
+        UserProfile user = userProfileRepository.findByUserName(userName);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    // GET user profile by email
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserProfile> getUserProfileByEmail(@PathVariable String email) {
+        UserProfile user = userProfileRepository.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
+    }
+
 }

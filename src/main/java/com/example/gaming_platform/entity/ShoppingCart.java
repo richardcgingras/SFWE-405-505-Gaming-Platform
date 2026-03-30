@@ -22,6 +22,15 @@ public class ShoppingCart {
 
     private float totalPrice;
 
+    // constructors 
+    public ShoppingCart(){}
+
+    public ShoppingCart(List<VideoGame> games, float totalPrice, UserProfile account) {
+        this.games = games;
+        this.totalPrice = totalPrice;
+        this.account = account;
+    }
+
     // Setters
     public void setGames(List<VideoGame> setGames){games = setGames;}
     public void setPrice(float newPrice){totalPrice = newPrice;}
