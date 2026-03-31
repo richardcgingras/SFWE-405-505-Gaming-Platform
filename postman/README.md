@@ -37,6 +37,25 @@ Once imported and selected, the requests will work without needing to manually e
 | cartId       | 1                         |
 | rating       | 5                         |
 | comment      | Great game!               |
+| token        | (auto-generated)          |
+
+---
+
+## Authentication
+
+Some endpoints require authentication using a bearer token.
+
+### Steps:
+
+1. Open the **Auth → Login** request in the collection
+2. Click **Send**
+3. The token will be automatically stored in the environment
+4. All other requests will automatically use the token via: Authorization: Bearer {{token}}
+
+
+### Notes:
+- The token is automatically captured from the login response
+- If the token expires, re-run the login request to refresh it
 
 ---
 
@@ -44,7 +63,6 @@ Once imported and selected, the requests will work without needing to manually e
 
 - The backend server must be running before sending requests.
 - Default base URL assumes local development: http://localhost:8080
-
 - Some endpoints depend on existing data (e.g., gameId, userId), so certain requests may require creating records first.
 
 ---
@@ -53,6 +71,7 @@ Once imported and selected, the requests will work without needing to manually e
 
 The collection includes endpoints for:
 
+- Authentication (Login)
 - Video Games
 - User Profiles
 - User Types

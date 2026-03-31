@@ -1065,8 +1065,64 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();\r",
+                  "pm.environment.set(\"token\", response.token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"testuser\",\r\n  \"password\": \"password\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/auth/login",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
   "event": [
     {
       "listen": "prerequest",
@@ -1126,8 +1182,7 @@
     },
     {
       "key": "comment",
-      "value": "",
-      "type": "default"
+      "value": ""
     }
   ]
 }
