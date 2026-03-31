@@ -4,10 +4,9 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.OneToMany;
 
 /**
  * Entity representing wish list data.
@@ -16,7 +15,7 @@ import jakarta.persistence.OneToMany;
 public class WishList {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // not sure about the relationship at this point
