@@ -33,6 +33,7 @@ public class ChatController {
  * Processes message.
  *
  * @param chatMessage the chat message
+ *  This method is weboscket pushing a reveciving in real time
  */
     @MessageMapping("/chat")
     public void processMessage(@Payload ChatMessage chatMessage) {
