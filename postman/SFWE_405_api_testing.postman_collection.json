@@ -1111,6 +1111,119 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Wishlist",
+      "item": [
+        {
+          "name": "All Wishlists",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/wishlists",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "wishlists"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Wishlist By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/wishlists/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "wishlists",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Wishlist",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"games\": [],\r\n  \"totalPrice\": 0.0\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/wishlists",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "wishlists"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Game To Wishlist",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 1,\r\n  \"name\": \"Halo Infinite\",\r\n  \"releaseDate\": \"2026-02-17T00:00:00.000+00:00\",\r\n  \"category\": \"ACTION\",\r\n  \"system\": \"XBOX\",\r\n  \"price\": 59.99\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/wishlists/{{id}}/add-game",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "wishlists",
+                "{{id}}",
+                "add-game"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Wishlist Total Price",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/wishlists/total-price/{{id}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "wishlists",
+                "total-price",
+                "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {
