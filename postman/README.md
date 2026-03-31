@@ -83,3 +83,5 @@ The collection includes endpoints for:
 - Reviews
 - Shopping Cart
 - Webstore
+- Wishlist
+
