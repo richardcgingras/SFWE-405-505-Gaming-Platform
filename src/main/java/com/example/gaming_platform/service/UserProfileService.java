@@ -1,7 +1,10 @@
 package com.example.gaming_platform.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
+import com.example.gaming_platform.UserPrincipal;
 import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.entity.WishList;
@@ -31,6 +34,17 @@ public class UserProfileService {
         this.userProfileRepo = userProfileRepo;
         this.wishListRepo = wishListRepo;
         this.categoryRepo = categoryRepo;
+    }
+
+    // Find a profile by id
+    public UserProfile getUserProfileById(long Id){
+        Optional<UserProfile> foundProfile = userProfileRepo.findById(Id);
+        return foundProfile.get();
+    }
+
+    // Find a profile by Username
+    public UserProfile getUserProfileByUsername(String username){
+        return userProfileRepo.findByUserName(username);
     }
 
     // add a friend to the user's friend list

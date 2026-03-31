@@ -13,9 +13,9 @@ INSERT INTO developer(id, email, username) VALUES(101, 'topcom@', 'topcom'),
                                                 (102, 'pullybox@', 'pullybox');
 
 -- User Profiles
-INSERT INTO user_profile(id, email, user_name, status, bio) VALUES(101, 'johna@', 'johna', 'Online', 'The Best Gamer'),
-                                                                (102, 'georgy@', 'georgy', 'Offline', 'Best Gamer that ever lived'),
-                                                                (103, 'sammyt@', 'sammyt', 'away', 'Here to spend money');
+INSERT INTO user_profile(id, email, password, user_name, status, bio) VALUES(101, 'johna@', 'password', 'johna', 'Online', 'The Best Gamer'),
+                                                                            (102, 'georgy@', 'admin', 'georgy', 'Offline', 'Best Gamer that ever lived'),
+                                                                            (103, 'sammyt@', 'empty', 'sammyt', 'away', 'Here to spend money');
 
 -- User Profiles Preferred Categories
 INSERT INTO user_profile_preferred_categories(user_profile_id, preferred_categories_id) VALUES(101, 102);

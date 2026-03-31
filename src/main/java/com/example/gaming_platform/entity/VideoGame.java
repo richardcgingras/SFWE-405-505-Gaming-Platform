@@ -108,6 +108,7 @@ public class VideoGame {
  * @return the ID
  */
     public long getId() { return this.id; }
+    public void setId(Long newId) { this.id = newId; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 

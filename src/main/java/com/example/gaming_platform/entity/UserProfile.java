@@ -3,6 +3,8 @@ package com.example.gaming_platform.entity;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -21,7 +23,11 @@ public class UserProfile {
     private Long id;
 
     // private variables
-    private String email, userName, status;
+    private String email, status, password;
+
+    // Need to make sure we have a unique field for api keys
+    @Column(unique = true)
+    private String userName;
 
     @ManyToMany // JoinColumn or cascading???
     private List<UserProfile> friends;
@@ -93,6 +99,7 @@ public class UserProfile {
  */
     public void setEmail(String email) { this.email = email; }
     public void setUserName(String userName) { this.userName = userName; }
+    public void setPassword(String passWord) { this.password = passWord; }
     public void setStatus(String status) { this.status = status; }
     public void setFriends(List<UserProfile> friends) { this.friends = friends; }
     public void setPreferredCategories(List<Category> categories) { this.preferredCategories = categories; }
@@ -103,9 +110,9 @@ public class UserProfile {
 
     // getters
     public Long getId() { return this.id; }
-
     public String getEmail() { return this.email; }
     public String getUserName() { return this.userName; }
+    public String getPassword() { return this.password; }
     public String getStatus() { return this.status; }
     public List<UserProfile> getFriends() { return this.friends; }
     public List<Category> getPreferredCategories() { return this.preferredCategories; }
