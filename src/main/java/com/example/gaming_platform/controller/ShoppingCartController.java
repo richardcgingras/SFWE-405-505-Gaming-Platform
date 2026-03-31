@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.gaming_platform.entity.ShoppingCart;
@@ -39,18 +40,19 @@ public class ShoppingCartController {
 /**
  * Executes the postAddGame operation.
  *
- * @param shoppingCart the shopping cart
- * @param gameTooAdd the game too add
+ * @PathVariable cartId the shopping cart Id
+ * @PathVariable gameId the Id of the game too add
  * @return the result of the operation
  */
-    @PostMapping("game")
-    public ResponseEntity postAddGame(@RequestBody ShoppingCart shoppingCart, VideoGame gameTooAdd) {
-        boolean success;
-        success = shoppingCartService.addGame(shoppingCart, gameTooAdd);
-        if (success){
-            return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"");
+    @PostMapping("game/{cartId}/{gameId}")
+    public ResponseEntity postAddGame(@PathVariable Long cartId, @PathVariable Long gameId) {
+        String success;
+        System.out.println("User trying to add a game to the cart, cartId: %d, gameId: %d".formatted(cartId, gameId));
+        success = shoppingCartService.addGame(cartId, gameId);
+        if (success.equals("Success")){
+            return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"failed\"");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"%s\"}".formatted(success));
         }
     }
 
@@ -62,8 +64,8 @@ public class ShoppingCartController {
  * @return the result of the delete operation
  */
     @DeleteMapping("game")
-    public ResponseEntity deleteRemoveGame(@RequestBody ShoppingCart shoppingCart, VideoGame gameTooAdd) {
-        shoppingCartService.addGame(shoppingCart, gameTooAdd);
+    public ResponseEntity deleteRemoveGame(@RequestBody ShoppingCart shoppingCart, @RequestBody VideoGame gameTooAdd) {
+        shoppingCartService.removeGame(shoppingCart, gameTooAdd);
         return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"");
     }
 
@@ -90,7 +92,7 @@ public class ShoppingCartController {
  * @return the result of the operation
  */
     @PostMapping("checkout")
-    public ResponseEntity postCheckouString(@RequestBody ShoppingCart shoppingCart, UserProfile destinationAccount) {
+    public ResponseEntity postCheckouString(@RequestBody ShoppingCart shoppingCart, @RequestBody UserProfile destinationAccount) {
         boolean success;
         success = shoppingCartService.checkout(shoppingCart, destinationAccount);
         if (success){

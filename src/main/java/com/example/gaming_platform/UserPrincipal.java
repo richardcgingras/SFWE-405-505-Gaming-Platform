@@ -4,10 +4,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.gaming_platform.entity.UserProfile;
+
 import java.util.Collection;
 import java.util.Collections;
-
-import com.example.gaming_platform.entity.UserProfile;
 
 public class UserPrincipal implements UserDetails {
     private Long id;

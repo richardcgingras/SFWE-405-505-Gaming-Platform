@@ -2,6 +2,7 @@ package com.example.gaming_platform.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import com.example.gaming_platform.entity.Orders;
 import com.example.gaming_platform.repository.OrdersRepository;
 import com.example.gaming_platform.repository.ShoppingCartRepository;
 import com.example.gaming_platform.repository.UserProfileRepository;
+import com.example.gaming_platform.repository.VideoGameRepository;
 
 /**
  * Service for shopping cart business operations.
@@ -22,6 +24,7 @@ public class ShoppingCartService {
     private final OrdersRepository ordersRepository;
     private final UserProfileRepository userProfileRepository;
     private final ShoppingCartRepository shoppingCartRepository;
+    private final VideoGameRepository videoGameRepository;
 
 /**
  * Creates a new ShoppingCartService instance.
@@ -32,10 +35,12 @@ public class ShoppingCartService {
  */
     public ShoppingCartService(ShoppingCartRepository shoppingCartRepository,
                                 OrdersRepository ordersRepository,
-                                UserProfileRepository userProfileRepository) {
+                                UserProfileRepository userProfileRepository,
+                                VideoGameRepository videoGameRepository) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.ordersRepository = ordersRepository;
         this.userProfileRepository = userProfileRepository;
+        this.videoGameRepository = videoGameRepository;
     }
 
 /**
@@ -45,10 +50,24 @@ public class ShoppingCartService {
  * @param gameTooAdd the game too add
  * @return the updated result
  */
-    public boolean addGame(ShoppingCart shoppingCart, VideoGame gameTooAdd){
+    public String addGame(Long cartId, Long gameId){
         // Attempt too add the specified game to the shopping cart
-        // If a check fails return false, else true
-        boolean success = true;
+
+        VideoGame gameTooAdd;
+        ShoppingCart shoppingCart;
+
+        Optional<VideoGame> gameLookup = videoGameRepository.findById(gameId);
+        if (gameLookup != null){
+            gameTooAdd = gameLookup.get();
+        } else {
+            return "Game does not exist";
+        }
+        Optional<ShoppingCart> cartLookup = shoppingCartRepository.findById(cartId);
+        if (cartLookup != null){
+            shoppingCart = cartLookup.get();
+        } else {
+            return "Shopping cart does not exist";
+        }
 
         // Tests:
         Date currentDate = new Date();
@@ -57,12 +76,12 @@ public class ShoppingCartService {
             for (VideoGame game : shoppingCart.getGames()) {
                 if (game == gameTooAdd){
                     // Game is already in the shopping cart
-                    success = false;
+                    return "Game is already in the Shopping Cart";
                 }
             }
         } else {
             // Game is not available for sale yet
-            success = false;
+            return "Game is not for sale yet";
         }
 
         // Add the game to the list
@@ -70,7 +89,7 @@ public class ShoppingCartService {
         currentGamesList.add(gameTooAdd);
         shoppingCart.setGames(currentGamesList);
         shoppingCartRepository.save(shoppingCart);
-        return success;
+        return "Success";
     }
 
 /**

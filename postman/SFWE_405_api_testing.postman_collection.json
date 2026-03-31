@@ -791,7 +791,7 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/game?cartId={{cartId}}&gameId={{gameId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/game/{{cartId}}/{{gameId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
