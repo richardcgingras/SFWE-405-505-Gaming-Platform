@@ -18,7 +18,7 @@ INSERT INTO user_profile(id, email, password, user_name, status, bio) VALUES(101
                                                                             (103, 'sammyt@', 'empty', 'sammyt', 'away', 'Here to spend money');
 
 -- User Profiles Preferred Categories
-INSERT INTO user_profile_preferred_categories(user_profile_id, preferred_categories_id) VALUES(101, 102);
+INSERT INTO user_profile_category(user_profile_id, category_id) VALUES(101, 102);
 
 -- User Profile Friends Lists
 INSERT INTO user_profile_friends(user_profile_id, friends_id) VALUES(101,102),
@@ -57,7 +57,7 @@ INSERT INTO game_library(id, owner_id, total_size) VALUES(101, 101, 100),
 INSERT INTO game_library_games(game_library_id, games_id) VALUES(101, 101);
 
 -- User Profile Game Library
-INSERT INTO user_profile_game_library(user_profile_id, game_library_id) VALUES(101, 101),
+INSERT INTO user_profile_game_library(user_profile_id, video_game_id) VALUES(101, 101),
                                                                             (102, 102),
                                                                             (103, 103);
 
@@ -74,8 +74,8 @@ INSERT INTO shopping_cart(id, account_id, total_price) VALUES(101, 101, 109.99);
 INSERT INTO shopping_cart_games(shopping_cart_id, games_id) VALUES(101, 102);
 
 -- WishList
-INSERT INTO wish_list(id, user_id, total_price) VALUES(101, 101, 12.34),
-                                                    (102, 103, 85674.6);
+INSERT INTO wish_list(id, total_price) VALUES(101, 12.34),
+                                            (102, 85674.6);
 
 -- WishList Games
 INSERT INTO wish_list_games(wish_list_id, games_id) VALUES(101, 102),
