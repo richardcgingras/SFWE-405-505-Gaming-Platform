@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.gaming_platform.entity.ShoppingCart;
 import com.example.gaming_platform.entity.UserProfile;
@@ -98,12 +99,30 @@ public class ShoppingCartService {
  * @param shoppingCart the shopping cart
  * @param gameTooRemove the game too remove
  */
-    public void removeGame(ShoppingCart shoppingCart, VideoGame gameTooRemove){
+    public String removeGame(Long cartId, Long gameId){
         // Remove the game to the list
+
+        VideoGame gameTooRemove;
+        ShoppingCart shoppingCart;
+
+        Optional<VideoGame> gameLookup = videoGameRepository.findById(gameId);
+        if (gameLookup != null){
+            gameTooRemove = gameLookup.get();
+        } else {
+            return "Game does not exist";
+        }
+        Optional<ShoppingCart> cartLookup = shoppingCartRepository.findById(cartId);
+        if (cartLookup != null){
+            shoppingCart = cartLookup.get();
+        } else {
+            return "Shopping cart does not exist";
+        }
+
         List<VideoGame> currentGamesList = shoppingCart.getGames();
         currentGamesList.remove(gameTooRemove);
         shoppingCart.setGames(currentGamesList);
         shoppingCartRepository.save(shoppingCart);
+        return "Success";
     }
 
 /**
@@ -112,7 +131,7 @@ public class ShoppingCartService {
  * @param shoppingCart the shopping cart
  * @return the calculated total price
  */
-    public float calcTotalPrice(ShoppingCart shoppingCart){
+    public float calcPrice(ShoppingCart shoppingCart){
         // Calculates the total price of the shopping cart
         // This should probably be a private function as it should be called during the checkout process
         float calcTotal = 0.0f;
@@ -124,57 +143,89 @@ public class ShoppingCartService {
     }
 
 /**
+ * Calculates the total price.
+ *
+ * @param shoppingCart the shopping cart
+ * @return the calculated total price
+ */
+    public String calcTotalPrice(Long cartId){
+        // Calculates the total price of the shopping cart
+
+        ShoppingCart shoppingCart;
+        Optional<ShoppingCart> cartLookup = shoppingCartRepository.findById(cartId);
+        if (cartLookup != null){
+            shoppingCart = cartLookup.get();
+        } else {
+            return "Shopping cart does not exist";
+        }
+
+        return "Success: %d".formatted(calcPrice(shoppingCart));
+    }
+
+/**
  * Completes the checkout process.
  *
  * @param shoppingCart the shopping cart
  * @param destinationAccount the destination account
  * @return {@code true} when checkout succeeds
  */
-    public boolean checkout(ShoppingCart shoppingCart, UserProfile destinationAccount){
+    public String checkout(Long cartId, Long destinationAccountId){
         // Returns a boolean based on if the checkout process was a success
-        boolean success = true;
+
+        UserProfile destinationAccount;
+        ShoppingCart shoppingCart;
+
+        Optional<UserProfile> accountLookup = userProfileRepository.findById(destinationAccountId);
+        if (accountLookup != null){
+            destinationAccount = accountLookup.get();
+        } else {
+            return "Account does not exist";
+        }
+        Optional<ShoppingCart> cartLookup = shoppingCartRepository.findById(cartId);
+        if (cartLookup != null){
+            shoppingCart = cartLookup.get();
+        } else {
+            return "Shopping cart does not exist";
+        }
 
         // Test to make sure none of the games in the shopping cart are already in the destination account
         for (VideoGame game : shoppingCart.getGames()) {
             for (VideoGame ownedGame : destinationAccount.getGameLibrary()){
                 if (game == ownedGame){
                     // One of the games is already in the account
-                    success = false;
+                    return "Game %s already exists in the account".formatted(game.getName());
                 }
             }
         }
-        if (success){
-            // All checks passed so we can continue with the order
-            // Get final price
-            float cartTotal = calcTotalPrice(shoppingCart);
-            shoppingCart.setPrice(cartTotal);
+        // All checks passed so we can continue with the order
+        // Get final price
+        float cartTotal = calcPrice(shoppingCart);
+        shoppingCart.setPrice(cartTotal);
 
-            // Process payment for the total amount
-            // TODO: 0 idea how we plan on handling this, given it would all be faked can we just do a static true?
+        // Process payment for the total amount
+        // This needs to be updated to support polymorhism so we can change out payment processors/types
 
-            if (success){
-                // Payment was successful. For each game, go through and process an order (each order is for a single game)
-                for (VideoGame game : shoppingCart.getGames()) {
-                    Date d1 = new Date();
-                    // Create and save the order
-                    Orders newOrder = new Orders();
-                    newOrder.setDestinationAccount(destinationAccount);
-                    newOrder.setGame(game);
-                    newOrder.setDate(d1);
-                    newOrder.setPaymentProcessed(true);
-                    ordersRepository.save(newOrder);
-                    // Attach the game to the user account
-                    List<VideoGame> accountLibrary = destinationAccount.getGameLibrary();
-                    accountLibrary.add(game);
-                    destinationAccount.setGameLibrary(accountLibrary);
-                    userProfileRepository.save(destinationAccount);
-                }
-                // Set the shopping cart to empty
-                shoppingCart.setGames(null);
-                shoppingCartRepository.save(shoppingCart);
-            }
+        // Payment was successful. For each game, go through and process an order (each order is for a single game)
+        for (VideoGame game : shoppingCart.getGames()) {
+            Date d1 = new Date();
+            // Create and save the order
+            Orders newOrder = new Orders();
+            newOrder.setDestinationAccount(destinationAccount);
+            newOrder.setGame(game);
+            newOrder.setDate(d1);
+            newOrder.setPaymentProcessed(true);
+            ordersRepository.save(newOrder);
+            // Attach the game to the user account
+            List<VideoGame> accountLibrary = destinationAccount.getGameLibrary();
+            accountLibrary.add(game);
+            destinationAccount.setGameLibrary(accountLibrary);
+            userProfileRepository.save(destinationAccount);
         }
+        // Set the shopping cart to empty
+        shoppingCart.setGames(null);
+        shoppingCartRepository.save(shoppingCart);
+
         // Return if successful or not
-        return success;
+        return "Success";
     }
 }
