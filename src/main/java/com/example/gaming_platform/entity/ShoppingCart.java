@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -14,7 +15,7 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class ShoppingCart {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany
@@ -42,6 +43,7 @@ public class ShoppingCart {
  */
     public void setGames(List<VideoGame> setGames){games = setGames;}
     public void setPrice(float newPrice){totalPrice = newPrice;}
+    public void setAccount(UserProfile newAccount){account = newAccount;}
 
     // Getters
     public List<VideoGame> getGames(){return games;}

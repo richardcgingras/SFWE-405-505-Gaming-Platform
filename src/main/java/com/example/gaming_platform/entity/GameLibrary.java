@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
 
+import jakarta.persistence.GenerationType;
+
 /**
  * Entity representing game library data.
  */
@@ -11,7 +13,7 @@ import jakarta.persistence.*;
 public class GameLibrary {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne

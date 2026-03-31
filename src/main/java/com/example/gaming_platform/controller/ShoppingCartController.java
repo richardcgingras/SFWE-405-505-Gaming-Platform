@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.gaming_platform.repository.ShoppingCartRepository;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.gaming_platform.entity.ShoppingCart;
@@ -41,67 +40,74 @@ public class ShoppingCartController {
 /**
  * Executes the postAddGame operation.
  *
- * @param shoppingCart the shopping cart
- * @param gameTooAdd the game too add
+ * @PathVariable cartId the shopping cart Id
+ * @PathVariable gameId the Id of the game too add
  * @return the result of the operation
  */
-    @PostMapping("game")
-    public ResponseEntity postAddGame(@RequestBody ShoppingCart shoppingCart, VideoGame gameTooAdd) {
-        boolean success;
-        success = shoppingCartService.addGame(shoppingCart, gameTooAdd);
-        if (success){
-            return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"");
+    @PostMapping("game/{cartId}/{gameId}")
+    public ResponseEntity postAddGame(@PathVariable Long cartId, @PathVariable Long gameId) {
+        String success;
+        System.out.println("User trying to add a game to the cart, cartId: %d, gameId: %d".formatted(cartId, gameId));
+        success = shoppingCartService.addGame(cartId, gameId);
+        if (success.equals("Success")){
+            return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"failed\"");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"%s\"}".formatted(success));
         }
-        
     }
 
 /**
  * Deletes the remove game.
  *
- * @param shoppingCart the shopping cart
- * @param gameTooAdd the game too add
- * @return the result of the delete operation
+ * @PathVariable cartId the shopping cart Id
+ * @PathVariable gameId the Id of the game too remove
+ * @return the result of the operation
  */
-    @DeleteMapping("game")
-    public ResponseEntity deleteRemoveGame(@RequestBody ShoppingCart shoppingCart, VideoGame gameTooAdd) {
-        shoppingCartService.addGame(shoppingCart, gameTooAdd);
-        return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"");
+    @DeleteMapping("game/{cartId}/{gameId}")
+    public ResponseEntity deleteRemoveGame(@PathVariable Long cartId, @PathVariable Long gameId) {
+        String success;
+        success = shoppingCartService.removeGame(cartId, gameId);
+        if (success.equals("Success")){
+            return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"%s\"}".formatted(success));
+        }
     }
 
 /**
  * Gets the total.
  *
- * @param shoppingCart the shopping cart
- * @return the total
+ * @PathVariable cartId the shopping cart Id
+ * @return the total or error message
  */
-    @GetMapping("total")
-    public ResponseEntity getTotal(@RequestParam ShoppingCart shoppingCart) {
+    @GetMapping("total/{cartId}")
+    public ResponseEntity getTotal(@PathVariable Long cartId) {
         float total;
         String response;
-        total = shoppingCartService.calcTotalPrice(shoppingCart);
-        response = "{\"total\": \"%.2f\"}".formatted(total);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        response = shoppingCartService.calcTotalPrice(cartId);
+        if (response.contains("Success")){
+            total = Float.parseFloat(response.replace("Success: ", ""));
+            return ResponseEntity.status(HttpStatus.OK).body("{\"total\": \"%.2f\"}".formatted(total));
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"%s\"}".formatted(success));
+        }
     }
-    
+
 /**
  * Executes the postCheckouString operation.
  *
- * @param shoppingCart the shopping cart
- * @param destinationAccount the destination account
+ * @PathVariable cartId the shopping cart Id
+ * @PathVariable destinationAccountId id of the destination account
  * @return the result of the operation
  */
-    @PostMapping("checkout")
-    public ResponseEntity postCheckouString(@RequestBody ShoppingCart shoppingCart, UserProfile destinationAccount) {
-        boolean success;
-        success = shoppingCartService.checkout(shoppingCart, destinationAccount);
-        if (success){
-            return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"");
+    @PostMapping("checkout/{cartId}/{accountId}")
+    public ResponseEntity postCheckoutString(@PathVariable Long cartId, @PathVariable Long destinationAccountId) {
+        String success;
+        success = shoppingCartService.checkout(cartId, destinationAccountId);
+        if (success.equals("Success")){
+            return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"failed\"");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"%s\"}".formatted(success));
         }
     }
-    
-    
 }
