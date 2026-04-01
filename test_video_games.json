@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Epic Quest Adventure",
+    "releaseDate": "2023-05-15T00:00:00.000Z",
+    "price": 59.99,
+    "category": [],
+    "files": ["game.exe", "assets.zip"],
+    "system": ["PC"],
+    "size": 25.5,
+    "ageRating": "M for Mature",
+    "reviews": [8, 9, 7]
+  },
+  {
+    "name": "Puzzle Master Pro",
+    "releaseDate": "2024-02-20T00:00:00.000Z",
+    "price": 19.99,
+    "category": [],
+    "files": ["puzzle.exe", "levels.dat"],
+    "system": ["PC", "MOBILE"],
+    "size": 1.2,
+    "ageRating": "E for Everyone",
+    "reviews": [9, 10, 8, 9]
+  }
+]
