@@ -89,7 +89,7 @@ public class ShoppingCartController {
             total = Float.parseFloat(response.replace("Success: ", ""));
             return ResponseEntity.status(HttpStatus.OK).body("{\"total\": \"%.2f\"}".formatted(total));
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"%s\"}".formatted(success));
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"%s\"}".formatted(response));
         }
     }
 
