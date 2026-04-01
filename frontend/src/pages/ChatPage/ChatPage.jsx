@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ChatList from "../ChatList/ChatList.jsx";
-import ChatWindow from "../ChatWindow.jsx";
+
 
 const CURRENT_USER = { id: "user_alice", username: "Alice" };
 
