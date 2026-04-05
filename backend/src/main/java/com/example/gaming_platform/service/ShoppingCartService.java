@@ -7,10 +7,12 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.gaming_platform.Payment;
 import com.example.gaming_platform.entity.ShoppingCart;
 import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.entity.Orders;
+import com.example.gaming_platform.entity.PaymentResponse;
 import com.example.gaming_platform.repository.OrdersRepository;
 import com.example.gaming_platform.repository.ShoppingCartRepository;
 import com.example.gaming_platform.repository.UserProfileRepository;
@@ -159,7 +161,7 @@ public class ShoppingCartService {
             return "Shopping cart does not exist";
         }
 
-        return "Success: %d".formatted(calcPrice(shoppingCart));
+        return "Success: %.2f".formatted(shoppingCart.getTotal());
     }
 
 /**
@@ -167,13 +169,15 @@ public class ShoppingCartService {
  *
  * @param shoppingCart the shopping cart
  * @param destinationAccount the destination account
+ * @param paymentObject the filled in payment object to be processed
  * @return {@code true} when checkout succeeds
  */
-    public String checkout(Long cartId, Long destinationAccountId){
+    public String checkout(Long cartId, Long destinationAccountId, Payment paymentObject){
         // Returns a boolean based on if the checkout process was a success
 
         UserProfile destinationAccount;
         ShoppingCart shoppingCart;
+        PaymentResponse paymentSuccessful;
 
         Optional<UserProfile> accountLookup = userProfileRepository.findById(destinationAccountId);
         if (accountLookup != null){
@@ -203,7 +207,10 @@ public class ShoppingCartService {
         shoppingCart.setPrice(cartTotal);
 
         // Process payment for the total amount
-        // This needs to be updated to support polymorhism so we can change out payment processors/types
+        paymentSuccessful = paymentObject.processPayment(cartTotal);
+        if (!paymentSuccessful.isSuccess()){
+            return "Failed to processes payment because: %s".formatted(paymentSuccessful.getMessage());
+        }
 
         // Payment was successful. For each game, go through and process an order (each order is for a single game)
         for (VideoGame game : shoppingCart.getGames()) {
