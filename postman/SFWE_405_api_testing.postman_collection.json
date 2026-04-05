@@ -797,17 +797,9 @@
               ],
               "path": [
                 "shopping-cart",
-                "game"
-              ],
-              "query": [
-                {
-                  "key": "cartId",
-                  "value": "{{cartId}}"
-                },
-                {
-                  "key": "gameId",
-                  "value": "{{gameId}}"
-                }
+                "game",
+                "{{cartId}}",
+                "{{gameId}}"
               ]
             }
           },
@@ -819,7 +811,7 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/game/{{cartId}}/{{gameId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/game?cartId={{cartId}}&gameId={{gameId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
@@ -853,37 +845,68 @@
               ],
               "path": [
                 "shopping-cart",
-                "total"
-              ],
-              "query": [
-                {
-                  "key": "cartId",
-                  "value": "{{cartId}}"
-                }
+                "total",
+                "{{cartId}}"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Checkout Cart",
+          "name": "Checkout Cart with CreditCard",
           "request": {
             "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"cardNumber\": \"1234567812345678\",\n    \"cardHolderName\": \"John Doe\",\n    \"expiryDate\": \"12/99\",\n    \"cvv\": \"123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/{{cartId}}/{{userId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/creditcard/{{cartId}}/{{userId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "shopping-cart",
-                "checkout"
-              ],
-              "query": [
-                {
-                  "key": "cartId",
-                  "value": "{{cartId}}"
+                "checkout",
+                "creditcard",
+                "{{cartId}}",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Checkout Cart with GiftCard",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"cardNumber\": \"001234567890\",\n    \"secretCode\": \"1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
                 }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/giftcard/{{cartId}}/{{userId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "shopping-cart",
+                "checkout",
+                "giftcard",
+                "{{cartId}}",
+                "{{userId}}"
               ]
             }
           },
@@ -1090,7 +1113,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"username\": \"testuser\",\r\n  \"password\": \"password\"\r\n}",
+              "raw": "{\r\n  \"username\": \"johna\",\r\n  \"password\": \"password\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1295,6 +1318,10 @@
     },
     {
       "key": "comment",
+      "value": ""
+    },
+    {
+      "key": "token",
       "value": ""
     }
   ]

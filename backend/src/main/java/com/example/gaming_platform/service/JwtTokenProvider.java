@@ -1,19 +1,9 @@
 package com.example.gaming_platform.service;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-
-import javax.crypto.SecretKey;
-
-import java.util.Date;
 
 import com.example.gaming_platform.UserPrincipal;
 
-import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;

@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.gaming_platform.entity.ShoppingCart;
-import com.example.gaming_platform.entity.UserProfile;
-import com.example.gaming_platform.entity.VideoGame;
+import com.example.gaming_platform.impl.CreditCardPayment;
+import com.example.gaming_platform.impl.DebitCardPayment;
+import com.example.gaming_platform.impl.GiftCardPayment;
 import com.example.gaming_platform.service.ShoppingCartService;
 
 /**
@@ -94,16 +93,61 @@ public class ShoppingCartController {
     }
 
 /**
- * Executes the postCheckouString operation.
+ * Executes the postCheckout operation.
  *
  * @PathVariable cartId the shopping cart Id
  * @PathVariable destinationAccountId id of the destination account
+ * @RequestBody CreditCardPayment filled in credit card payment object to be used for processing the payment
  * @return the result of the operation
  */
-    @PostMapping("checkout/{cartId}/{accountId}")
-    public ResponseEntity postCheckoutString(@PathVariable Long cartId, @PathVariable Long destinationAccountId) {
+    @PostMapping("checkout/creditcard/{cartId}/{destinationAccountId}")
+    public ResponseEntity postCreditCardCheckout(@PathVariable Long cartId,
+                                    @PathVariable Long destinationAccountId,
+                                    @RequestBody CreditCardPayment paymentObject) {
         String success;
-        success = shoppingCartService.checkout(cartId, destinationAccountId);
+        success = shoppingCartService.checkout(cartId, destinationAccountId, paymentObject);
+        if (success.equals("Success")){
+            return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"%s\"}".formatted(success));
+        }
+    }
+
+/**
+ * Executes the postCheckout operation.
+ *
+ * @PathVariable cartId the shopping cart Id
+ * @PathVariable destinationAccountId id of the destination account
+ * @RequestBody DebitCardPayment filled in debit card payment object to be used for processing the payment
+ * @return the result of the operation
+ */
+    @PostMapping("checkout/debitcard/{cartId}/{destinationAccountId}")
+    public ResponseEntity postDebitCardCheckout(@PathVariable Long cartId,
+                                    @PathVariable Long destinationAccountId,
+                                    @RequestBody DebitCardPayment paymentObject) {
+        String success;
+        success = shoppingCartService.checkout(cartId, destinationAccountId, paymentObject);
+        if (success.equals("Success")){
+            return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"Status\": \"%s\"}".formatted(success));
+        }
+    }
+
+/**
+ * Executes the postCheckout operation.
+ *
+ * @PathVariable cartId the shopping cart Id
+ * @PathVariable destinationAccountId id of the destination account
+ * @RequestBody GiftCardPayment filled in gift card payment object to be used for processing the payment
+ * @return the result of the operation
+ */
+    @PostMapping("checkout/giftcard/{cartId}/{destinationAccountId}")
+    public ResponseEntity postGiftCardCheckout(@PathVariable Long cartId,
+                                    @PathVariable Long destinationAccountId,
+                                    @RequestBody GiftCardPayment paymentObject) {
+        String success;
+        success = shoppingCartService.checkout(cartId, destinationAccountId, paymentObject);
         if (success.equals("Success")){
             return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
         } else {
