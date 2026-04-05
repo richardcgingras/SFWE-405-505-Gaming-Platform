@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.gaming_platform.Payment;
 import com.example.gaming_platform.entity.ShoppingCart;
@@ -76,11 +75,10 @@ public class ShoppingCartService {
         Date currentDate = new Date();
         if (currentDate.after(gameTooAdd.getReleaseDate())){
             // Past the release date to continue testing
-            for (VideoGame game : shoppingCart.getGames()) {
-                if (game == gameTooAdd){
-                    // Game is already in the shopping cart
-                    return "Game is already in the Shopping Cart";
-                }
+            boolean gameExists = shoppingCart.getGames().stream()
+                .anyMatch(g -> g == gameTooAdd);
+            if (gameExists) {
+                return "Game is already in the Shopping Cart";
             }
         } else {
             // Game is not available for sale yet
@@ -136,11 +134,9 @@ public class ShoppingCartService {
     public float calcPrice(ShoppingCart shoppingCart){
         // Calculates the total price of the shopping cart
         // This should probably be a private function as it should be called during the checkout process
-        float calcTotal = 0.0f;
-        // Iterate over the games and sum their prices
-        for (VideoGame game : shoppingCart.getGames()) {
-            calcTotal += game.getPrice();
-        }
+        float calcTotal = shoppingCart.getGames().stream()
+            .map(VideoGame::getPrice)
+            .reduce(0.0f, (sum, price) -> sum + price);
         return calcTotal;
     }
 
@@ -180,17 +176,16 @@ public class ShoppingCartService {
         PaymentResponse paymentSuccessful;
 
         Optional<UserProfile> accountLookup = userProfileRepository.findById(destinationAccountId);
-        if (accountLookup != null){
-            destinationAccount = accountLookup.get();
-        } else {
+        if (accountLookup.isEmpty()) {
             return "Account does not exist";
         }
+        destinationAccount = accountLookup.get();
+
         Optional<ShoppingCart> cartLookup = shoppingCartRepository.findById(cartId);
-        if (cartLookup != null){
-            shoppingCart = cartLookup.get();
-        } else {
+        if (cartLookup.isEmpty()) {
             return "Shopping cart does not exist";
         }
+        shoppingCart = cartLookup.get();
 
         // Test to make sure none of the games in the shopping cart are already in the destination account
         for (VideoGame game : shoppingCart.getGames()) {
@@ -201,6 +196,7 @@ public class ShoppingCartService {
                 }
             }
         }
+
         // All checks passed so we can continue with the order
         // Get final price
         float cartTotal = calcPrice(shoppingCart);
