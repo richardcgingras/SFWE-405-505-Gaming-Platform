@@ -11,12 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.gaming_platform.Payment;
-import com.example.gaming_platform.entity.ShoppingCart;
-import com.example.gaming_platform.entity.UserProfile;
-import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.impl.CreditCardPayment;
 import com.example.gaming_platform.impl.DebitCardPayment;
 import com.example.gaming_platform.impl.GiftCardPayment;
