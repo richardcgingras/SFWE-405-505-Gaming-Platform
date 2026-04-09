@@ -32,7 +32,7 @@ public class VideoGame {
     // private variables
     private String name;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar releaseDate;
 
     private float price;
