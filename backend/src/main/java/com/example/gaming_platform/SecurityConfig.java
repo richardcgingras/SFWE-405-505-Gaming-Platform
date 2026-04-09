@@ -72,6 +72,7 @@ public class SecurityConfig {
             .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/user-profiles").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/error/**").permitAll()
                 .anyRequest().authenticated()

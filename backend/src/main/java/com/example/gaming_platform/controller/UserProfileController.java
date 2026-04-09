@@ -23,37 +23,71 @@ public class UserProfileController {
 
     private final UserProfileRepository userProfileRepository;
 
-/**
- * Creates a new UserProfileController instance.
- *
- * @param userProfileRepository the user profile repository
- */
+    /**
+     * Creates a new UserProfileController instance.
+     *
+     * @param userProfileRepository the user profile repository
+     */
     public UserProfileController(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
     }
 
-    // GET /api/user-profiles
+    /**
+     * Returns all user profiles.
+     *
+     * @return all stored user profiles
+     */
     @GetMapping
     public Iterable<UserProfile> getAllUserProfiles() {
         return userProfileRepository.findAll();
     }
 
-    // GET /api/user-profiles/{id}
+    /**
+     * Returns a user profile by id.
+     *
+     * @param id the profile id
+     * @return the matching profile, or 404 if none exists
+     */
     @GetMapping("/{id}")
     public ResponseEntity<UserProfile> getUserProfileById(@PathVariable Long id) {
-    return userProfileRepository.findById(id)
+        return userProfileRepository.findById(id)
             .map(user -> ResponseEntity.ok().body(user))
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // POST /api/user-profiles
+    /**
+     * Creates a new user profile.
+     *
+     * @param userProfile the user profile
+     * @return the created profile, validation error, or conflict response
+     */
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<UserProfile> createUserProfile(@RequestBody UserProfile userProfile) {
-        UserProfile saved = userProfileRepository.save(userProfile);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    public ResponseEntity<?> createUserProfile(@RequestBody UserProfile userProfile) {
+        if (userProfile.getEmail() == null || userProfile.getEmail().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Email is required");
+        }
+
+        if (userProfileRepository.findByEmail(userProfile.getEmail()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
+        }
+
+        if (userProfile.getUserName() == null || userProfile.getUserName().trim().isEmpty()) {
+            userProfile.setUserName(userProfile.getEmail());
+        }
+        if (userProfile.getStatus() == null || userProfile.getStatus().trim().isEmpty()) {
+            userProfile.setStatus("active");
+        }
+
+        UserProfile savedUserProfile = userProfileRepository.save(userProfile);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserProfile);
     }
 
-    // GET user profile by username
+    /**
+     * Returns a user profile by username.
+     *
+     * @param userName the username
+     * @return the matching profile, or 404 if none exists
+     */
     @GetMapping("/username/{userName}")
     public ResponseEntity<UserProfile> getUserProfileByUserName(@PathVariable String userName) {
         UserProfile user = userProfileRepository.findByUserName(userName);
@@ -72,5 +106,4 @@ public class UserProfileController {
         }
         return ResponseEntity.ok(user);
     }
-
 }

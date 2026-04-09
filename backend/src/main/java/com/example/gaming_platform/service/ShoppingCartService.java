@@ -48,9 +48,9 @@ public class ShoppingCartService {
 /**
  * Adds game.
  *
- * @param shoppingCart the shopping cart
- * @param gameTooAdd the game too add
- * @return the updated result
+ * @param cartId the shopping cart id
+ * @param gameId the id of the game to add
+ * @return the operation result
  */
     public String addGame(Long cartId, Long gameId){
         // Attempt too add the specified game to the shopping cart
@@ -96,8 +96,9 @@ public class ShoppingCartService {
 /**
  * Removes game.
  *
- * @param shoppingCart the shopping cart
- * @param gameTooRemove the game too remove
+ * @param cartId the shopping cart id
+ * @param gameId the id of the game to remove
+ * @return the operation result
  */
     public String removeGame(Long cartId, Long gameId){
         // Remove the game to the list
@@ -143,8 +144,8 @@ public class ShoppingCartService {
 /**
  * Calculates the total price.
  *
- * @param shoppingCart the shopping cart
- * @return the calculated total price
+ * @param cartId the shopping cart id
+ * @return the calculated total price or an error message
  */
     public String calcTotalPrice(Long cartId){
         // Calculates the total price of the shopping cart
@@ -163,10 +164,10 @@ public class ShoppingCartService {
 /**
  * Completes the checkout process.
  *
- * @param shoppingCart the shopping cart
- * @param destinationAccount the destination account
+ * @param cartId the shopping cart id
+ * @param destinationAccountId the destination account id
  * @param paymentObject the filled in payment object to be processed
- * @return {@code true} when checkout succeeds
+ * @return the operation result
  */
     public String checkout(Long cartId, Long destinationAccountId, Payment paymentObject){
         // Returns a boolean based on if the checkout process was a success
