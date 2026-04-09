@@ -1,12 +1,15 @@
 package com.example.gaming_platform.entity;
 
+import java.util.Calendar;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
-import java.util.Calendar;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 /**
  * Entity representing review data.
@@ -41,7 +44,7 @@ public class Review {
         this.game = game;
         this.comments = comments;
         this.rating = rating;
-        this.sent = Calendar.now();
+        this.sent = Calendar.getInstance();
     }
 
     //setters

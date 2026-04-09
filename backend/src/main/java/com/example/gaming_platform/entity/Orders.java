@@ -30,7 +30,7 @@ public class Orders {
     // constructors
     public Orders(){}
 
-    public Orders(UserProfile destinationAccount, VideoGame game, Date purchaseTimestamp, Boolean paymentProcessed) {
+    public Orders(UserProfile destinationAccount, VideoGame game, Calendar purchaseTimestamp, Boolean paymentProcessed) {
         this.destinationAccount = destinationAccount;
         this.game = game;
         this.purchaseTimestamp = purchaseTimestamp;

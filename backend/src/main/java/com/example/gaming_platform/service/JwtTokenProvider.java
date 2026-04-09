@@ -1,17 +1,20 @@
 package com.example.gaming_platform.service;
 
-import io.jsonwebtoken.*;
+import java.util.Calendar;
 
-import com.example.gaming_platform.UserPrincipal;
+import javax.crypto.SecretKey;
 
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import java.util.Calendar;
-import java.util.Date;
+import com.example.gaming_platform.UserPrincipal;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtTokenProvider {
@@ -30,8 +33,8 @@ public class JwtTokenProvider {
 
         return Jwts.builder()
                 .subject(String.valueOf(userPrincipal.getId()))
-                .issuedAt(now.getTime)
-                .expiration(expiryDate.getTime)
+                .issuedAt(now.getTime())
+                .expiration(expiryDate.getTime())
                 .signWith(key())
                 // .signWith(key(), SignatureAlgorithm.HS512)
                 .compact();
@@ -39,19 +42,19 @@ public class JwtTokenProvider {
 
     public Long getUserIdFromToken(String token) {
         return Long.parseLong(Jwts.parser()
-                .setSigningKey(key())
+                .verifyWith(key())
                 .build()
                 .parseSignedClaims(token)
-                .getBody()
+                .getPayload()
                 .getSubject());
     }
 
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
-                    .setSigningKey(key())
+                    .verifyWith(key())
                     .build()
-                    .parseClaimsJws(token);
+                    .parseSignedClaims(token);
             return true;
         } catch (SecurityException e) {
             System.err.println("Invalid JWT signature: " + e.getMessage());
