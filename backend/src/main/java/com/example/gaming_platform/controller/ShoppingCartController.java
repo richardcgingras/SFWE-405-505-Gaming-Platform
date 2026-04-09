@@ -39,8 +39,8 @@ public class ShoppingCartController {
 /**
  * Executes the postAddGame operation.
  *
- * @PathVariable cartId the shopping cart Id
- * @PathVariable gameId the Id of the game too add
+ * @param cartId the shopping cart id
+ * @param gameId the id of the game to add
  * @return the result of the operation
  */
     @PostMapping("game/{cartId}/{gameId}")
@@ -58,8 +58,8 @@ public class ShoppingCartController {
 /**
  * Deletes the remove game.
  *
- * @PathVariable cartId the shopping cart Id
- * @PathVariable gameId the Id of the game too remove
+ * @param cartId the shopping cart id
+ * @param gameId the id of the game to remove
  * @return the result of the operation
  */
     @DeleteMapping("game/{cartId}/{gameId}")
@@ -76,7 +76,7 @@ public class ShoppingCartController {
 /**
  * Gets the total.
  *
- * @PathVariable cartId the shopping cart Id
+ * @param cartId the shopping cart id
  * @return the total or error message
  */
     @GetMapping("total/{cartId}")
@@ -95,9 +95,9 @@ public class ShoppingCartController {
 /**
  * Executes the postCheckout operation.
  *
- * @PathVariable cartId the shopping cart Id
- * @PathVariable destinationAccountId id of the destination account
- * @RequestBody CreditCardPayment filled in credit card payment object to be used for processing the payment
+ * @param cartId the shopping cart id
+ * @param destinationAccountId the destination account id
+ * @param paymentObject the credit card payment object used for processing the payment
  * @return the result of the operation
  */
     @PostMapping("checkout/creditcard/{cartId}/{destinationAccountId}")
@@ -116,9 +116,9 @@ public class ShoppingCartController {
 /**
  * Executes the postCheckout operation.
  *
- * @PathVariable cartId the shopping cart Id
- * @PathVariable destinationAccountId id of the destination account
- * @RequestBody DebitCardPayment filled in debit card payment object to be used for processing the payment
+ * @param cartId the shopping cart id
+ * @param destinationAccountId the destination account id
+ * @param paymentObject the debit card payment object used for processing the payment
  * @return the result of the operation
  */
     @PostMapping("checkout/debitcard/{cartId}/{destinationAccountId}")
@@ -137,9 +137,9 @@ public class ShoppingCartController {
 /**
  * Executes the postCheckout operation.
  *
- * @PathVariable cartId the shopping cart Id
- * @PathVariable destinationAccountId id of the destination account
- * @RequestBody GiftCardPayment filled in gift card payment object to be used for processing the payment
+ * @param cartId the shopping cart id
+ * @param destinationAccountId the destination account id
+ * @param paymentObject the gift card payment object used for processing the payment
  * @return the result of the operation
  */
     @PostMapping("checkout/giftcard/{cartId}/{destinationAccountId}")

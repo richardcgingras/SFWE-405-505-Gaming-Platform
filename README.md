@@ -12,7 +12,7 @@ This project is a Spring Boot backend for a gaming platform. It provides APIs fo
 - Maven
 
 ## Running the Backend
-From the `backend` directory: ./mvnw spring-boot:run
+From the `backend` directory: ./mvnw -f backend/pom.xml spring-boot:run
 Backend runs at: http://localhost:8080
 
 ## Database

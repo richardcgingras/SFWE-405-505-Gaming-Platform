@@ -4,7 +4,6 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +23,9 @@ public class UserProfile {
     private Long id;
 
     // private variables
-    private String email, status, password;
+    @Column(unique = true)
+    private String email;
+    private String status, password;
 
     // Need to make sure we have a unique field for api keys
     @Column(unique = true)
