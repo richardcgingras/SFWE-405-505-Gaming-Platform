@@ -1,6 +1,6 @@
 package com.example.gaming_platform.repository;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -26,7 +26,7 @@ public interface VideoGameRepository extends CrudRepository<VideoGame, Long> {
  * @param releaseDate the release date
  * @return the matching by release date before
  */
-    VideoGame findByReleaseDateBefore(Date releaseDate);
+    VideoGame findByReleaseDateBefore(Calendar releaseDate);
 
 /**
  * Finds by release date after.
@@ -34,7 +34,7 @@ public interface VideoGameRepository extends CrudRepository<VideoGame, Long> {
  * @param releaseDate the release date
  * @return the matching by release date after
  */
-    VideoGame findByReleaseDateAfter(Date releaseDate);
+    VideoGame findByReleaseDateAfter(Calendar releaseDate);
 
 /**
  * Finds all by category.

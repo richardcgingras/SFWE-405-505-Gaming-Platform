@@ -3,7 +3,7 @@ package com.example.gaming_platform.service;
 import com.example.gaming_platform.entity.ChatMessage;
 import com.example.gaming_platform.repository.ChatMessageRepository;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -38,7 +38,7 @@ public class ChatMessageService {
                 message.getSenderId(), message.getRecipientId()
         );
         message.setChatRoomId(chatRoomId);
-        message.setTimestamp(LocalDateTime.now());
+        message.setTimestamp(Calendar.getInstance());
         message.setStatus(ChatMessage.MessageStatus.SENT);
         return chatMessageRepository.save(message);
     }

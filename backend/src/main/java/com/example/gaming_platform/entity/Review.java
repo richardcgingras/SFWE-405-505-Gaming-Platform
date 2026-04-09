@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 
 /**
  * Entity representing review data.
@@ -26,7 +26,9 @@ public class Review {
     private VideoGame game;
 
     private String comments;
-    private LocalDateTime sent;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar sent;
     private int rating;
 
 /**
@@ -39,7 +41,7 @@ public class Review {
         this.game = game;
         this.comments = comments;
         this.rating = rating;
-        this.sent = LocalDateTime.now();
+        this.sent = Calendar.now();
     }
 
     //setters
@@ -51,7 +53,7 @@ public class Review {
     public void setFrom(UserProfile from) { this.from = from; }
     public void setGame(VideoGame game) { this.game = game; }
     public void setComments(String comments) { this.comments = comments; }
-    public void setSent(LocalDateTime sent) { this.sent = sent; }
+    public void setSent(Calendar sent) { this.sent = sent; }
     public void setRating(int rating) { this.rating = rating; }
 
     //getters
@@ -59,6 +61,6 @@ public class Review {
     public UserProfile getFrom() { return from; }
     public VideoGame getGame() { return game; }
     public String getComments() { return comments; }
-    public LocalDateTime getSent() { return sent; }
+    public Calendar getSent() { return sent; }
     public int getRating() { return rating; }
 }

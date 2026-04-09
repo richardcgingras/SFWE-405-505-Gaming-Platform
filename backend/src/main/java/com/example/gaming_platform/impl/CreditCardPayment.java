@@ -2,7 +2,7 @@ package com.example.gaming_platform.impl;
 
 import com.example.gaming_platform.Payment;
 import com.example.gaming_platform.entity.PaymentResponse;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -20,13 +20,13 @@ public class CreditCardPayment implements Payment {
     @Override
     public PaymentResponse processPayment(float amount) {
         if (!validatePaymentDetails()) {
-            return new PaymentResponse(false, null, "Invalid credit card details", LocalDateTime.now());
+            return new PaymentResponse(false, null, "Invalid credit card details", Calendar.getInstance());
         }
         
         // Simulate payment processing
         String transactionId = "CC_" + UUID.randomUUID().toString();
         return new PaymentResponse(true, transactionId, 
-            "Credit card payment processed successfully", LocalDateTime.now());
+            "Credit card payment processed successfully", Calendar.getInstance());
     }
 
     @Override

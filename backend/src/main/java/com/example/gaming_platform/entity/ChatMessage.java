@@ -1,7 +1,7 @@
 package com.example.gaming_platform.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 
 /**
  * Entity representing chat message data.
@@ -29,7 +29,8 @@ public class ChatMessage {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime timestamp;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar timestamp;
 
     @Enumerated(EnumType.STRING)
     private MessageStatus status;
@@ -49,8 +50,8 @@ public class ChatMessage {
     public void setChatRoomId(String chatRoomId) { this.chatRoomId = chatRoomId; }
     public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
-    public LocalDateTime getTimestamp() { return timestamp; }
-    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+    public Calendar getTimestamp() { return timestamp; }
+    public void setTimestamp(Calendar timestamp) { this.timestamp = timestamp; }
     public MessageStatus getStatus() { return status; }
     public void setStatus(MessageStatus status) { this.status = status; }
 }

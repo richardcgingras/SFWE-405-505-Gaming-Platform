@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
@@ -23,13 +24,14 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+        Calendar now = Calendar.getInstance();
+        Calendar expiryDate = Calendar.getInstance();
+        expiryDate.setTimeInMillis(now.getTimeInMillis() + jwtExpirationMs);
 
         return Jwts.builder()
                 .subject(String.valueOf(userPrincipal.getId()))
-                .issuedAt(now)
-                .expiration(expiryDate)
+                .issuedAt(now.getTime)
+                .expiration(expiryDate.getTime)
                 .signWith(key())
                 // .signWith(key(), SignatureAlgorithm.HS512)
                 .compact();
@@ -39,7 +41,7 @@ public class JwtTokenProvider {
         return Long.parseLong(Jwts.parser()
                 .setSigningKey(key())
                 .build()
-                .parseClaimsJws(token)
+                .parseSignedClaims(token)
                 .getBody()
                 .getSubject());
     }
