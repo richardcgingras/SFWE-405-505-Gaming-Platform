@@ -1,8 +1,8 @@
 import "./Login.css"
 
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {login} from "./service/LoginService.js"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../services/Login.js"
 
 
 export default function Login() {
