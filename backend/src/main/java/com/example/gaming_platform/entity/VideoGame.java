@@ -1,10 +1,8 @@
 package com.example.gaming_platform.entity;
 
 // import java.sql.Blob; // commented out because Blob is not an @Entity and caused JPA errors
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
-
-import org.hibernate.annotations.ManyToAny;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
@@ -18,6 +16,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 
 /**
@@ -32,7 +32,8 @@ public class VideoGame {
     // private variables
     private String name;
 
-    private Date releaseDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar releaseDate;
 
     private float price;
 
@@ -83,13 +84,13 @@ public class VideoGame {
     /*
      * ORIGINAL CONSTRUCTOR:
      *
-     * public VideoGame(String name, Date releaseDate, Category category,
+     * public VideoGame(String name, Calendar releaseDate, Category category,
      *                  List<Blob> files, Device system)
      *
      * Changed List<Blob> to List<String> for the same reason explained above.
      */
 
-    public VideoGame(String name, Date releaseDate, List<Category> category,
+    public VideoGame(String name, Calendar releaseDate, List<Category> category,
                      List<String> files, List<Device> system, float price, float size, String ageRating, List<Integer> reviews) {
         this.name = name;
         this.releaseDate = releaseDate;
@@ -113,8 +114,8 @@ public class VideoGame {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public Date getReleaseDate() { return releaseDate; }
-    public void setReleaseDate(Date releaseDate) { this.releaseDate = releaseDate; }
+    public Calendar getReleaseDate() { return releaseDate; }
+    public void setReleaseDate(Calendar releaseDate) { this.releaseDate = releaseDate; }
 
     public float getPrice() { return price; }
     public void setPrice(float price) { this.price = price; }

@@ -1,16 +1,20 @@
 package com.example.gaming_platform.service;
 
-import io.jsonwebtoken.*;
+import java.util.Calendar;
 
-import com.example.gaming_platform.UserPrincipal;
+import javax.crypto.SecretKey;
 
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import java.util.Date;
+import com.example.gaming_platform.UserPrincipal;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtTokenProvider {
@@ -23,13 +27,14 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+        Calendar now = Calendar.getInstance();
+        Calendar expiryDate = Calendar.getInstance();
+        expiryDate.setTimeInMillis(now.getTimeInMillis() + jwtExpirationMs);
 
         return Jwts.builder()
                 .subject(String.valueOf(userPrincipal.getId()))
-                .issuedAt(now)
-                .expiration(expiryDate)
+                .issuedAt(now.getTime())
+                .expiration(expiryDate.getTime())
                 .signWith(key())
                 // .signWith(key(), SignatureAlgorithm.HS512)
                 .compact();
@@ -37,19 +42,19 @@ public class JwtTokenProvider {
 
     public Long getUserIdFromToken(String token) {
         return Long.parseLong(Jwts.parser()
-                .setSigningKey(key())
+                .verifyWith(key())
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
+                .parseSignedClaims(token)
+                .getPayload()
                 .getSubject());
     }
 
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
-                    .setSigningKey(key())
+                    .verifyWith(key())
                     .build()
-                    .parseClaimsJws(token);
+                    .parseSignedClaims(token);
             return true;
         } catch (SecurityException e) {
             System.err.println("Invalid JWT signature: " + e.getMessage());

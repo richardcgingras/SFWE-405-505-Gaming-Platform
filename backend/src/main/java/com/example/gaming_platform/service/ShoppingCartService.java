@@ -1,6 +1,6 @@
 package com.example.gaming_platform.service;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +59,7 @@ public class ShoppingCartService {
         ShoppingCart shoppingCart;
 
         Optional<VideoGame> gameLookup = videoGameRepository.findById(gameId);
-        if (gameLookup != null){
+        if (gameLookup.isPresent()){
             gameTooAdd = gameLookup.get();
         } else {
             return "Game does not exist";
@@ -72,7 +72,7 @@ public class ShoppingCartService {
         }
 
         // Tests:
-        Date currentDate = new Date();
+        Calendar currentDate = Calendar.getInstance();
         if (currentDate.after(gameTooAdd.getReleaseDate())){
             // Past the release date to continue testing
             boolean gameExists = shoppingCart.getGames().stream()
@@ -210,12 +210,12 @@ public class ShoppingCartService {
 
         // Payment was successful. For each game, go through and process an order (each order is for a single game)
         for (VideoGame game : shoppingCart.getGames()) {
-            Date d1 = new Date();
+            Calendar orderTime = Calendar.getInstance();
             // Create and save the order
             Orders newOrder = new Orders();
             newOrder.setDestinationAccount(destinationAccount);
             newOrder.setGame(game);
-            newOrder.setDate(d1);
+            newOrder.setDate(orderTime);
             newOrder.setPaymentProcessed(true);
             ordersRepository.save(newOrder);
             // Attach the game to the user account

@@ -1,14 +1,14 @@
 package com.example.gaming_platform.entity;
 
-import java.time.LocalDateTime;
+import java.util.Calendar;
 
 public class PaymentResponse {
     private boolean success;
     private String transactionId;
     private String message;
-    private LocalDateTime timestamp;
+    private Calendar timestamp;
 
-    public PaymentResponse(boolean success, String transactionId, String message, LocalDateTime timestamp) {
+    public PaymentResponse(boolean success, String transactionId, String message, Calendar timestamp) {
         this.success = success;
         this.transactionId = transactionId;
         this.message = message;
@@ -27,7 +27,7 @@ public class PaymentResponse {
         return message;
     }
 
-    public LocalDateTime getTimestamp() {
+    public Calendar getTimestamp() {
         return timestamp;
     }
 }

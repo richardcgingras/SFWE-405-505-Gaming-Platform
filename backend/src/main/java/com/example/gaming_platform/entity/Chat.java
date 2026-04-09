@@ -1,6 +1,6 @@
 package com.example.gaming_platform.entity;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +25,7 @@ public class Chat {
 
     private String msg;
 
-    private Date sentTimestamp;
+    private Calendar sentTimestamp;
 
-    private Date readTimestamp;
+    private Calendar readTimestamp;
 }

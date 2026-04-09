@@ -2,7 +2,7 @@ package com.example.gaming_platform.impl;
 
 import com.example.gaming_platform.Payment;
 import com.example.gaming_platform.entity.PaymentResponse;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -18,13 +18,13 @@ public class GiftCardPayment implements Payment {
     @Override
     public PaymentResponse processPayment(float amount) {
         if (!validatePaymentDetails()) {
-            return new PaymentResponse(false, null, "Invalid gift card details", LocalDateTime.now());
+            return new PaymentResponse(false, null, "Invalid gift card details", Calendar.getInstance());
         }
         
         // Simulate payment processing
         String transactionId = "GC_" + UUID.randomUUID().toString();
         return new PaymentResponse(true, transactionId, 
-            "Gift card payment processed successfully", LocalDateTime.now());
+            "Gift card payment processed successfully", Calendar.getInstance());
     }
 
     @Override

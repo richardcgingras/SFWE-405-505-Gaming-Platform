@@ -33,37 +33,20 @@ public class UserProfileController {
     }
 
     // GET /api/user-profiles
-/**
- * Retrieves all user profiles.
- *
- * @return all user profiles
- */
     @GetMapping
     public Iterable<UserProfile> getAllUserProfiles() {
         return userProfileRepository.findAll();
     }
 
     // GET /api/user-profiles/{id}
-/**
- * Retrieves a user profile by ID.
- *
- * @param id the ID
- * @return the matching user profile when found
- */
     @GetMapping("/{id}")
     public ResponseEntity<UserProfile> getUserProfileById(@PathVariable Long id) {
-        return userProfileRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    return userProfileRepository.findById(id)
+            .map(user -> ResponseEntity.ok().body(user))
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // POST /api/user-profiles
-/**
- * Creates a new user profile.
- *
- * @param userProfile the user profile
- * @return the created user profile
- */
     @PostMapping(consumes = "application/json")
     public ResponseEntity<UserProfile> createUserProfile(@RequestBody UserProfile userProfile) {
         UserProfile saved = userProfileRepository.save(userProfile);

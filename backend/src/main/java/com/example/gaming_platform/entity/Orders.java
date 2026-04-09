@@ -1,6 +1,6 @@
 package com.example.gaming_platform.entity;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,14 +23,14 @@ public class Orders {
     @ManyToOne
     private VideoGame game;
 
-    private Date purchaseTimestamp;
+    private Calendar purchaseTimestamp;
 
     private Boolean paymentProcessed;
 
     // constructors
     public Orders(){}
 
-    public Orders(UserProfile destinationAccount, VideoGame game, Date purchaseTimestamp, Boolean paymentProcessed) {
+    public Orders(UserProfile destinationAccount, VideoGame game, Calendar purchaseTimestamp, Boolean paymentProcessed) {
         this.destinationAccount = destinationAccount;
         this.game = game;
         this.purchaseTimestamp = purchaseTimestamp;
@@ -45,12 +45,12 @@ public class Orders {
  */
     public UserProfile getDestinationAccount(){return destinationAccount;}
     public VideoGame getGame(){return game;}
-    public Date getDate(){return purchaseTimestamp;}
+    public Calendar getDate(){return purchaseTimestamp;}
     public Boolean getPaymentProcessed(){return paymentProcessed;}
 
     // Setters
     public void setDestinationAccount(UserProfile newDestinationAccount){destinationAccount = newDestinationAccount;}
     public void setGame(VideoGame newGame){game = newGame;}
-    public void setDate(Date newDate){purchaseTimestamp = newDate;}
+    public void setDate(Calendar newDate){purchaseTimestamp = newDate;}
     public void setPaymentProcessed(Boolean newBool){paymentProcessed = newBool;}
 }
