@@ -7,7 +7,7 @@ import { login } from "../../services/Login.js"
 
 export default function Login() {
 
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -16,9 +16,10 @@ export default function Login() {
 
 
     try {
-      const data = await login(email, password);
+      const data = await login(username, password);
 
       localStorage.setItem("token", data.accessToken);
+      console.log("Got token: ", data.accessToken)
 
       console.log("Logged in");
 
@@ -48,10 +49,10 @@ export default function Login() {
             <form className="auth-form" onSubmit={handleLogin}>
 
               <div className="form-group">
-                <label className="form-label">Email</label>
-                <input className="form-input" type="email" placeholder="you@email.com"
-                       value={email}
-                       onChange={(e) => setEmail(e.target.value)}
+                <label className="form-label">Username</label>
+                <input className="form-input" type="username" placeholder="username"
+                       value={username}
+                       onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div className="form-group">

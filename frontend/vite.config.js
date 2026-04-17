@@ -10,6 +10,7 @@ export default defineConfig({
     proxy: {
       '/api': 'http://localhost:8080',
       '/ws': 'http://localhost:8080',
-    }
+    },
+    cors: true
   }
 })
