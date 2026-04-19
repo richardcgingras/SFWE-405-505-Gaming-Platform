@@ -21,11 +21,11 @@ INSERT INTO user_profile(id, email, password, user_name, status, bio) VALUES(101
 INSERT INTO user_profile_category(user_profile_id, category_id) VALUES(101, 102);
 
 -- User Profile Friends Lists
-INSERT INTO user_profile_friends(user_profile_id, friends_id) VALUES(101,102),
-                                                                    (102,103),
-                                                                    (103,102),
-                                                                    (102,101),
-                                                                    (103,101);
+-- INSERT INTO user_profile_friends(user_profile_id, friends_id) VALUES(101,102),
+--                                                                     (102,103),
+--                                                                     (103,102),
+--                                                                     (102,101),
+--                                                                     (103,101);
 
 --Chat
 INSERT INTO chat(id, sender_id, receiver_id, msg, sent_timestamp, read_timestamp) VALUES(101, 101, 102, 'Test message', '2024-06-24 12:34:56', '2024-06-24 12:34:57');
@@ -35,8 +35,12 @@ INSERT INTO video_game(id, name, release_date, price, size, age_rating) VALUES(1
                                                                             (102, 'Signal of Duty', '2026-03-15 00:00:01', 109.99, 45.67, 'Mature'),
                                                                             (103, 'Dweller Evil', '2025-12-30 12:00:01', 49.99, 99.99, '17+');
 -- BUG: Won't let me add the publisher field on INSERT
-UPDATE video_game SET publisher_id = 101 WHERE id = 101;
-UPDATE video_game SET publisher_id = 102 WHERE id = 102;
+-- UPDATE video_game SET publisher_id = 101 WHERE id = 101;
+-- UPDATE video_game SET publisher_id = 102 WHERE id = 102;
+
+-- Video Game Files
+INSERT INTO video_game_files(VIDEO_GAME_ID, FILES) VALUES(101, 'File1.bin'),
+                                                        (101, 'File2.bin');
 
 -- Video Games System
 INSERT INTO video_game_system(video_game_id, system) VALUES(101, 'PC'),

@@ -1,0 +1,87 @@
+/* Matches theme from index.css patterns */
+.library-page {
+  padding: 24px;
+  min-height: 100vh;
+  background: #0f1a33;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.library-page h1 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 24px;
+  border-bottom: 2px solid rgba(108,99,255,0.3);
+  padding-bottom: 12px;
+}
+
+.library-loading {
+  text-align: center;
+  padding: 40px;
+  color: #6c63ff;
+  font-size: 1rem;
+}
+
+.library-error {
+  background: rgba(255,82,82,0.1);
+  border: 1px solid rgba(255,82,82,0.4);
+  color: #ff5252;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.library-empty-text {
+  color: #555;
+  font-size: 1rem;
+  text-align: center;
+  padding: 40px;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.library-game-card {
+  background: #16213e;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  padding: 18px;
+  transition: transform 0.15s, background 0.15s;
+  cursor: pointer;
+}
+
+.library-game-card:hover {
+  transform: translateY(-4px);
+  background: #1f2d52;
+  border-color: rgba(108,99,255,0.3);
+}
+
+.library-game-card h3 {
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.library-game-card .system, 
+.library-game-card .rating, 
+.library-game-card .size {
+  color: #ff5252;
+}
+
+/* Match chat list hover states */
+.library-game-card:hover {
+  background: rgba(108,99,255,0.1);
+}
+
+@media (max-width: 768px) {
+  .library-grid {
+    grid-template-columns: 1fr;
+  }
+}

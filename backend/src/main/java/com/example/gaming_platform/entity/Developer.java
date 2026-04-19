@@ -1,9 +1,14 @@
 package com.example.gaming_platform.entity;
 
-import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 /**
  * Entity representing developer data.
@@ -17,7 +22,7 @@ public class Developer {
     private String email;
     private String username;
 
-    @OneToMany(mappedBy = "publisher")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "publisher")
     private List<VideoGame> publishedGames = new ArrayList<>();
 
 /**

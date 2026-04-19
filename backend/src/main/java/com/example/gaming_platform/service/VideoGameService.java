@@ -1,12 +1,16 @@
 package com.example.gaming_platform.service;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import com.example.gaming_platform.entity.*;
+import com.example.gaming_platform.entity.Category;
+import com.example.gaming_platform.entity.Device;
+import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.repository.VideoGameRepository;
-
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Service for video game business operations.
@@ -203,6 +207,28 @@ public class VideoGameService {
         }
 
         return total / reviews.size();
+    }
+
+/**
+ * Verifies if a file exists for the video game and provides it if it does.
+ *
+ * @param gameId the game ID
+ * @param fileName the file name to check
+ * @return String containing the file or an error
+ */
+    public byte[] downloadFile(Long gameId, String fileName) throws Exception {
+        VideoGame videoGame = getGame(gameId);
+
+        List<String> files = videoGame.getFiles();
+        if (files == null) {
+            throw new RuntimeException("Video Game has no files");
+        }
+
+        if (!files.contains(fileName)) {
+            throw new RuntimeException("File not part of VideoGame: " + fileName);
+        }
+
+        return Files.readAllBytes(Paths.get("src/main/resources/public/"+fileName));
     }
 }
 

@@ -1,0 +1,42 @@
+/* Import or reference index.css patterns */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background: #0f1a33;
+}
+
+.download-page {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #1f2d52;
+  border-radius: 8px;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+  border-bottom: 2px solid rgba(108,99,255,0.3);
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.download-file-btn {
+  padding: 15px 20px;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.download-file-btn:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}

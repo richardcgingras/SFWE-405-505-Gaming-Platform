@@ -54,7 +54,7 @@ public class GameLibraryController {
     @GetMapping("/{id}")
     public ResponseEntity<GameLibrary> getLibraryById(@PathVariable Long id) {
         GameLibrary library = gameLibraryRepository.findById(id).orElse(null);
-
+        
         if (library == null) {
             return ResponseEntity.notFound().build();
         }

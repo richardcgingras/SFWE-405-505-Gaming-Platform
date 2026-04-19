@@ -9,6 +9,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,7 +38,7 @@ public class VideoGame {
 
     private float price;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "video_game_category",
             joinColumns = @JoinColumn(name = "video_game_id"),
@@ -45,7 +46,7 @@ public class VideoGame {
     )
     private List<Category> category;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Developer publisher;
 
     /*

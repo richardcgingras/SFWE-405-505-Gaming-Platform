@@ -1,9 +1,9 @@
 package com.example.gaming_platform.repository;
 
+import org.springframework.data.repository.CrudRepository;
+
 import com.example.gaming_platform.entity.GameLibrary;
 import com.example.gaming_platform.entity.UserProfile;
-import org.springframework.data.repository.CrudRepository;
-import java.util.List;
 
 /**
  * Repository for persisting and querying game library records.
