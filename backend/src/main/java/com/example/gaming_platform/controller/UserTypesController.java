@@ -2,7 +2,6 @@ package com.example.gaming_platform.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,6 @@ import com.example.gaming_platform.repository.UserTypesRepository;
  */
 @RestController
 @RequestMapping("/api/user-types")
-@CrossOrigin(origins = "*")
 public class UserTypesController {
 
     private final UserTypesRepository userTypesRepository;
