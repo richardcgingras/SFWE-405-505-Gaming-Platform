@@ -14,6 +14,8 @@ import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.repository.VideoGameRepository;
 import com.example.gaming_platform.service.VideoGameService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * REST controller for video game operations.
  */
@@ -82,10 +84,10 @@ public class VideoGameController {
  * @return the matching video game when found
  */
     @GetMapping("/download")
-    public ResponseEntity<byte[]> getFile(@RequestParam Long id, @RequestParam String file) {
+    public ResponseEntity<byte[]> getFile(HttpServletRequest request, @RequestParam Long id, @RequestParam String file) {
         try {
-            System.out.println("Providing file: " + file);
-            return ResponseEntity.ok(videoGameService.downloadFile(id, file));
+            Long userId = Long.parseLong(request.getAttribute("currentUserId").toString());
+            return ResponseEntity.ok(videoGameService.downloadFile(id, file, userId));
         } catch (IllegalArgumentException e) {
             // Logical error (e.g., "file not found"), return 404
             return ResponseEntity.notFound().build();

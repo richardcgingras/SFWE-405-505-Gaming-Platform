@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.gaming_platform.entity.Category;
 import com.example.gaming_platform.entity.Device;
+import com.example.gaming_platform.entity.GameLibrary;
+import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
+import com.example.gaming_platform.repository.GameLibraryRepository;
+import com.example.gaming_platform.repository.UserProfileRepository;
 import com.example.gaming_platform.repository.VideoGameRepository;
 
 /**
@@ -19,14 +23,20 @@ import com.example.gaming_platform.repository.VideoGameRepository;
 public class VideoGameService {
 
     private final VideoGameRepository videoGameRepository;
+    private final UserProfileRepository userProfileRepository;
+    private final GameLibraryRepository gameLibraryRepository;
 
 /**
  * Creates a new VideoGameService instance.
  *
  * @param videoGameRepository the video game repository
  */
-    public VideoGameService(VideoGameRepository videoGameRepository) {
+    public VideoGameService(VideoGameRepository videoGameRepository,
+                            UserProfileRepository userProfileRepository,
+                            GameLibraryRepository gameLibraryRepository) {
         this.videoGameRepository = videoGameRepository;
+        this.userProfileRepository = userProfileRepository;
+        this.gameLibraryRepository = gameLibraryRepository;
     }
 
 /**
@@ -216,8 +226,23 @@ public class VideoGameService {
  * @param fileName the file name to check
  * @return String containing the file or an error
  */
-    public byte[] downloadFile(Long gameId, String fileName) throws Exception {
+    public byte[] downloadFile(Long gameId, String fileName, Long userId) throws Exception {
         VideoGame videoGame = getGame(gameId);
+        UserProfile userProfile = userProfileRepository.findById(userId).get();
+        GameLibrary gameLibrary = gameLibraryRepository.findByOwner(userProfile);
+        Boolean owned = false;
+
+        for (VideoGame currentGame : gameLibrary.getGames()){
+            if (currentGame.getId() == gameId){
+                // User owns game, exit check and continue
+                owned = true;
+                break;
+            }
+        }
+
+        if (!owned){
+            throw new RuntimeException("User does not own this game");
+        }
 
         List<String> files = videoGame.getFiles();
         if (files == null) {

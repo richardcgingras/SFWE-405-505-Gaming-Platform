@@ -51,7 +51,7 @@ export default function Download() {
                 const url = URL.createObjectURL(response);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `${game.id}-${file}`;
+                a.download = `${game.name}-${file}`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -62,11 +62,13 @@ export default function Download() {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `${game.id}-${file}`;
+                a.download = `${game.name}-${file}`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
+            } else {
+                alert("Failed to download the file.");
             }
         } catch (err) {
             console.error("Download failed:", err);

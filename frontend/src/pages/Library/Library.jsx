@@ -36,16 +36,16 @@ export default function Library() {
     }
 
     console.log(library);
-    console.log("Library Qty: " + library.games.length);
+    console.log("Library Qty: " + library.owner.gameLibrary.length);
 
     return (
         <div className="library-page">
         <h1>Your Game Library</h1>
-        {library.games.length === 0 ? (
+        {library.owner.gameLibrary.length === 0 ? (
             <p className="library-empty-text">Your library is empty.</p>
         ) : (
             <ul className="library-grid">
-                {library.games.map((game) => (
+                {library.owner.gameLibrary.map((game) => (
                 <li
                     key={game.id}
                     className="library-game-card"

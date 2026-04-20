@@ -82,14 +82,14 @@ public class UserProfile {
 
     // constructor
     public UserProfile(String email, String userName, String status, List<UserProfile> friends,
-                       List<Category> preferredCategories, //List<VideoGame> gameLibrary,
+                       List<Category> preferredCategories, List<VideoGame> gameLibrary,
                     String bio, ShoppingCart shoppingCart, WishList wishList) {
         this.email = email;
         this.userName = userName;
         this.status = status;
         this.friends = friends;
         this.preferredCategories = preferredCategories;
-        // this.gameLibrary = gameLibrary;
+        this.gameLibrary = gameLibrary;
         this.bio = bio;
         this.shoppingCart = shoppingCart;
         this.wishList = wishList;
@@ -107,7 +107,7 @@ public class UserProfile {
     public void setStatus(String status) { this.status = status; }
     public void setFriends(List<UserProfile> friends) { this.friends = friends; }
     public void setPreferredCategories(List<Category> categories) { this.preferredCategories = categories; }
-    // public void setGameLibrary(List<VideoGame> games) { this.gameLibrary = games; }
+    public void setGameLibrary(List<VideoGame> games) { this.gameLibrary = games; }
     public void setBio(String bio) { this.bio = bio; }
     public void setShoppingCart(ShoppingCart cart) { this.shoppingCart = cart; }
     public void setWishList(WishList wishList) { this.wishList = wishList; }
@@ -120,7 +120,7 @@ public class UserProfile {
     public String getStatus() { return this.status; }
     public List<UserProfile> getFriends() { return this.friends; }
     public List<Category> getPreferredCategories() { return this.preferredCategories; }
-    // public List<VideoGame> getGameLibrary() { return this.gameLibrary; }
+    public List<VideoGame> getGameLibrary() { return this.gameLibrary; }
     public ShoppingCart getCart() { return this.shoppingCart; }
     public String getBio() { return this.bio; }
     public WishList getWishList() { return this.wishList; }

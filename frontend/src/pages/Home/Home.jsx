@@ -95,7 +95,7 @@ export default function Home() {
       {/*All the boring stuff at bottom of the page*/}
       <footer className="footer">
         <div className="footer-logo"> goodGamers</div>
-        <p className="footer-copy"> 2026 goodGamers Inc. SFWE 405/505. The university of Arizona</p>
+        <p className="footer-copy"> 2026 goodGamers Inc. SFWE 405/505. The University of Arizona</p>
         <div className="footer-links">
           <a href="#">Privacy</a>
           <a href="#">Terms</a>

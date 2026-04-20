@@ -40,7 +40,8 @@ INSERT INTO video_game(id, name, release_date, price, size, age_rating) VALUES(1
 
 -- Video Game Files
 INSERT INTO video_game_files(VIDEO_GAME_ID, FILES) VALUES(101, 'File1.bin'),
-                                                        (101, 'File2.bin');
+                                                        (101, 'File2.bin'),
+                                                        (102, 'File3.bin');
 
 -- Video Games System
 INSERT INTO video_game_system(video_game_id, system) VALUES(101, 'PC'),
