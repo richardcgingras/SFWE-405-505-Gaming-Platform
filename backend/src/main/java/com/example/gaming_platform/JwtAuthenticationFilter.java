@@ -52,6 +52,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    // Propagate token validation info to request
+                    request.setAttribute("validatedJwt", jwt);
+                    request.setAttribute("validToken", Boolean.TRUE);
+                    request.setAttribute("currentUserId", userId);
+                    request.setAttribute("username", userProfile.getUserName());
                     System.out.println("JWT Token validated for user: " + userProfile.getUserName());
                 } else {
                     System.err.println("User not found for ID: " + userId);
