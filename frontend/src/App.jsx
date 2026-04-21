@@ -3,6 +3,7 @@ import Home from './pages/Home/Home.jsx'
 import Login from './pages/Login/Login.jsx'
 import Signup from './pages/Signup/Signup.jsx'
 import ChatPage from './pages/ChatPage/ChatPage.jsx'
+import VideoGames from './pages/VideoGame/VideoGame.jsx'
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/chat" element={<ChatPage />} />
+        <Route path="/games" element={<VideoGames />} />
     </Routes>
   )
 }
