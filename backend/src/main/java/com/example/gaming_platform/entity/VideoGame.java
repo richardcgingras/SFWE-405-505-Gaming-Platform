@@ -4,20 +4,8 @@ package com.example.gaming_platform.entity;
 import java.util.Calendar;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 
 /**
@@ -45,7 +33,8 @@ public class VideoGame {
     )
     private List<Category> category;
 
-    @OneToOne
+    @ManyToOne
+    @JsonIgnore
     private Developer publisher;
 
     /*

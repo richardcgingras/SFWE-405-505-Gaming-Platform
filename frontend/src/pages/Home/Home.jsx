@@ -73,7 +73,7 @@ export default function Home() {
 
              {/*The list of games that will be displayed which will eventually come from the backend  */}
             <h2 className="section-title">Featured Games</h2>
-            <a href="#" className="section-link">View All →</a>
+            <Link to="/games" className="section-link"> View All → </Link>
           </div>
           <div className="games-grid">
             {games.map((game, i) => (

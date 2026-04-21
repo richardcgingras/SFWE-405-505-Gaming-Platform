@@ -1,0 +1,162 @@
+/* ══ VIDEO GAMES PAGE ══ */
+
+.games-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+/* SEARCH BAR */
+.games-search {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--blue-border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.games-search::placeholder {
+    color: var(--text-muted);
+}
+.games-search:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 10px var(--blue-glow);
+}
+
+/* GRID (uses your base but ensures spacing) */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+/* CARD EXTENSION */
+.game-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px;
+    background: var(--blue-card);
+    border: 1px solid var(--blue-border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    animation: fadeUp 0.5s ease both;
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--blue);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 16px var(--blue-glow);
+}
+
+/* subtle glow overlay */
+.game-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(21,101,192,0.05) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.game-card:hover::before {
+    opacity: 1;
+}
+
+/* INFO */
+.game-card-info {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.game-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.game-card-title {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+}
+
+.game-price {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--red);
+}
+
+/* CATEGORY */
+.game-category {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* DATE */
+.game-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* BUTTON ALIGN */
+.game-action {
+    margin-top: 8px;
+}
+
+/* EMPTY STATE */
+.games-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* LOADING */
+.games-loading {
+    text-align: center;
+    padding: 60px;
+    font-family: var(--font-ui);
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .games-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .games-search {
+        width: 100%;
+    }
+
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+}
