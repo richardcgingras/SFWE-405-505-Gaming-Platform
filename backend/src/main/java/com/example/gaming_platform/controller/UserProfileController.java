@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.repository.UserProfileRepository;
+import com.example.gaming_platform.service.UserProfileService;
 
 /**
  * REST controller for user profile operations.
@@ -20,14 +21,16 @@ import com.example.gaming_platform.repository.UserProfileRepository;
 public class UserProfileController {
 
     private final UserProfileRepository userProfileRepository;
+    private final UserProfileService userProfileService;
 
     /**
      * Creates a new UserProfileController instance.
      *
      * @param userProfileRepository the user profile repository
      */
-    public UserProfileController(UserProfileRepository userProfileRepository) {
+    public UserProfileController(UserProfileRepository userProfileRepository, UserProfileService userProfileService) {
         this.userProfileRepository = userProfileRepository;
+        this.userProfileService = userProfileService;
     }
 
     /**
@@ -103,5 +106,18 @@ public class UserProfileController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(user);
+    }
+
+    // add friend to user profile
+    @PostMapping("/{id}/friends/{friendId}")
+    public ResponseEntity<UserProfile> addFriendToUserProfile(@PathVariable Long id, @PathVariable Long friendId) {
+        try {
+            userProfileService.addFriend(id, friendId);
+            return userProfileRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }
