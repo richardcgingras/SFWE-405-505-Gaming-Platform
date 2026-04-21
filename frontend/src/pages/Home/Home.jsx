@@ -23,7 +23,7 @@ export default function Home() {
         <ul className="nav-links">
           <li><a href="#">Store</a></li>
           <li><a href="#">Library</a></li>
-          <li><a href="#">Community</a></li>
+          <li><Link to="/community">Community</Link></li>
           <li><a href="#">News</a></li>
         </ul>
         <div className="nav-actions">
