@@ -1,22 +1,20 @@
 package com.example.gaming_platform.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-import com.example.gaming_platform.entity.WishList;
-import org.springframework.web.bind.annotation.PathVariable;
-import com.example.gaming_platform.entity.VideoGame;
 
+import com.example.gaming_platform.entity.VideoGame;
+import com.example.gaming_platform.entity.WishList;
 import com.example.gaming_platform.repository.WishListRepository;
 
 @RestController
 @RequestMapping("/api/wishlists")
-@CrossOrigin(origins = "*")
 public class WishListController {
 
     private final WishListRepository wishListRepository;

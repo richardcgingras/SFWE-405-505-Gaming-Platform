@@ -1,22 +1,26 @@
 package com.example.gaming_platform.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.example.gaming_platform.entity.Developer;
 import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.repository.DeveloperRepository;
 import com.example.gaming_platform.repository.VideoGameRepository;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * REST controller for developer operations.
  */
 @RestController
 @RequestMapping("/api/developers")
-@CrossOrigin(origins = "*")
 public class DeveloperController {
 
     private final DeveloperRepository developerRepository;
