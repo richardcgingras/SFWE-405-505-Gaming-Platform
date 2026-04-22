@@ -39,6 +39,14 @@ Once imported and selected, the requests will work without needing to manually e
 | comment      | Great game!               |
 | token        | (auto-generated)          |
 
+For friend request testing, you may also need to add:
+
+| Variable     | Example Value |
+|--------------|---------------|
+| senderId     | 1             |
+| receiverId   | 2             |
+| requestId    | 1             |
+
 ---
 
 ## Authentication
@@ -64,6 +72,7 @@ Some endpoints require authentication using a bearer token.
 - The backend server must be running before sending requests.
 - Default base URL assumes local development: http://localhost:8080
 - Some endpoints depend on existing data (e.g., gameId, userId), so certain requests may require creating records first.
+- Because the backend uses an in-memory H2 database, data resets whenever the backend restarts.
 
 ---
 
@@ -84,4 +93,5 @@ The collection includes endpoints for:
 - Shopping Cart
 - Webstore
 - Wishlist
+- Friend Requests
 

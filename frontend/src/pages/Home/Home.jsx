@@ -21,7 +21,7 @@ export default function Home() {
           <span className="logo-text">good<span>Gamers</span></span>
         </div>
         <ul className="nav-links">
-          <li><Link to="/">Store</Link></li>
+          <li><a href="#">Store</a></li>
           <li><a href="#">Library</a></li>
           <li><Link to="/community">Community</Link></li>
           <li><a href="#">News</a></li>
