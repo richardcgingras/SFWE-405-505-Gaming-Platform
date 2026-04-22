@@ -19,6 +19,7 @@ export default function Login() {
       const data = await login(username, password);
 
       localStorage.setItem("token", data.accessToken);
+      localStorage.setItem("username", username);
       console.log("Got token: ", data.accessToken)
 
       console.log("Logged in");
