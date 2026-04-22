@@ -52,13 +52,13 @@
               "raw": "{\n  \"name\": \"Halo Infinite\",\n  \"releaseDate\": \"2026-02-17T00:00:00.000+00:00\",\n  \"category\": \"ACTION\",\n  \"system\": \"XBOX\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}{{api}}/video-games/{id}",
+              "raw": "{{baseUrl}}{{api}}/video-games/{{gameId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "video-games",
-                "{id}"
+                "{{gameId}}"
               ]
             }
           },
@@ -89,6 +89,111 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "DownloadFile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/video-games/download?id={{gameId}}&file=File1.bin",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "video-games",
+                "download"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{gameId}}"
+                },
+                {
+                  "key": "file",
+                  "value": "File1.bin"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "FileGetTest",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}{{api}}/video-games/test",
+                  "host": [
+                    "{{baseUrl}}{{api}}"
+                  ],
+                  "path": [
+                    "video-games",
+                    "test"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "11"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 19 Apr 2026 01:12:38 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "Bin file 1\n"
+            }
+          ]
         }
       ]
     },
@@ -130,13 +235,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/user-profiles/{id}",
+              "raw": "{{baseUrl}}{{api}}/user-profiles/{{id}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "user-profiles",
-                "{id}"
+                "{{id}}"
               ]
             }
           },
@@ -779,6 +884,26 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Average Rating",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/reviews/game/score/{{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "reviews",
+                "game",
+                "score",
+                "{{gameId}}"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -1100,7 +1225,7 @@
               "script": {
                 "exec": [
                   "const response = pm.response.json();\r",
-                  "pm.environment.set(\"token\", response.token);"
+                  "pm.environment.set(\"token\", response.accessToken);"
                 ],
                 "type": "text/javascript",
                 "packages": {},
@@ -1109,6 +1234,9 @@
             }
           ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
             "body": {
