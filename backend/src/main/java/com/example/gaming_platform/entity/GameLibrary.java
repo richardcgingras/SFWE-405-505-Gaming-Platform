@@ -1,10 +1,14 @@
 package com.example.gaming_platform.entity;
 
-import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 
 /**
  * Entity representing game library data.
@@ -19,7 +23,7 @@ public class GameLibrary {
     @OneToOne
     private UserProfile owner;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<VideoGame> games;
 
     private float totalSize;
@@ -27,10 +31,10 @@ public class GameLibrary {
 /**
  * Creates a new GameLibrary instance.
  */
-    public GameLibrary() {
-        this.games = new ArrayList<>();
-        this.totalSize = 0;
-    }
+    // public GameLibrary() {
+    //     this.games = new ArrayList<>();
+    //     this.totalSize = 0;
+    // }
 
 /**
  * Creates a new GameLibrary instance.
@@ -38,12 +42,12 @@ public class GameLibrary {
  * @param owner the owner
  * @param games the games
  */
-    public GameLibrary(UserProfile owner, List<VideoGame> games) {
-        this.owner = owner;
-        if (games != null) this.games = games;
-        else this.games = new ArrayList<>();
-        this.totalSize = calculateTotalSize();
-    }
+    // public GameLibrary(UserProfile owner, List<VideoGame> games) {
+    //     this.owner = owner;
+    //     if (games != null) this.games = games;
+    //     else this.games = new ArrayList<>();
+    //     this.totalSize = calculateTotalSize();
+    // }
 
 
 /**

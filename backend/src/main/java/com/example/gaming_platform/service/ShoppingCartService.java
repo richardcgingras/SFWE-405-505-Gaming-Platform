@@ -7,11 +7,11 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.gaming_platform.Payment;
+import com.example.gaming_platform.entity.Orders;
+import com.example.gaming_platform.entity.PaymentResponse;
 import com.example.gaming_platform.entity.ShoppingCart;
 import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
-import com.example.gaming_platform.entity.Orders;
-import com.example.gaming_platform.entity.PaymentResponse;
 import com.example.gaming_platform.repository.OrdersRepository;
 import com.example.gaming_platform.repository.ShoppingCartRepository;
 import com.example.gaming_platform.repository.UserProfileRepository;
@@ -189,6 +189,7 @@ public class ShoppingCartService {
         shoppingCart = cartLookup.get();
 
         // Test to make sure none of the games in the shopping cart are already in the destination account
+        // TODO: this was using the game list in the user profile rather than the gamelibrary entity
         for (VideoGame game : shoppingCart.getGames()) {
             for (VideoGame ownedGame : destinationAccount.getGameLibrary()){
                 if (game == ownedGame){
@@ -210,6 +211,7 @@ public class ShoppingCartService {
         }
 
         // Payment was successful. For each game, go through and process an order (each order is for a single game)
+        // TODO: this was using the game list in the user profile rather than the gamelibrary entity
         for (VideoGame game : shoppingCart.getGames()) {
             Calendar orderTime = Calendar.getInstance();
             // Create and save the order

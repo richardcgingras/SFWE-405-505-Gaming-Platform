@@ -22,7 +22,7 @@ export default function Home() {
         </div>
         <ul className="nav-links">
           <li><a href="#">Store</a></li>
-          <li><a href="#">Library</a></li>
+          <li><a href="Library">Library</a></li>
           <li><Link to="/community">Community</Link></li>
           <li><a href="#">News</a></li>
         </ul>
@@ -95,7 +95,7 @@ export default function Home() {
       {/*All the boring stuff at bottom of the page*/}
       <footer className="footer">
         <div className="footer-logo"> goodGamers</div>
-        <p className="footer-copy"> 2025 goodGamers Inc. SFWE 405. The university of Arizona</p>
+        <p className="footer-copy"> 2026 goodGamers Inc. SFWE 405/505. The University of Arizona</p>
         <div className="footer-links">
           <a href="#">Privacy</a>
           <a href="#">Terms</a>

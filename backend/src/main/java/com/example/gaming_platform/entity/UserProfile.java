@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +32,8 @@ public class UserProfile {
     @Column(unique = true)
     private String userName;
 
-    @ManyToMany // JoinColumn or cascading???
+    // TODO: There is a bug here where there is a recursive data getting pulled because a profile is in a profile.
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<UserProfile> friends;
 
     /*
@@ -57,7 +59,7 @@ public class UserProfile {
     )
     private List<Category> preferredCategories;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "user_profile_game_library",
             joinColumns = @JoinColumn(name = "user_profile_id"),
