@@ -1,10 +1,10 @@
 {
   "info": {
-    "_postman_id": "66fd6428-7ab9-4449-9450-75ab5528d403",
+    "_postman_id": "9d1908ba-bb38-47e0-9cc2-7a626f35129c",
     "name": "SFWE_405_api_testing",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "51782030",
-    "_collection_link": "https://go.postman.co/collection/51782030-66fd6428-7ab9-4449-9450-75ab5528d403?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/51782030-9d1908ba-bb38-47e0-9cc2-7a626f35129c?source=collection_link"
   },
   "item": [
     {
@@ -1100,7 +1100,7 @@
               "script": {
                 "exec": [
                   "const response = pm.response.json();\r",
-                  "pm.environment.set(\"token\", response.token);"
+                  "pm.environment.set(\"token\", response.accessToken);"
                 ],
                 "type": "text/javascript",
                 "packages": {},
@@ -1241,6 +1241,103 @@
                 "wishlists",
                 "total-price",
                 "{{id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Friend Requests",
+      "item": [
+        {
+          "name": "Send Friend Request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"senderId\": {{senderId}},\r\n  \"receiverId\": {{receiverId}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/friend-requests",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "friend-requests"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Received Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/friend-requests/received/{{userId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "friend-requests",
+                "received",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Accept Friend Request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/friend-requests/{{requestId}}/accept",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "friend-requests",
+                "{{requestId}}",
+                "accept"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/friend-requests/status?senderId={{senderId}}&receiverId={{receiverId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "friend-requests",
+                "status"
+              ],
+              "query": [
+                {
+                  "key": "senderId",
+                  "value": "{{senderId}}"
+                },
+                {
+                  "key": "receiverId",
+                  "value": "{{receiverId}}"
+                }
               ]
             }
           },
