@@ -1,6 +1,9 @@
 package com.example.gaming_platform.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+
 import com.example.gaming_platform.entity.Review;
 import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
@@ -56,5 +59,25 @@ public class ReviewService {
  */
     public Iterable<Review> getReviewsByGame(Long gameId) {
         return reviewRepo.findByGameId(gameId);
+    }
+
+/**
+ * Gets the average review by game.
+ *
+ * @param gameId the game ID
+ * @return the average review score
+ */
+    public float getAverageReviewByGame(Long gameId) {
+        List<Review> allReviews = reviewRepo.findByGameId(gameId);
+        float averageReview = 0.0f;
+        int numReviews = allReviews.size();
+        Long totalScore = 0l;
+
+        for (Review game : allReviews){
+            totalScore += game.getRating();
+        }
+
+        averageReview = totalScore/numReviews;
+        return averageReview;
     }
 }

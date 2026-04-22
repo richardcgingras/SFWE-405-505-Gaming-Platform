@@ -60,4 +60,15 @@ public class ReviewController {
     public Iterable<Review> getReviewsByGame(@PathVariable Long gameId) {
         return reviewService.getReviewsByGame(gameId);
     }
+
+/**
+ * Gets the average review rating by game.
+ *
+ * @param gameId the game ID
+ * @return the average review rating
+ */
+    @GetMapping("/game/score/{gameId}")
+    public float getAverageReviewByGame(@PathVariable Long gameId) {
+        return reviewService.getAverageReviewByGame(gameId);
+    }
 }
