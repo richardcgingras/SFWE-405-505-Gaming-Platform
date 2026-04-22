@@ -5,6 +5,8 @@ import Signup from './pages/Signup/Signup.jsx'
 import ChatPage from './pages/ChatPage/ChatPage.jsx'
 import Library from './pages/Library/Library.jsx'
 import Download from './pages/Download/Download.jsx'
+import VideoGames from './pages/VideoGame/VideoGame.jsx'
+import Community from './pages/Community/Community.jsx'
 
 export default function App() {
   return (
@@ -15,6 +17,8 @@ export default function App() {
       <Route path="/chat" element={<ChatPage />} />
       <Route path="/library" element={<Library />} />
       <Route path="/download" element={<Download />} />
+      <Route path="/games" element={<VideoGames />} />
+      <Route path="/community" element={<Community />} />
     </Routes>
   )
 }

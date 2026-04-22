@@ -23,7 +23,7 @@ export default function Home() {
         <ul className="nav-links">
           <li><a href="#">Store</a></li>
           <li><a href="Library">Library</a></li>
-          <li><a href="#">Community</a></li>
+          <li><Link to="/community">Community</Link></li>
           <li><a href="#">News</a></li>
         </ul>
         <div className="nav-actions">
@@ -73,7 +73,7 @@ export default function Home() {
 
              {/*The list of games that will be displayed which will eventually come from the backend  */}
             <h2 className="section-title">Featured Games</h2>
-            <a href="#" className="section-link">View All →</a>
+            <Link to="/games" className="section-link"> View All → </Link>
           </div>
           <div className="games-grid">
             {games.map((game, i) => (

@@ -1,5 +1,7 @@
 package com.example.gaming_platform;
 
+import java.io.IOException;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -7,18 +9,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.example.gaming_platform.entity.UserProfile;
+import com.example.gaming_platform.service.JwtTokenProvider;
 import com.example.gaming_platform.service.UserProfileService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-
-import com.example.gaming_platform.UserPrincipal;
-import com.example.gaming_platform.entity.UserProfile;
-import com.example.gaming_platform.service.JwtTokenProvider;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -36,6 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                   HttpServletResponse response, 
                                   FilterChain filterChain) throws ServletException, IOException {
         try {
+            System.out.println("Request URL: " + request.getRequestURL());
+            System.out.println("Request method: " + request.getMethod());
             String jwt = extractJwtFromRequest(request);
 
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
@@ -52,12 +52,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    // Propagate token validation info to request
+                    request.setAttribute("validatedJwt", jwt);
+                    request.setAttribute("validToken", Boolean.TRUE);
+                    request.setAttribute("currentUserId", userId);
+                    request.setAttribute("username", userProfile.getUserName());
                     System.out.println("JWT Token validated for user: " + userProfile.getUserName());
                 } else {
                     System.err.println("User not found for ID: " + userId);
                 }
             } else {
-                System.out.println("JWT token is missing or invalid");
+                System.out.println("JWT token is missing or invalid: "+ jwt);
             }
         } catch (Exception ex) {
             System.err.println("Could not set user authentication in security context: " + ex.getMessage());

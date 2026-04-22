@@ -1,0 +1,248 @@
+.community-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.community-sub {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.community-count {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--blue-border);
+  background: rgba(10, 22, 40, 0.55);
+  padding: 10px 14px;
+  border-radius: 6px;
+}
+
+.community-state {
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 18px 0;
+}
+
+.community-state.error {
+  color: #fff;
+  background: rgba(232, 25, 44, 0.12);
+  border: 1px solid rgba(232, 25, 44, 0.35);
+  box-shadow: 0 0 24px rgba(232, 25, 44, 0.18);
+  padding: 16px 16px;
+  border-radius: 8px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+.community-hint {
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgba(232, 237, 245, 0.75);
+}
+
+.add-friend-card {
+  background: rgba(10, 22, 40, 0.7);
+  border: 1px solid var(--blue-border);
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.add-friend-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.add-friend-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-friend-input {
+  flex: 1;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--blue-border);
+  border-radius: 4px;
+  padding: 12px 14px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.add-friend-input::placeholder {
+  color: var(--text-muted);
+}
+
+.add-friend-input:focus {
+  border-color: var(--blue);
+}
+
+.add-friend-input:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.add-friend-message {
+  margin-top: 10px;
+  color: rgba(232, 237, 245, 0.82);
+  font-size: 0.9rem;
+}
+
+.friends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+.friend-card {
+  background: var(--blue-card);
+  border: 1px solid var(--blue-border);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  animation: fadeUp 0.5s ease both;
+}
+
+.friend-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--blue);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 16px var(--blue-glow);
+}
+
+.friend-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.friend-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), var(--red-dark));
+  border: 2px solid var(--blue-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.friend-avatar span {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+.friend-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.friend-name {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.friend-email {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-pill {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--blue-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  flex: 0 0 auto;
+}
+
+.status-pill.online {
+  border-color: rgba(46, 204, 113, 0.45);
+  background: rgba(46, 204, 113, 0.12);
+  color: #d9ffe9;
+}
+
+.status-pill.away,
+.status-pill.busy {
+  border-color: rgba(241, 196, 15, 0.45);
+  background: rgba(241, 196, 15, 0.12);
+  color: #fff6d4;
+}
+
+.status-pill.offline,
+.status-pill.inactive {
+  border-color: rgba(122, 150, 184, 0.35);
+  background: rgba(122, 150, 184, 0.08);
+  color: rgba(232, 237, 245, 0.7);
+}
+
+.status-pill.unknown {
+  border-color: rgba(232, 25, 44, 0.35);
+  background: rgba(232, 25, 44, 0.1);
+  color: #fff;
+}
+
+@media (max-width: 1100px) {
+  .friends-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .community-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .add-friend-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .friends-grid {
+    grid-template-columns: 1fr;
+  }
+}
