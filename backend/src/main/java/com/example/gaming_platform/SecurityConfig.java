@@ -14,13 +14,11 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.service.UserProfileService;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
 
 @Configuration
@@ -33,14 +31,13 @@ public class SecurityConfig {
     UserProfileService userProfileService;
 
     public SecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-                         JwtAuthenticationFilter jwtAuthenticationFilter) {
+            JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // return new BCryptPasswordEncoder();
         return NoOpPasswordEncoder.getInstance();
     }
 
@@ -81,28 +78,26 @@ public class SecurityConfig {
                 .requestMatchers("/api/user-profiles").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/error/**").permitAll()
+                .requestMatchers("/ws/**").permitAll() 
+                .requestMatchers("/api/video-games").permitAll()
                 .requestMatchers(request -> request.getMethod().equals("OPTIONS")).permitAll()
                 .anyRequest().authenticated()
             )
             .headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-
         return source;
     }
 }

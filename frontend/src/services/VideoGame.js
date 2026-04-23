@@ -12,16 +12,15 @@ const getToken = () => localStorage.getItem("token") || "";
  * @returns {Promise<Array>} - A promise that resolves to an array of video games.
  */
 export async function getAllVideoGames() {
-    const token = getToken();
-    const response = await fetch(`${BASE_URL}/video-games`,{
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }});
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
+  const response = await fetch(`${BASE_URL}/video-games`, {
+    headers: {
+      'Content-Type': 'application/json'
     }
-    return response.json();
+  });
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status}`);
+  }
+  return response.json();
 }
 
 /**

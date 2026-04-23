@@ -5,7 +5,7 @@ import "./ChatWindow.css";
 export default function ChatWindow({ currentUserId, recipient, onClose }) {
   const [inputValue, setInputValue] = useState("");
   const bottomRef = useRef(null);
-  const { messages, sendMessage, connected } = useChat(currentUserId, recipient.id);
+  const { messages, sendMessage, connected, currentUserId } = useChat( recipient.id);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
