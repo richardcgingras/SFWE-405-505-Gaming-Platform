@@ -561,3 +561,40 @@
   font-weight: 600;
 }
 .auth-switch a:hover { opacity: 0.8; }
+
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c63ff, #48cae4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.nav-username {
+  color: #e0e0f0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+.nav-logo a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}

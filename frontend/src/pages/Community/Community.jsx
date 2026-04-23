@@ -190,7 +190,7 @@ export default function Community() {
 
       <nav className="nav">
         <div className="nav-logo">
-          <span className="logo-icon">🎮</span>
+          <span className="logo-icon"></span>
           <span className="logo-text">
             good<span>Gamers</span>
           </span>
