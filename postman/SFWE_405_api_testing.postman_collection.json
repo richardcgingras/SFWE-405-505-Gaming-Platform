@@ -916,14 +916,13 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/game/{{cartId}}/{{gameId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/game/{{gameId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "shopping-cart",
                 "game",
-                "{{cartId}}",
                 "{{gameId}}"
               ]
             }
@@ -936,23 +935,14 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/game?cartId={{cartId}}&gameId={{gameId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/game/{{gameId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "shopping-cart",
-                "game"
-              ],
-              "query": [
-                {
-                  "key": "cartId",
-                  "value": "{{cartId}}"
-                },
-                {
-                  "key": "gameId",
-                  "value": "{{gameId}}"
-                }
+                "game",
+                "{{gameId}}"
               ]
             }
           },
@@ -964,14 +954,30 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/total/{{cartId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/total",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "shopping-cart",
-                "total",
-                "{{cartId}}"
+                "total"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Logged in account cart",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/shopping-cart",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "shopping-cart"
               ]
             }
           },
@@ -992,7 +998,7 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/creditcard/{{cartId}}/{{userId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/creditcard/{{userId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
@@ -1000,7 +1006,6 @@
                 "shopping-cart",
                 "checkout",
                 "creditcard",
-                "{{cartId}}",
                 "{{userId}}"
               ]
             }
@@ -1022,7 +1027,7 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/giftcard/{{cartId}}/{{userId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/giftcard/{{userId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
@@ -1030,7 +1035,6 @@
                 "shopping-cart",
                 "checkout",
                 "giftcard",
-                "{{cartId}}",
                 "{{userId}}"
               ]
             }
