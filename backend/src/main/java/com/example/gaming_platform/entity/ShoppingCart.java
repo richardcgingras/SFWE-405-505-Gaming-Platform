@@ -46,6 +46,7 @@ public class ShoppingCart {
     public void setAccount(UserProfile newAccount){account = newAccount;}
 
     // Getters
+    public Long getId(){return id;}
     public List<VideoGame> getGames(){return games;}
     public float getTotal(){return totalPrice;}
     public UserProfile getAccount(){return account;}
