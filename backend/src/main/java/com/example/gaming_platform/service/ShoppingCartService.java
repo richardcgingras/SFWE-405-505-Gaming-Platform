@@ -46,6 +46,32 @@ public class ShoppingCartService {
     }
 
 /**
+ * Gets all games in a user's shopping cart games
+ *
+ * @param userId id of a user
+ * @return List of Games
+ */
+    public List<VideoGame> getGames(Long userId) throws Exception{
+
+        ShoppingCart shoppingCart = shoppingCartRepository.findByAccount(userProfileRepository.findById(userId).get());
+        if (shoppingCart == null){
+            return List.of();
+        } else {
+            return shoppingCart.getGames();
+        }
+    }
+
+/**
+ * Gets a user's shopping cart
+ *
+ * @param userId id of a user
+ * @return shopping cart
+ */
+    public ShoppingCart getCart(Long userId){
+        return shoppingCartRepository.findByAccount(userProfileRepository.findById(userId).get());
+    }
+
+/**
  * Adds game.
  *
  * @param cartId the shopping cart id

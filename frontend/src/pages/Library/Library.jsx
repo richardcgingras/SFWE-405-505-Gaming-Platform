@@ -1,8 +1,11 @@
-import "./Library.css";
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getLibraryById } from "../../services/GameLibrary.js";
+import "./Library.css";
+
+// Add authentication context or use localStorage for auth state
+const isAuthenticated = !!localStorage.getItem("token"); // Example check
+const getId = () => localStorage.getItem("userId") || "";
 
 export default function Library() {
     const [library, setLibrary] = useState([]);
@@ -12,17 +15,17 @@ export default function Library() {
 
     useEffect(() => {
         const fetchLibrary = async () => {
-            try {
-                setLoading(true);
-                const data = await getLibraryById(101);
-                setLibrary(data || []); // Handle empty response safely
-                setError(null);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+        try {
+            setLoading(true);
+            const data = await getLibraryById(getId());
+            setLibrary(data || []); // Handle empty response safely
+            setError(null);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
         fetchLibrary();
     }, []);
