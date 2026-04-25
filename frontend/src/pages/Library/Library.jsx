@@ -6,6 +6,7 @@ import "./Library.css";
 
 // Add authentication context or use localStorage for auth state
 const isAuthenticated = !!localStorage.getItem("token"); // Example check
+const getId = () => localStorage.getItem("userId") || "";
 
 export default function Library() {
   const [library, setLibrary] = useState([]);
@@ -31,7 +32,7 @@ export default function Library() {
     const fetchLibrary = async () => {
       try {
         setLoading(true);
-        const data = await getLibraryById(101);
+        const data = await getLibraryById(getId());
         setLibrary(data || []); // Handle empty response safely
         setError(null);
       } catch (err) {

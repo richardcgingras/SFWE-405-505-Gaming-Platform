@@ -54,7 +54,11 @@ public class ShoppingCartService {
     public List<VideoGame> getGames(Long userId) throws Exception{
 
         ShoppingCart shoppingCart = shoppingCartRepository.findByAccount(userProfileRepository.findById(userId).get());
-        return shoppingCart.getGames();
+        if (shoppingCart == null){
+            return List.of();
+        } else {
+            return shoppingCart.getGames();
+        }
     }
 
 /**
