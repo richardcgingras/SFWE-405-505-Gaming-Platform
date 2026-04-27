@@ -7,8 +7,6 @@ import Library from './pages/Library/Library.jsx'
 import Download from './pages/Download/Download.jsx'
 import VideoGames from './pages/VideoGame/VideoGame.jsx'
 import Community from './pages/Community/Community.jsx'
-import Publish from './pages/Publish/Publish.jsx'
-import Upload from './pages/Upload/Upload.jsx'
 import Cart from './pages/ShoppingCart/Cart.jsx'
 
 export default function App() {
@@ -22,8 +20,6 @@ export default function App() {
       <Route path="/download" element={<Download />} />
       <Route path="/games" element={<VideoGames />} />
       <Route path="/community" element={<Community />} />
-      <Route path="/publish" element={<Publish />} />
-      <Route path="/upload" element={<Upload />} />
       <Route path="/cart" element={<Cart />} />
     </Routes>
   )
