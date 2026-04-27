@@ -1,14 +1,12 @@
 package com.example.gaming_platform.service;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
 import com.example.gaming_platform.entity.GameLibrary;
 import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.repository.GameLibraryRepository;
 import com.example.gaming_platform.repository.VideoGameRepository;
-
-import org.springframework.stereotype.Service;
 
 /**
  * Service for game library business operations.

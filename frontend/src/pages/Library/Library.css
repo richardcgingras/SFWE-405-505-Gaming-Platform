@@ -1,87 +1,208 @@
-/* Matches theme from index.css patterns */
-.library-page {
-  padding: 24px;
+/* ══ MAIN PAGE CONTAINER ══ */
+.page {
+  padding: 1rem;
   min-height: 100vh;
   background: #0f1a33;
   font-family: "Segoe UI", sans-serif;
 }
 
-.library-page h1 {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #fff;
-  margin-bottom: 24px;
-  border-bottom: 2px solid rgba(108,99,255,0.3);
-  padding-bottom: 12px;
+.bg-glow {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(108,99,255,0.1) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.library-loading {
-  text-align: center;
-  padding: 40px;
-  color: #6c63ff;
-  font-size: 1rem;
+/* ══ NAVIGATION BAR ══ */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--blue-card);
+  border-bottom: 1px solid var(--blue-border);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  background: var(--red);
+  border-radius: 4px;
+}
+
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+
+.logo-text span {
+  color: var(--red);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--red);
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-ghost {
+  color: var(--text-primary);
+  background-color: transparent;
+}
+
+.btn-red {
+  color: #fff;
+  background-color: var(--red);
+}
+
+/* ══ LIBRARY CONTAINER ══ */
+.library-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: var(--blue-card);
+  border: 1px solid var(--blue-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.library-container h2 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
 }
 
 .library-error {
-  background: rgba(255,82,82,0.1);
-  border: 1px solid rgba(255,82,82,0.4);
-  color: #ff5252;
-  padding: 16px;
-  border-radius: 8px;
-  text-align: center;
+  background: rgba(232, 25, 44, 0.1);
+  border-left: 4px solid var(--red);
+  color: var(--text-secondary);
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 
 .library-empty-text {
-  color: #555;
-  font-size: 1rem;
   text-align: center;
-  padding: 40px;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
 }
 
+/* ══ LIBRARY GRID & CARDS ══ */
 .library-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .library-game-card {
-  background: #16213e;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 8px;
-  padding: 18px;
-  transition: transform 0.15s, background 0.15s;
+  padding: 1.25rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .library-game-card:hover {
-  transform: translateY(-4px);
-  background: #1f2d52;
-  border-color: rgba(108,99,255,0.3);
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .library-game-card h3 {
   font-family: var(--font-ui);
   font-size: 1.1rem;
-  color: #fff;
-  margin-bottom: 8px;
-  line-height: 1.4;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.03em;
 }
 
-.library-game-card .system, 
-.library-game-card .rating, 
-.library-game-card .size {
-  color: #ff5252;
+.item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-/* Match chat list hover states */
-.library-game-card:hover {
-  background: rgba(108,99,255,0.1);
+.system-info, .file-size, .age-rating {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
 }
 
+.age-rating {
+  color: var(--red);
+  font-weight: 500;
+}
+
+/* ══ LOADING STATE ══ */
+.library-loading {
+  text-align: center;
+  padding: 40px;
+  color: #6c63ff;
+  font-family: var(--font-ui);
+}
+
+/* ══ RESPONSIVE ══ */
 @media (max-width: 768px) {
-  .library-grid {
-    grid-template-columns: 1fr;
-  }
+    .nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .library-container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .library-grid {
+        grid-template-columns: 1fr;
+    }
 }

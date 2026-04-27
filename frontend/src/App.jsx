@@ -9,6 +9,7 @@ import VideoGames from './pages/VideoGame/VideoGame.jsx'
 import Community from './pages/Community/Community.jsx'
 import Publish from './pages/Publish/Publish.jsx'
 import Upload from './pages/Upload/Upload.jsx'
+import Cart from './pages/ShoppingCart/Cart.jsx'
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
       <Route path="/community" element={<Community />} />
       <Route path="/publish" element={<Publish />} />
       <Route path="/upload" element={<Upload />} />
+      <Route path="/cart" element={<Cart />} />
     </Routes>
   )
 }
