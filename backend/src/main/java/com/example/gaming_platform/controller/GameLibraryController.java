@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.gaming_platform.entity.GameLibrary;
-import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.repository.GameLibraryRepository;
-import com.example.gaming_platform.repository.UserProfileRepository;
 import com.example.gaming_platform.service.GameLibraryService;
 
 /**
@@ -28,7 +26,6 @@ public class GameLibraryController {
 
     private GameLibraryService gameLibraryService;
     private GameLibraryRepository gameLibraryRepository;
-    private UserProfileRepository userProfileRepository;
 
 /**
  * Creates a new GameLibraryController instance.
@@ -37,11 +34,9 @@ public class GameLibraryController {
  * @param gameLibraryRepository the game library repository
  */
     public GameLibraryController(GameLibraryService gameLibraryService,
-                                 GameLibraryRepository gameLibraryRepository,
-                                 UserProfileRepository userProfileRepository) {
+                                 GameLibraryRepository gameLibraryRepository) {
         this.gameLibraryService = gameLibraryService;
         this.gameLibraryRepository = gameLibraryRepository;
-        this.userProfileRepository = userProfileRepository;
     }
 
     // GET /api/gamelibrary
@@ -67,10 +62,7 @@ public class GameLibraryController {
         GameLibrary library = gameLibraryRepository.findById(id).orElse(null);
         
         if (library == null) {
-            library = new GameLibrary();
-            UserProfile theUser = userProfileRepository.findById(id).get();
-            library.setOwner(theUser);
-            gameLibraryRepository.save(library);
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(library);
@@ -101,10 +93,7 @@ public class GameLibraryController {
         GameLibrary library = gameLibraryRepository.findById(id).orElse(null);
 
         if (library == null) {
-            library = new GameLibrary();
-            UserProfile theUser = userProfileRepository.findById(id).get();
-            library.setOwner(theUser);
-            gameLibraryRepository.save(library);
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(library.getGames());
@@ -124,10 +113,7 @@ public class GameLibraryController {
         GameLibrary library = gameLibraryService.addGame(id, gameId);
 
         if (library == null) {
-            library = new GameLibrary();
-            UserProfile theUser = userProfileRepository.findById(id).get();
-            library.setOwner(theUser);
-            gameLibraryRepository.save(library);
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(library);
@@ -167,8 +153,7 @@ public class GameLibraryController {
         Boolean result = gameLibraryService.hasGame(id, gameId);
 
         if (result == null) {
-            // Library does not exist yet, so the game does not exist in it
-            result = false;
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(result);
@@ -186,8 +171,7 @@ public class GameLibraryController {
         Float size = gameLibraryService.getTotalSize(id);
 
         if (size == null) {
-            // Library does not exist yet, so 0
-            size = 0.0f;
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(size);

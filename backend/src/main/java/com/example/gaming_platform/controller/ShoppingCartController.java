@@ -1,7 +1,5 @@
 package com.example.gaming_platform.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,13 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.impl.CreditCardPayment;
 import com.example.gaming_platform.impl.DebitCardPayment;
 import com.example.gaming_platform.impl.GiftCardPayment;
 import com.example.gaming_platform.service.ShoppingCartService;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * REST controller for shopping cart operations.
@@ -26,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api/shopping-cart")
 public class ShoppingCartController {
+    // private final ShoppingCartRepository shoppingCartRepository;
     private final ShoppingCartService shoppingCartService;
 
 /**
@@ -38,28 +34,17 @@ public class ShoppingCartController {
     }
 
 /**
- * Gets a Users Shopping cart.
- *
- * @return user's shopping cart or an empty cart
- */
-    @GetMapping("")
-    public List<VideoGame> getCart(HttpServletRequest request) throws Exception{
-        Long userId = Long.parseLong(request.getAttribute("currentUserId").toString());
-        return shoppingCartService.getGames(userId);
-    }
-
-/**
  * Executes the postAddGame operation.
  *
+ * @param cartId the shopping cart id
  * @param gameId the id of the game to add
  * @return the result of the operation
  */
-    @PostMapping("game/{gameId}")
-    public ResponseEntity postAddGame(HttpServletRequest request, @PathVariable Long gameId) {
+    @PostMapping("game/{cartId}/{gameId}")
+    public ResponseEntity postAddGame(@PathVariable Long cartId, @PathVariable Long gameId) {
         String success;
-        Long userId = Long.parseLong(request.getAttribute("currentUserId").toString());
-
-        success = shoppingCartService.addGame(userId, gameId);
+        System.out.println("User trying to add a game to the cart, cartId: %d, gameId: %d".formatted(cartId, gameId));
+        success = shoppingCartService.addGame(cartId, gameId);
         if (success.equals("Success")){
             return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
         } else {
@@ -70,15 +55,14 @@ public class ShoppingCartController {
 /**
  * Deletes the remove game.
  *
+ * @param cartId the shopping cart id
  * @param gameId the id of the game to remove
  * @return the result of the operation
  */
-    @DeleteMapping("game/{gameId}")
-    public ResponseEntity deleteRemoveGame(HttpServletRequest request, @PathVariable Long gameId) {
+    @DeleteMapping("game/{cartId}/{gameId}")
+    public ResponseEntity deleteRemoveGame(@PathVariable Long cartId, @PathVariable Long gameId) {
         String success;
-        Long userId = Long.parseLong(request.getAttribute("currentUserId").toString());
-
-        success = shoppingCartService.removeGame(userId, gameId);
+        success = shoppingCartService.removeGame(cartId, gameId);
         if (success.equals("Success")){
             return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
         } else {
@@ -89,15 +73,14 @@ public class ShoppingCartController {
 /**
  * Gets the total.
  *
+ * @param cartId the shopping cart id
  * @return the total or error message
  */
-    @GetMapping("total")
-    public ResponseEntity getTotal(HttpServletRequest request) {
+    @GetMapping("total/{cartId}")
+    public ResponseEntity getTotal(@PathVariable Long cartId) {
         float total;
         String response;
-        Long userId = Long.parseLong(request.getAttribute("currentUserId").toString());
-
-        response = shoppingCartService.calcTotalPrice(userId);
+        response = shoppingCartService.calcTotalPrice(cartId);
         if (response.contains("Success")){
             total = Float.parseFloat(response.replace("Success: ", ""));
             return ResponseEntity.status(HttpStatus.OK).body("{\"total\": \"%.2f\"}".formatted(total));
@@ -109,18 +92,17 @@ public class ShoppingCartController {
 /**
  * Executes the postCheckout operation.
  *
+ * @param cartId the shopping cart id
  * @param destinationAccountId the destination account id
  * @param paymentObject the credit card payment object used for processing the payment
  * @return the result of the operation
  */
-    @PostMapping("checkout/creditcard/{destinationAccountId}")
-    public ResponseEntity postCreditCardCheckout(HttpServletRequest request,
+    @PostMapping("checkout/creditcard/{cartId}/{destinationAccountId}")
+    public ResponseEntity postCreditCardCheckout(@PathVariable Long cartId,
                                     @PathVariable Long destinationAccountId,
                                     @RequestBody CreditCardPayment paymentObject) {
         String success;
-        Long userId = Long.parseLong(request.getAttribute("currentUserId").toString());
-
-        success = shoppingCartService.checkout(userId, destinationAccountId, paymentObject);
+        success = shoppingCartService.checkout(cartId, destinationAccountId, paymentObject);
         if (success.equals("Success")){
             return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
         } else {
@@ -131,18 +113,17 @@ public class ShoppingCartController {
 /**
  * Executes the postCheckout operation.
  *
+ * @param cartId the shopping cart id
  * @param destinationAccountId the destination account id
  * @param paymentObject the debit card payment object used for processing the payment
  * @return the result of the operation
  */
-    @PostMapping("checkout/debitcard/{destinationAccountId}")
-    public ResponseEntity postDebitCardCheckout(HttpServletRequest request,
+    @PostMapping("checkout/debitcard/{cartId}/{destinationAccountId}")
+    public ResponseEntity postDebitCardCheckout(@PathVariable Long cartId,
                                     @PathVariable Long destinationAccountId,
                                     @RequestBody DebitCardPayment paymentObject) {
         String success;
-        Long userId = Long.parseLong(request.getAttribute("currentUserId").toString());
-
-        success = shoppingCartService.checkout(userId, destinationAccountId, paymentObject);
+        success = shoppingCartService.checkout(cartId, destinationAccountId, paymentObject);
         if (success.equals("Success")){
             return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
         } else {
@@ -153,18 +134,17 @@ public class ShoppingCartController {
 /**
  * Executes the postCheckout operation.
  *
+ * @param cartId the shopping cart id
  * @param destinationAccountId the destination account id
  * @param paymentObject the gift card payment object used for processing the payment
  * @return the result of the operation
  */
-    @PostMapping("checkout/giftcard/{destinationAccountId}")
-    public ResponseEntity postGiftCardCheckout(HttpServletRequest request,
+    @PostMapping("checkout/giftcard/{cartId}/{destinationAccountId}")
+    public ResponseEntity postGiftCardCheckout(@PathVariable Long cartId,
                                     @PathVariable Long destinationAccountId,
                                     @RequestBody GiftCardPayment paymentObject) {
         String success;
-        Long userId = Long.parseLong(request.getAttribute("currentUserId").toString());
-
-        success = shoppingCartService.checkout(userId, destinationAccountId, paymentObject);
+        success = shoppingCartService.checkout(cartId, destinationAccountId, paymentObject);
         if (success.equals("Success")){
             return ResponseEntity.status(HttpStatus.OK).body("{\"Status\": \"success\"}");
         } else {
