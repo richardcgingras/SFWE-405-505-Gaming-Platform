@@ -194,6 +194,45 @@
               "body": "Bin file 1\n"
             }
           ]
+        },
+        {
+          "name": "Upload file",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "description": "fuck me",
+                  "type": "file",
+                  "uuid": "21fd405d-0676-49e8-ab45-2a462252f7e9",
+                  "src": "/tmp/aFile"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/video-games/upload/{{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "video-games",
+                "upload",
+                "{{gameId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
         }
       ]
     },
