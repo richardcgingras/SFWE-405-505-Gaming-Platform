@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.gaming_platform.entity.AuthResponse;
 import com.example.gaming_platform.entity.LoginRequest;
-import com.example.gaming_platform.repository.UserProfileRepository;
 import com.example.gaming_platform.service.JwtTokenProvider;
 
 /**
@@ -23,19 +22,15 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
-    private final UserProfileRepository userProfileRepository;
 
     /**
      * Creates an AuthController instance with authentication manager and token provider.
      * @param authenticationManager the Spring Security authentication manager for validating credentials
      * @param tokenProvider the JWT token provider for generating tokens after successful authentication
      */
-    public AuthController(AuthenticationManager authenticationManager,
-                        JwtTokenProvider tokenProvider,
-                        UserProfileRepository userProfileRepository) {
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider) {
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
-        this.userProfileRepository = userProfileRepository;
     }
 
     /**
@@ -53,9 +48,7 @@ public class AuthController {
                 )
         );
 
-        long userId = userProfileRepository.findByUserName(loginRequest.getUsername()).getId();
-
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new AuthResponse(jwt, "Bearer", userId));
+        return ResponseEntity.ok(new AuthResponse(jwt, "Bearer"));
     }
 }

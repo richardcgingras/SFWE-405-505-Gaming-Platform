@@ -1,86 +1,37 @@
 /* Import or reference index.css patterns */
 
+
 .download-page {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background-color: var(--blue-card);
-    border: 1px solid var(--blue-border);
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #1f2d52;
+  border-radius: 8px;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+  border-bottom: 2px solid rgba(108,99,255,0.3);
 }
 
-.download-page h1 {
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-    font-size: 1.8rem;
-    font-family: var(--font-display);
-    letter-spacing: 0.05em;
-    text-align: center;
-}
-
-/* ══ FILE LIST & DOWNLOAD BUTTONS ══ */
 .file-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .download-file-btn {
-    padding: 1rem 1.25rem;
-    background-color: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--blue-border);
-    border-radius: 6px;
-    color: var(--text-primary);
-    font-family: var(--font-ui);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+  padding: 15px 20px;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
 .download-file-btn:hover {
-    background-color: rgba(232, 25, 44, 0.15);
-    border-color: var(--red);
-    box-shadow: 0 4px 12px rgba(232, 25, 44, 0.2);
-    transform: translateY(-2px);
-}
-
-.download-file-btn:active {
-    transform: translateY(0);
-}
-
-/* ══ EMPTY & ERROR STATES ══ */
-.library-empty-text, .download-page p {
-    text-align: center;
-    padding: 1.5rem;
-    color: var(--text-muted);
-    font-family: var(--font-ui);
-    letter-spacing: 0.03em;
-}
-
-/* ══ LOADING STATE (Inline for now) ══ */
-.Game-loading, .Game-error {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    font-family: var(--font-ui);
-    letter-spacing: 0.03em;
-}
-
-/* ══ RESPONSIVE ══ */
-@media (max-width: 768px) {
-    .download-page {
-        margin: 1rem;
-        padding: 1rem;
-    }
-
-    .download-file-btn {
-        padding: 0.875rem 1rem;
-        font-size: 0.9rem;
-    }
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }

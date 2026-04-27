@@ -46,43 +46,17 @@ public class ShoppingCartService {
     }
 
 /**
- * Gets all games in a user's shopping cart games
- *
- * @param userId id of a user
- * @return List of Games
- */
-    public List<VideoGame> getGames(Long userId) throws Exception{
-
-        ShoppingCart shoppingCart = shoppingCartRepository.findByAccount(userProfileRepository.findById(userId).get());
-        if (shoppingCart == null){
-            return List.of();
-        } else {
-            return shoppingCart.getGames();
-        }
-    }
-
-/**
- * Gets a user's shopping cart
- *
- * @param userId id of a user
- * @return shopping cart
- */
-    public ShoppingCart getCart(Long userId){
-        return shoppingCartRepository.findByAccount(userProfileRepository.findById(userId).get());
-    }
-
-/**
  * Adds game.
  *
- * @param userId the user id
+ * @param cartId the shopping cart id
  * @param gameId the id of the game to add
  * @return the operation result
  */
-    public String addGame(Long userId, Long gameId){
+    public String addGame(Long cartId, Long gameId){
         // Attempt too add the specified game to the shopping cart
 
         VideoGame gameTooAdd;
-        ShoppingCart shoppingCart = getCart(userId);
+        ShoppingCart shoppingCart;
 
         Optional<VideoGame> gameLookup = videoGameRepository.findById(gameId);
         if (gameLookup.isPresent()){
@@ -90,7 +64,10 @@ public class ShoppingCartService {
         } else {
             return "Game does not exist";
         }
-        if (shoppingCart == null){
+        Optional<ShoppingCart> cartLookup = shoppingCartRepository.findById(cartId);
+        if (cartLookup != null){
+            shoppingCart = cartLookup.get();
+        } else {
             return "Shopping cart does not exist";
         }
 
@@ -119,23 +96,26 @@ public class ShoppingCartService {
 /**
  * Removes game.
  *
- * @param userId the user id
- * @param gameId the id of the game to add
+ * @param cartId the shopping cart id
+ * @param gameId the id of the game to remove
  * @return the operation result
  */
-    public String removeGame(Long userId, Long gameId){
+    public String removeGame(Long cartId, Long gameId){
         // Remove the game to the list
 
         VideoGame gameTooRemove;
-        ShoppingCart shoppingCart = getCart(userId);
+        ShoppingCart shoppingCart;
 
         Optional<VideoGame> gameLookup = videoGameRepository.findById(gameId);
-        if (gameLookup.isPresent()){
+        if (gameLookup != null){
             gameTooRemove = gameLookup.get();
         } else {
             return "Game does not exist";
         }
-        if (shoppingCart == null){
+        Optional<ShoppingCart> cartLookup = shoppingCartRepository.findById(cartId);
+        if (cartLookup != null){
+            shoppingCart = cartLookup.get();
+        } else {
             return "Shopping cart does not exist";
         }
 
@@ -147,15 +127,14 @@ public class ShoppingCartService {
     }
 
 /**
- * Calculates the total price of a users shopping cart.
+ * Calculates the total price.
  *
- * @param userId Id of the user
+ * @param shoppingCart the shopping cart
  * @return the calculated total price
  */
-    public float calcPrice(Long userId){
+    public float calcPrice(ShoppingCart shoppingCart){
         // Calculates the total price of the shopping cart
         // This should probably be a private function as it should be called during the checkout process
-        ShoppingCart shoppingCart = getCart(userId);
         float calcTotal = shoppingCart.getGames().stream()
             .map(VideoGame::getPrice)
             .reduce(0.0f, (sum, price) -> sum + price);
@@ -165,14 +144,17 @@ public class ShoppingCartService {
 /**
  * Calculates the total price.
  *
- * @param userId the user id
+ * @param cartId the shopping cart id
  * @return the calculated total price or an error message
  */
-    public String calcTotalPrice(Long userId){
+    public String calcTotalPrice(Long cartId){
         // Calculates the total price of the shopping cart
 
-        ShoppingCart shoppingCart = getCart(userId);
-        if (shoppingCart == null){
+        ShoppingCart shoppingCart;
+        Optional<ShoppingCart> cartLookup = shoppingCartRepository.findById(cartId);
+        if (cartLookup != null){
+            shoppingCart = cartLookup.get();
+        } else {
             return "Shopping cart does not exist";
         }
 
@@ -182,16 +164,16 @@ public class ShoppingCartService {
 /**
  * Completes the checkout process.
  *
- * @param userId the user id
+ * @param cartId the shopping cart id
  * @param destinationAccountId the destination account id
  * @param paymentObject the filled in payment object to be processed
  * @return the operation result
  */
-    public String checkout(Long userId, Long destinationAccountId, Payment paymentObject){
+    public String checkout(Long cartId, Long destinationAccountId, Payment paymentObject){
         // Returns a boolean based on if the checkout process was a success
 
         UserProfile destinationAccount;
-        ShoppingCart shoppingCart = getCart(userId);
+        ShoppingCart shoppingCart;
         PaymentResponse paymentSuccessful;
 
         Optional<UserProfile> accountLookup = userProfileRepository.findById(destinationAccountId);
@@ -199,6 +181,12 @@ public class ShoppingCartService {
             return "Account does not exist";
         }
         destinationAccount = accountLookup.get();
+
+        Optional<ShoppingCart> cartLookup = shoppingCartRepository.findById(cartId);
+        if (cartLookup.isEmpty()) {
+            return "Shopping cart does not exist";
+        }
+        shoppingCart = cartLookup.get();
 
         // Test to make sure none of the games in the shopping cart are already in the destination account
         // TODO: this was using the game list in the user profile rather than the gamelibrary entity
@@ -213,7 +201,7 @@ public class ShoppingCartService {
 
         // All checks passed so we can continue with the order
         // Get final price
-        float cartTotal = calcPrice(userId);
+        float cartTotal = calcPrice(shoppingCart);
         shoppingCart.setPrice(cartTotal);
 
         // Process payment for the total amount

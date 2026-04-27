@@ -2,29 +2,15 @@ const BASE_URL = "http://localhost:8080/api";
 
 // Helper to get token from localStorage
 const getToken = () => localStorage.getItem("token") || "";
-const getId = () => localStorage.getItem("userId") || "";
 
 /**
  * Shopping Cart API Client for Gaming Platform
  */
 
-// get all games in shopping cart
-export async function getGames() {
-    const token = getToken();
-    const response = await fetch(`${BASE_URL}/shopping-cart`, {
-        method: 'GET',
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        },
-    });
-    return response.json();
-}
-
 // Add game to shopping cart
-export async function addGameToCart(gameId) {
+export async function addGameToCart(cartId, gameId) {
     const token = getToken();
-    const response = await fetch(`${BASE_URL}/shopping-cart/game/${gameId}`, {
+    const response = await fetch(`${BASE_URL}/shopping-cart/game/${cartId}/${gameId}`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -35,9 +21,9 @@ export async function addGameToCart(gameId) {
 }
 
 // Remove game from shopping cart
-export async function removeGameFromCart(gameId) {
+export async function removeGameFromCart(cartId, gameId) {
     const token = getToken();
-    const response = await fetch(`${BASE_URL}/shopping-cart/game/${gameId}`, {
+    const response = await fetch(`${BASE_URL}/shopping-cart/game/${cartId}/${gameId}`, {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -48,9 +34,9 @@ export async function removeGameFromCart(gameId) {
 }
 
 // Get total price for shopping cart
-export async function getCartTotal() {
+export async function getCartTotal(cartId) {
     const token = getToken();
-    const response = await fetch(`${BASE_URL}/shopping-cart/total`, {
+    const response = await fetch(`${BASE_URL}/shopping-cart/total/${cartId}`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -60,12 +46,10 @@ export async function getCartTotal() {
     return response.json();
 }
 
-// TODO: API supports gifting bt specifying a different account, but the UI is not able to handle this use case yet
 // Credit card checkout
-export async function checkoutWithCreditCard(paymentObject) {
+export async function checkoutWithCreditCard(cartId, destinationAccountId, paymentObject) {
     const token = getToken();
-    const userId = getId();
-    const response = await fetch(`${BASE_URL}/shopping-cart/checkout/creditcard/${userId}`, {
+    const response = await fetch(`${BASE_URL}/shopping-cart/checkout/creditcard/${cartId}/${destinationAccountId}`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -77,10 +61,9 @@ export async function checkoutWithCreditCard(paymentObject) {
 }
 
 // Debit card checkout
-export async function checkoutWithDebitCard(paymentObject) {
+export async function checkoutWithDebitCard(cartId, destinationAccountId, paymentObject) {
     const token = getToken();
-    const userId = getId();
-    const response = await fetch(`${BASE_URL}/shopping-cart/checkout/debitcard/${userId}`, {
+    const response = await fetch(`${BASE_URL}/shopping-cart/checkout/debitcard/${cartId}/${destinationAccountId}`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -92,10 +75,9 @@ export async function checkoutWithDebitCard(paymentObject) {
 }
 
 // Gift card checkout
-export async function checkoutWithGiftCard(paymentObject) {
+export async function checkoutWithGiftCard(cartId, destinationAccountId, paymentObject) {
     const token = getToken();
-    const userId = getId();
-    const response = await fetch(`${BASE_URL}/shopping-cart/checkout/giftcard/${userId}`, {
+    const response = await fetch(`${BASE_URL}/shopping-cart/checkout/giftcard/${cartId}/${destinationAccountId}`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${token}`,

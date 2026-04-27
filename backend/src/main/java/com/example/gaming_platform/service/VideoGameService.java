@@ -1,14 +1,11 @@
 package com.example.gaming_platform.service;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.gaming_platform.entity.Category;
 import com.example.gaming_platform.entity.Device;
@@ -18,7 +15,6 @@ import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.repository.GameLibraryRepository;
 import com.example.gaming_platform.repository.UserProfileRepository;
 import com.example.gaming_platform.repository.VideoGameRepository;
-
 
 /**
  * Service for video game business operations.
@@ -258,38 +254,6 @@ public class VideoGameService {
         }
 
         return Files.readAllBytes(Paths.get("src/main/resources/public/"+fileName));
-    }
-
-/**
- * Adds a new file to the video game.
- *
- * @param gameId the game ID
- * @param uploadedFile the uploaded file (not String)
- * @return the updated result
- */
-    public void addFile(Long gameId, MultipartFile uploadedFile) throws Exception{
-        VideoGame videoGame = getGame(gameId);
-
-        // Extract filename from the File object for storage in list
-        String fileName = uploadedFile.getOriginalFilename();
-
-        List<String> files = videoGame.getFiles();
-        if (files == null) {
-            files = new ArrayList<>();
-        }
-
-        // Save file to disk at public directory
-        java.nio.file.Path path = Paths.get("src/main/resources/public/" + fileName);
-
-        // Copy uploaded file to the target location
-        try (InputStream inputStream = uploadedFile.getInputStream()) {
-            Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-        }
-
-        // Add filename to the list of available files
-        files.add(fileName);
-        videoGame.setFiles(files);
-        videoGameRepository.save(videoGame);
     }
 }
 

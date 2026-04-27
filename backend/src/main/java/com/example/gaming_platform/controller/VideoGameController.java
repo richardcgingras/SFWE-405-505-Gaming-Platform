@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.repository.VideoGameRepository;
@@ -97,17 +96,4 @@ public class VideoGameController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    @PostMapping(path="/upload/{id}", consumes = "multipart/form-data")
-    public ResponseEntity<String> uploadFile(HttpServletRequest request, @PathVariable Long id, MultipartFile file){
-        System.out.println("Saving file " + file.getName() + " to game id " + id);
-        try {
-            videoGameService.addFile(id, file);
-            return ResponseEntity.status(HttpStatus.CREATED).body("success");
-        } catch (Exception e) {
-            // Catch exceptions thrown by addFile and return appropriate response
-            return ResponseEntity.badRequest().body("Error uploading file");
-        }
-    }
-
 }
