@@ -3,6 +3,7 @@ package com.example.gaming_platform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -10,7 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -38,7 +39,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -65,7 +66,24 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    /**
+     * Dedicated security chain for the H2 console.
+     * Higher priority (@Order(1)) so it matches before the main chain.
+     * Disables CSRF, frame options, and requires no authentication.
+     */
     @Bean
+    @Order(1)
+    public SecurityFilterChain h2ConsoleFilterChain(HttpSecurity http) throws Exception {
+        http
+            .securityMatcher("/h2-console/**")
+            .csrf(csrf -> csrf.disable())
+            .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+            .authorizeHttpRequests(authz -> authz.anyRequest().permitAll());
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http, DaoAuthenticationProvider authenticationProvider) throws Exception {
         http
             .authenticationProvider(authenticationProvider)
@@ -76,6 +94,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/user-profiles").permitAll()
+                .requestMatchers("/api/user-profiles/reset-password").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/error/**").permitAll()
                 .requestMatchers("/ws/**").permitAll() 

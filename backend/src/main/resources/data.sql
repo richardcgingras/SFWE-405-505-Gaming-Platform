@@ -13,9 +13,10 @@ INSERT INTO developer(id, email, username) VALUES(101, 'topcom@', 'topcom'),
                                                 (102, 'pullybox@', 'pullybox');
 
 -- User Profiles
-INSERT INTO user_profile(id, email, password, user_name, status, bio) VALUES(101, 'johna@', 'password', 'johna', 'Online', 'The Best Gamer'),
-                                                                            (102, 'georgy@', 'admin', 'georgy', 'Offline', 'Best Gamer that ever lived'),
-                                                                            (103, 'sammyt@', 'empty', 'sammyt', 'away', 'Here to spend money');
+-- Created fake encryptions for these accounts passwords
+INSERT INTO user_profile(id, email, password, user_name, status, bio) VALUES(101, 'johna@', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'johna', 'Online', 'The Best Gamer'),
+                                                                            (102, 'georgy@', '$2a$10$c9BEeJOwLETCZ05TwkiUouClxCrHkl.F1XYYz0LOi0k3RYHOPnpWS', 'georgy', 'Offline', 'Best Gamer that ever lived'),
+                                                                            (103, 'sammyt@', '$2a$10$Ot7G5.5k6VJWoMPpj5R2tO6.07NOJ3L.SNOiXjKT5wJLGqWJ3dOsC', 'sammyt', 'away', 'Here to spend money');
 
 -- User Profiles Preferred Categories
 INSERT INTO user_profile_category(user_profile_id, category_id) VALUES(101, 102);
