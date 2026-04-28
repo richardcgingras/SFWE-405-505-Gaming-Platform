@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllVideoGames } from "../../services/VideoGame.js";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 import "./Store.css";
 
 export default function Store() {
@@ -54,27 +55,7 @@ export default function Store() {
     <div className="page">
       <div className="bg-glow" />
 
-      <nav className="nav">
-        <div className="nav-logo">
-          <Link to="/">
-            <span className="logo-icon"></span>
-            <span className="logo-text">good<span>Gamers</span></span>
-          </Link>
-        </div>
-
-        <ul className="nav-links">
-          <li><Link to="/store">Store</Link></li>
-          <li><Link to="/games">Games</Link></li>
-          <li><Link to="/library">Library</Link></li>
-          <li><Link to="/community">Community</Link></li>
-        </ul>
-
-        <div className="nav-actions">
-          <button className="btn btn-ghost" onClick={() => navigate("/")}>
-            Home
-          </button>
-        </div>
-      </nav>
+      <Navbar />
 
       <main className="main">
         <section className="section">

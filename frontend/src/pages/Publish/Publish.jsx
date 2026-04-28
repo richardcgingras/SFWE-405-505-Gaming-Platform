@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { createVideoGame } from "../../services/VideoGame.js";
 import { addGameToDeveloper } from "../../services/Developer.js";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 
 export default function Publish() {
     const [devId, setDevId] = useState([]);
@@ -105,22 +106,7 @@ export default function Publish() {
     return (
         <div className="page" style={{ minHeight: '100vh', color: '#e8edf5', fontFamily: 'Barlow, sans-serif', backgroundImage: 'radial-gradient(circle at top left, rgba(21, 101, 192, 0.4), transparent)' }}>
             <div className="bg-glow" />
-                <nav className="nav">
-                    <div className="nav-logo">
-                    <Link to="/">
-                        <span className="logo-icon"></span>
-                        <span className="logo-text">good<span>Gamers</span></span>
-                    </Link>
-                    </div>
-                    <ul className="nav-links">
-                    <li><a href="/store">Store</a></li>
-                    <li><a href="/library">Library</a></li>
-                    <li><Link to="/community">Community</Link></li>
-                    <li><a href="/news">News</a></li>
-                    </ul>
-                    <div className="nav-actions">
-                    </div>
-                </nav>
+                <Navbar />
 
             <section className="hero" style={{ position: 'relative', zIndex: 1, padding: '40px 60px 20px', width: '100%' }}>
                 <div className="hero-content">

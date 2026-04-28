@@ -1,29 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { removeGameFromCart, getGames } from "../../services/ShoppingCart.js";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 import "./Cart.css";
-
-// Add authentication context or use localStorage for auth state
-const isAuthenticated = !!localStorage.getItem("token"); // Example check
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const userMenu = (
-    <>
-      <div className="nav-avatar"></div>
-      <Link to="/cart" className="btn btn-ghost">
-        Cart
-      </Link>
-      <Link to="/list" className="btn btn-ghost">
-        Wish List
-      </Link>
-      <Link to="/account" className="btn btn-red">
-        Account
-      </Link>
-    </>
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const navigate = useNavigate();
+  const username = localStorage.getItem("username") || "";
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
 
   const fetchCartContents = async () => {
     try {
@@ -93,42 +87,7 @@ export default function Cart() {
     <div className="page">
       <div className="bg-glow" />
 
-      <nav className="nav">
-        <div className="nav-logo">
-          <span className="logo-icon"></span>
-          <span className="logo-text">
-            good<span>Gamers</span>
-          </span>
-        </div>
-        <ul className="nav-links">
-          <li>
-            <a href="#">Store</a>
-          </li>
-          <li>
-            <a href="Library">Library</a>
-          </li>
-          <li>
-            <Link to="/community">Community</Link>
-          </li>
-          <li>
-            <a href="#">News</a>
-          </li>
-        </ul>
-        <div className="nav-actions">
-          {!isAuthenticated ? (
-            <>
-              <Link to="/login" className="btn btn-ghost">
-                Log In
-              </Link>
-              <Link to="/signup" className="btn btn-red">
-                Sign Up
-              </Link>
-            </>
-          ) : (
-            userMenu
-          )}
-        </div>
-      </nav>
+      <Navbar />
       <div className="cart-container">
         <h2>
           Shopping Cart ({totalGames} {totalGames === 1 ? "game" : "games"})

@@ -31,8 +31,13 @@ export default function Login() {
       <div className="bg-glow" />
       <nav className="nav">
         <div className="nav-logo">
-          <span className="logo-icon"></span>
-          <span className="logo-text">good<span>Gamers</span></span>
+          <a href="/">
+            <span className="logo-icon"></span>
+            <span className="logo-text">good<span>Gamers</span></span>
+          </a>
+        </div>
+        <div className="nav-actions">
+          <a href="/signup" className="btn btn-red">Sign Up</a>
         </div>
       </nav>
       <div className="auth-container">

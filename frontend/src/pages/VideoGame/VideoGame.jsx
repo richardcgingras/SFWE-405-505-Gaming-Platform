@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 import "./VideoGame.css";
 
 export default function VideoGames() {
@@ -53,31 +54,7 @@ export default function VideoGames() {
             <div className="bg-glow"></div>
 
             {/* NAV */}
-            <nav className="nav">
-                <div className="nav-logo">
-                    <span className="logo-icon">🎮</span>
-                    <span className="logo-text">
-            GOOD<span>GAMERS</span>
-          </span>
-                </div>
-
-                <ul className="nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/games">Games</a></li>
-                </ul>
-
-                <div className="nav-actions">
-                    <button
-                        className="btn btn-ghost"
-                        onClick={() => {
-                            localStorage.removeItem("token");
-                            navigate("/login");
-                        }}
-                    >
-                        Logout
-                    </button>
-                </div>
-            </nav>
+            <Navbar />
 
             {/* MAIN */}
             <main className="main">

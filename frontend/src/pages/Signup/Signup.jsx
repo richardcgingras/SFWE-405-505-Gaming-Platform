@@ -5,7 +5,6 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
 
@@ -16,9 +15,7 @@ export default function Signup() {
 
     const response = await fetch("/api/user-profiles", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         userName: username,
         email,
@@ -33,7 +30,6 @@ export default function Signup() {
       setUsername("");
       setEmail("");
       setPassword("");
-      setConfirmPassword("");
       return;
     }
 
@@ -47,14 +43,20 @@ export default function Signup() {
     setMessage(body || "Unable to create account. Please try again.");
     setIsError(true);
   };
+
   return (
     <div className="page">
       <div className="bg-glow" />
 
       <nav className="nav">
         <div className="nav-logo">
-          <span className="logo-icon"></span>
-          <span className="logo-text">good<span>Gamers</span></span>
+          <a href="/">
+            <span className="logo-icon"></span>
+            <span className="logo-text">good<span>Gamers</span></span>
+          </a>
+        </div>
+        <div className="nav-actions">
+          <a href="/login" className="btn btn-ghost">Log In</a>
         </div>
       </nav>
 
@@ -63,13 +65,13 @@ export default function Signup() {
           <h2 className="auth-title">Create Account</h2>
           <p className="auth-sub">Join millions of players on goodGamers</p>
 
-          <div className="auth-form">
+          <form className="auth-form" onSubmit={handleSubmit}>
             {message && (
               <div className={`auth-message ${isError ? "error" : "success"}`}>
                 {message}
               </div>
             )}
-            <form onSubmit={handleSubmit}>
+
             <div className="form-group">
               <label className="form-label">Username</label>
               <input
@@ -78,8 +80,10 @@ export default function Signup() {
                 placeholder="YourGamerTag"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </div>
+
             <div className="form-group">
               <label className="form-label">Email</label>
               <input
@@ -88,8 +92,10 @@ export default function Signup() {
                 placeholder="you@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
+
             <div className="form-group">
               <label className="form-label">Password</label>
               <input
@@ -98,24 +104,18 @@ export default function Signup() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
-            <div className="form-group">
-              <label className="form-label">Confirm Password</label>
-              <input
-                className="form-input"
-                type="password"
-                placeholder="••••••••"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-            <button className="btn btn-red btn-full" type="submit">Create Account</button>
-            </form>
+
+            <button className="btn btn-red btn-full" type="submit">
+              Create Account
+            </button>
+
             <p className="auth-switch">
               Already have an account? <a href="/login">Log In</a>
             </p>
-          </div>
+          </form>
         </div>
       </div>
     </div>

@@ -2,30 +2,23 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getVideoGameById, getFile } from "../../services/VideoGame.js";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 import "./Download.css";
-
-// Add authentication context or use localStorage for auth state
-const isAuthenticated = !!localStorage.getItem("token"); // Example check
 
 export default function Download() {
   const [game, setGame] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const navigate = useNavigate();
-  const userMenu = (
-    <>
-      <div className="nav-avatar"></div>
-      <Link to="/cart" className="btn btn-ghost">
-        Cart
-      </Link>
-      <Link to="/list" className="btn btn-ghost">
-        Wish List
-      </Link>
-      <Link to="/account" className="btn btn-red">
-        Account
-      </Link>
-    </>
-  );
+  const username = localStorage.getItem("username") || "";
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -110,42 +103,7 @@ export default function Download() {
     <div className="page">
       <div className="bg-glow" />
 
-      <nav className="nav">
-        <div className="nav-logo">
-          <span className="logo-icon"></span>
-          <span className="logo-text">
-            good<span>Gamers</span>
-          </span>
-        </div>
-        <ul className="nav-links">
-          <li>
-            <a href="#">Store</a>
-          </li>
-          <li>
-            <a href="Library">Library</a>
-          </li>
-          <li>
-            <Link to="/community">Community</Link>
-          </li>
-          <li>
-            <a href="#">News</a>
-          </li>
-        </ul>
-        <div className="nav-actions">
-          {!isAuthenticated ? (
-            <>
-              <Link to="/login" className="btn btn-ghost">
-                Log In
-              </Link>
-              <Link to="/signup" className="btn btn-red">
-                Sign Up
-              </Link>
-            </>
-          ) : (
-            userMenu
-          )}
-        </div>
-      </nav>
+      <Navbar />
       <div className="download-page">
         <h1>Download Files - {game.name}</h1>
 

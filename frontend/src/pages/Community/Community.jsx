@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 import "./Community.css";
 
 function base64UrlDecodeJson(input) {
@@ -188,38 +189,7 @@ export default function Community() {
     <div className="page">
       <div className="bg-glow" />
 
-      <nav className="nav">
-        <div className="nav-logo">
-          <span className="logo-icon"></span>
-          <span className="logo-text">
-            good<span>Gamers</span>
-          </span>
-        </div>
-
-        <ul className="nav-links">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/games">Games</Link>
-          </li>
-          <li>
-            <Link to="/community">Community</Link>
-          </li>
-        </ul>
-
-        <div className="nav-actions">
-          <button
-            className="btn btn-ghost"
-            onClick={() => {
-              localStorage.removeItem("token");
-              navigate("/login");
-            }}
-          >
-            Logout
-          </button>
-        </div>
-      </nav>
+      <Navbar />
 
       <main className="main">
         <section className="section">

@@ -3,6 +3,7 @@ import "./Upload.css";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { uploadFile, getVideoGameById } from "../../services/VideoGame.js";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 
 
 export default function Upload(){
@@ -88,22 +89,7 @@ export default function Upload(){
     return (
         <div className="page" style={{ minHeight: '100vh', color: '#e8edf5', fontFamily: 'Barlow, sans-serif' }}>
             <div className="bg-glow" />
-            <nav className="nav">
-                    <div className="nav-logo">
-                    <Link to="/">
-                        <span className="logo-icon"></span>
-                        <span className="logo-text">good<span>Gamers</span></span>
-                    </Link>
-                    </div>
-                    <ul className="nav-links">
-                    <li><a href="/store">Store</a></li>
-                    <li><a href="/library">Library</a></li>
-                    <li><Link to="/community">Community</Link></li>
-                    <li><a href="/news">News</a></li>
-                    </ul>
-                    <div className="nav-actions">
-                    </div>
-                </nav>
+            <Navbar />
 
             <section className="hero">
                 <div className="hero-content">

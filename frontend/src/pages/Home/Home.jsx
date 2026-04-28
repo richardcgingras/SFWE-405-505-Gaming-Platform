@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getAllVideoGames } from "../../services/VideoGame.js";
+import Navbar from "../../components/Navbar/Navbar.jsx";
 import "./App.css";
 
 const getToken = () => localStorage.getItem("token") || "";
@@ -54,38 +55,7 @@ export default function Home() {
   return (
     <div className="page">
       <div className="bg-glow" />
-      <nav className="nav">
-        <div className="nav-logo">
-          <Link to="/">
-            <span className="logo-icon"></span>
-            <span className="logo-text">good<span>Gamers</span></span>
-          </Link>
-        </div>
-        <ul className="nav-links">
-          <li><Link to="/store">Store</Link></li>
-          <li><a href="/library">Library</a></li>
-          <li><Link to="/community">Community</Link></li>
-          <li><a href="/news">News</a></li>
-        </ul>
-        <div className="nav-actions">
-          {user ? (
-            <div className="nav-user">
-              <div className="nav-avatar">
-                {user.username?.[0]?.toUpperCase()}
-              </div>
-              <span className="nav-username">{user.username}</span>
-              <button className="btn btn-ghost" onClick={handleLogout}>
-                Log Out
-              </button>
-            </div>
-          ) : (
-            <>
-              <Link to="/login" className="btn btn-ghost">Log In</Link>
-              <Link to="/signup" className="btn btn-red">Sign Up</Link>
-            </>
-          )}
-        </div>
-      </nav>
+      <Navbar />
 
       <section className="hero">
         <div className="hero-content">
