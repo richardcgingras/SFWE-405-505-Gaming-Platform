@@ -3,6 +3,10 @@ SFWE 405/505 Semester Project
 
 This project is a Spring Boot backend for a gaming platform. It provides APIs for managing users, video games, developers, wishlists, chat messaging, and more. Authentication is implemented using JWT.
 
+## Prerequisites
+- Java 21 installed
+- Maven (or use ./mvnw)
+
 ## Tech Stack
 - Java 21
 - Spring Boot
@@ -12,8 +16,9 @@ This project is a Spring Boot backend for a gaming platform. It provides APIs fo
 - Maven
 
 ## Running the Backend
-From the `backend` directory: ./mvnw -f backend/pom.xml spring-boot:run
+From the `backend` directory: ./mvnw spring-boot:run
 Backend runs at: http://localhost:8080
+Base API URL: http://localhost:8080/api
 
 ## Database
 Uses an H2 in-memory database

@@ -62,7 +62,7 @@ export default function Home() {
           </Link>
         </div>
         <ul className="nav-links">
-          <li><a href="/store">Store</a></li>
+          <li><Link to="/store">Store</Link></li>
           <li><a href="/library">Library</a></li>
           <li><Link to="/community">Community</Link></li>
           <li><a href="/news">News</a></li>
@@ -99,7 +99,9 @@ export default function Home() {
             across thousands of worlds.
           </p>
           <div className="hero-cta">
-            <button className="btn btn-red">Browse Store →</button>
+            <button className="btn btn-red" onClick={() => navigate("/store")}>
+              Browse Store →
+            </button>
             <button className="btn btn-ghost">Watch Trailer ▶</button>
           </div>
         </div>
