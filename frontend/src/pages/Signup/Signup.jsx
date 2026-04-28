@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./Signup.css";
 
 // ── mirrors backend PasswordValidator regex ──────────────────────────────────
 const rules = [
@@ -101,10 +100,11 @@ export default function Signup() {
         </div>
       </nav>
 
-      <div className="auth-container">
-        <div className="auth-box">
-          <h2 className="auth-title">Create Account</h2>
-          <p className="auth-sub">Join millions of players on goodGamers</p>
+  return (
+    <div className="auth-container">
+      <div className="auth-box">
+        <h2 className="auth-title">Create Account</h2>
+        <p className="auth-sub">Join millions of players on goodGamers</p>
 
           <div className="auth-form">
             {message && (

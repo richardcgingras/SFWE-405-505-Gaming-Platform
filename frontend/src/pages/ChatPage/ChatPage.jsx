@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ChatList from "../ChatList/ChatList.jsx";
 
-
 const CURRENT_USER = { id: "user_alice", username: "Alice" };
 
 const MOCK_USERS = [
@@ -13,7 +12,7 @@ export default function ChatPage() {
   const [selectedUser, setSelectedUser] = useState(null);
 
   return (
-    <div style={{ display: "flex", height: "100vh", background: "#0f0f23" }}>
+    <div style={{ display: "flex", height: "calc(100vh - var(--nav-height) - 89px)", background: "var(--blue-deeper)" }}>
       <ChatList
         currentUserId={CURRENT_USER.id}
         users={MOCK_USERS}
@@ -22,13 +21,9 @@ export default function ChatPage() {
       />
       <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
         {selectedUser ? (
-          <ChatWindow
-            currentUserId={CURRENT_USER.id}
-            recipient={selectedUser}
-            onClose={() => setSelectedUser(null)}
-          />
+          <div>Chat with {selectedUser.username} (Window TBD)</div>
         ) : (
-          <p style={{ color: "#555", fontFamily: "sans-serif" }}>
+          <p className="hero-sub">
             Select a player to start chatting
           </p>
         )}

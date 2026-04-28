@@ -19,6 +19,8 @@
   --font-display: 'Barlow Condensed', sans-serif;
   --font-ui: 'Rajdhani', sans-serif;
   --font-body: 'Barlow', sans-serif;
+  --nav-height: 64px;
+  --footer-padding: 24px;
 }
 
 /* ══ RESET ══ */
@@ -26,12 +28,18 @@
 
 /* ══ PAGE ══ */
 .page {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   width: 100%;
   background-color: var(--blue-deeper);
   color: var(--text-primary);
   font-family: var(--font-body);
   position: relative;
+}
+
+.main-content {
+  flex: 1;
 }
 
 /* ══ BACKGROUND GLOW ══ */
@@ -66,12 +74,12 @@
 .nav {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  height: 64px;
+  height: var(--nav-height);
   background: rgba(4, 9, 26, 0.85);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--blue-border);

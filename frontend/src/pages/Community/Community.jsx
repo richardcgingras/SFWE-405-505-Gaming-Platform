@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./Community.css";
+import { useNavigate } from "react-router-dom";
 
 function base64UrlDecodeJson(input) {
   const normalized = input.replace(/-/g, "+").replace(/_/g, "/");
@@ -127,7 +126,6 @@ export default function Community() {
 
     setAddBusy(true);
     try {
-      // 1) Lookup friend by email (backend already supports this)
       const lookupRes = await fetch(`/api/user-profiles/email/${encodeURIComponent(email)}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -159,7 +157,6 @@ export default function Community() {
         return;
       }
 
-      // 2) Add friend by id (endpoint we patched)
       const addRes = await fetch(`/api/user-profiles/${userId}/friends/${friendId}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
@@ -185,116 +182,85 @@ export default function Community() {
   };
 
   return (
-    <div className="page">
-      <div className="bg-glow" />
-
-      <nav className="nav">
-        <div className="nav-logo">
-          <span className="logo-icon"></span>
-          <span className="logo-text">
-            good<span>Gamers</span>
-          </span>
-        </div>
-
-        <ul className="nav-links">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/games">Games</Link>
-          </li>
-          <li>
-            <Link to="/community">Community</Link>
-          </li>
-        </ul>
-
-        <div className="nav-actions">
-          <button
-            className="btn btn-ghost"
-            onClick={() => {
-              localStorage.removeItem("token");
-              navigate("/login");
-            }}
-          >
-            Logout
-          </button>
-        </div>
-      </nav>
-
-      <main className="main">
-        <section className="section">
-          <div className="community-header">
-            <div>
-              <h2 className="section-title">Friends</h2>
-              <div className="community-sub">
-                {profile?.userName ? `Signed in as ${profile.userName}` : "Your friends list and presence"}
-              </div>
+    <main className="main" style={{ paddingTop: '40px' }}>
+      <section className="section">
+        <div className="community-header" style={{ marginBottom: '30px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+          <div>
+            <h2 className="section-title">Community</h2>
+            <div className="hero-sub" style={{ marginBottom: 0 }}>
+              {profile?.userName ? `Welcome, ${profile.userName}` : "Your friends list and presence"}
             </div>
-            <div className="community-count">{friends.length} Friends</div>
           </div>
+          <div className="stat-val" style={{ fontSize: '1.2rem' }}>{friends.length} Friends</div>
+        </div>
 
-          {!loading && !error && (
-            <div className="add-friend-card">
-              <div className="add-friend-title">Add Friend</div>
-              <form className="add-friend-form" onSubmit={handleAddFriend}>
-                <input
-                  className="add-friend-input"
-                  type="email"
-                  placeholder="friend@email.com"
-                  value={addEmail}
-                  onChange={(ev) => setAddEmail(ev.target.value)}
-                  disabled={addBusy}
-                />
-                <button className="btn btn-red" type="submit" disabled={addBusy}>
-                  {addBusy ? "Adding..." : "Add"}
-                </button>
-              </form>
-              {addMessage && <div className="add-friend-message">{addMessage}</div>}
-            </div>
-          )}
+        {!loading && !error && (
+          <div className="game-card" style={{ padding: '24px', marginBottom: '40px' }}>
+            <h3 className="game-card-title" style={{ marginBottom: '16px' }}>Add New Friend</h3>
+            <form onSubmit={handleAddFriend} style={{ display: 'flex', gap: '12px' }}>
+              <input
+                className="form-input"
+                type="email"
+                placeholder="friend@email.com"
+                style={{ flex: 1 }}
+                value={addEmail}
+                onChange={(ev) => setAddEmail(ev.target.value)}
+                disabled={addBusy}
+              />
+              <button className="btn btn-red" type="submit" disabled={addBusy}>
+                {addBusy ? "Adding..." : "Add Friend"}
+              </button>
+            </form>
+            {addMessage && <div style={{ marginTop: '12px', fontSize: '0.9rem', color: addMessage.includes('added') ? 'var(--blue)' : 'var(--red)' }}>{addMessage}</div>}
+          </div>
+        )}
 
-          {loading && <div className="community-state">LOADING...</div>}
-          {!loading && error && (
-            <div className="community-state error">
-              {error}
-              <div className="community-hint">
-                If this fails with a JSON recursion error, we’ll need to adjust backend serialization for the self-referencing
-                `friends` relationship.
-              </div>
-            </div>
-          )}
-          {!loading && !error && friends.length === 0 && (
-            <div className="community-state">No friends yet. Add some friends to see their status here.</div>
-          )}
+        {loading && <div className="section-status">LOADING...</div>}
+        {!loading && error && (
+          <div className="section-status error">
+            {error}
+          </div>
+        )}
+        {!loading && !error && friends.length === 0 && (
+          <div className="hero-sub">No friends yet. Add some friends to see their status here.</div>
+        )}
 
-          {!loading && !error && friends.length > 0 && (
-            <div className="friends-grid">
-              {friends.map((f) => {
-                const { label, tone } = normalizeStatus(f?.status);
-                return (
-                  <div key={f?.id ?? `${f?.userName}-${label}`} className="friend-card">
-                    <div className="friend-main">
-                      <div className="friend-avatar">
-                        <span>{String(f?.userName || "?").slice(0, 1).toUpperCase()}</span>
+        {!loading && !error && friends.length > 0 && (
+          <div className="games-grid">
+            {friends.map((f) => {
+              const { label, tone } = normalizeStatus(f?.status);
+              return (
+                <div key={f?.id ?? `${f?.userName}-${label}`} className="game-card">
+                  <div className="game-card-info" style={{ alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                      <div className="nav-avatar" style={{ width: '40px', height: '40px' }}>
+                        {String(f?.userName || "?").slice(0, 1).toUpperCase()}
                       </div>
-                      <div className="friend-meta">
-                        <div className="friend-name">{f?.userName || "Unknown user"}</div>
-                        <div className="friend-email">{f?.email || ""}</div>
+                      <div>
+                        <div className="game-card-title">{f?.userName || "Unknown user"}</div>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{f?.email || ""}</div>
                       </div>
                     </div>
-                    <div className={`status-pill ${tone}`}>{label}</div>
+                    <div style={{ 
+                      padding: '4px 12px', 
+                      borderRadius: '100px', 
+                      fontSize: '0.75rem', 
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      background: tone === 'online' ? 'rgba(0, 255, 127, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+                      color: tone === 'online' ? '#00ff7f' : 'var(--text-muted)',
+                      border: `1px solid ${tone === 'online' ? 'rgba(0, 255, 127, 0.2)' : 'rgba(255, 255, 255, 0.1)'}`
+                    }}>
+                      {label}
+                    </div>
                   </div>
-                );
-              })}
-            </div>
-          )}
-        </section>
-      </main>
-
-      <footer className="footer">
-        <div className="footer-logo">goodGamers</div>
-        <div className="footer-copy">© 2026 Gaming Platform</div>
-      </footer>
-    </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+    </main>
   );
 }
