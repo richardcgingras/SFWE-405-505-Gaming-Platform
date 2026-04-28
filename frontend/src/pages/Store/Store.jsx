@@ -61,7 +61,12 @@ export default function Store() {
             </p>
           </div>
 
-         
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div className="store-actions" style={{ display: 'flex', gap: '8px' }}>
+              <Link to="/cart" className="btn btn-ghost">Cart</Link>
+              <Link to="/list" className="btn btn-ghost">Wishlist</Link>
+            </div>
             <input
               type="text"
               placeholder="Search store..."
@@ -71,7 +76,7 @@ export default function Store() {
             />
           </div>
    
-
+          </div>
         {loading && <div className="store-loading">LOADING STORE...</div>}
 
         {!loading && message && (

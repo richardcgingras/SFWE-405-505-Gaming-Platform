@@ -48,15 +48,15 @@ const Navbar = () => {
       </ul>
       <div className="nav-actions">
         {user ? (
-          <div className="nav-user">
-            <div className="nav-avatar">
-              {user.username?.[0]?.toUpperCase()}
-            </div>
-            <span className="nav-username">{user.username}</span>
+            <div className="nav-user">
+              <div className="nav-avatar">
+                {user.username?.[0]?.toUpperCase()}
+              </div>
+              <span className="nav-username">{user.username}</span>
             <button className="btn btn-ghost" onClick={handleLogout}>
-              Log Out
-            </button>
-          </div>
+                Log Out
+              </button>
+            </div>
         ) : (
           <>
             <Link to="/login" className="btn btn-ghost">Log In</Link>
