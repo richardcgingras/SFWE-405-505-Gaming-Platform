@@ -48,25 +48,15 @@ const Navbar = () => {
       </ul>
       <div className="nav-actions">
         {user ? (
-          <>
-            <div className="nav-user-links" style={{ display: 'flex', gap: '10px', marginRight: '20px' }}>
-              <Link to="/cart" className="btn btn-ghost" style={{ padding: '8px 12px' }}>
-                Cart
-              </Link>
-              <Link to="/list" className="btn btn-ghost" style={{ padding: '8px 12px' }}>
-                 Wishlist
-              </Link>
+          <div className="nav-user">
+            <div className="nav-avatar">
+              {user.username?.[0]?.toUpperCase()}
             </div>
-            <div className="nav-user">
-              <div className="nav-avatar">
-                {user.username?.[0]?.toUpperCase()}
-              </div>
-              <span className="nav-username">{user.username}</span>
-              <button className="btn btn-ghost" onClick={handleLogout} style={{ marginLeft: '10px' }}>
-                Log Out
-              </button>
-            </div>
-          </>
+            <span className="nav-username">{user.username}</span>
+            <button className="btn btn-ghost" onClick={handleLogout}>
+              Log Out
+            </button>
+          </div>
         ) : (
           <>
             <Link to="/login" className="btn btn-ghost">Log In</Link>
