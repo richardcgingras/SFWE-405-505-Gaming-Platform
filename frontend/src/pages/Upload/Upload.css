@@ -1,0 +1,95 @@
+.publish-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    font-family: var(--font-body);
+}
+
+.info-box {
+    background-color: rgba(232,25,44,0.1);
+    border-left: 4px solid var(--red);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+}
+
+.upload-form {
+    background-color: var(--blue-card);
+    border: 1px solid var(--blue-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-family: var(--font-ui);
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgba(255,255,255,0.04);
+    border: 1px solid var(--blue-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    color: var(--text-primary);
+    transition: border-color 0.2s ease;
+}
+
+input[type="file"]:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.15);
+}
+
+button.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    letter-spacing: 0.1em;
+}
+
+button.submit-btn:hover:not(:disabled) {
+    background-color: var(--red-dark);
+    box-shadow: 0 0 20px var(--red-glow);
+}
+
+button.submit-btn:disabled,
+button.submit-btn.loading {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.error-message {
+    background-color: rgba(232,25,44,0.1);
+    color: var(--red);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--red);
+}
+
+.info-box p {
+    margin-bottom: 0.25rem;
+    color: #e8edf5;
+}
+
+.info-box strong {
+    color: #9fb3cc;
+}
+
+.upload-form p {
+    margin: 0.25rem 0;
+    color: #9fb3cc;
+}

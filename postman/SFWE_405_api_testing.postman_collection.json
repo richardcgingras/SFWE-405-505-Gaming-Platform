@@ -194,6 +194,45 @@
               "body": "Bin file 1\n"
             }
           ]
+        },
+        {
+          "name": "Upload file",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "description": "fuck me",
+                  "type": "file",
+                  "uuid": "21fd405d-0676-49e8-ab45-2a462252f7e9",
+                  "src": "/tmp/aFile"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/video-games/upload/{{gameId}}",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "video-games",
+                "upload",
+                "{{gameId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
         }
       ]
     },
@@ -916,14 +955,13 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/game/{{cartId}}/{{gameId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/game/{{gameId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "shopping-cart",
                 "game",
-                "{{cartId}}",
                 "{{gameId}}"
               ]
             }
@@ -936,23 +974,14 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/game?cartId={{cartId}}&gameId={{gameId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/game/{{gameId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "shopping-cart",
-                "game"
-              ],
-              "query": [
-                {
-                  "key": "cartId",
-                  "value": "{{cartId}}"
-                },
-                {
-                  "key": "gameId",
-                  "value": "{{gameId}}"
-                }
+                "game",
+                "{{gameId}}"
               ]
             }
           },
@@ -964,14 +993,30 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/total/{{cartId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/total",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "shopping-cart",
-                "total",
-                "{{cartId}}"
+                "total"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Logged in account cart",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{api}}/shopping-cart",
+              "host": [
+                "{{baseUrl}}{{api}}"
+              ],
+              "path": [
+                "shopping-cart"
               ]
             }
           },
@@ -992,7 +1037,7 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/creditcard/{{cartId}}/{{userId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/creditcard/{{userId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
@@ -1000,7 +1045,6 @@
                 "shopping-cart",
                 "checkout",
                 "creditcard",
-                "{{cartId}}",
                 "{{userId}}"
               ]
             }
@@ -1022,7 +1066,7 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/giftcard/{{cartId}}/{{userId}}",
+              "raw": "{{baseUrl}}{{api}}/shopping-cart/checkout/giftcard/{{userId}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
@@ -1030,7 +1074,6 @@
                 "shopping-cart",
                 "checkout",
                 "giftcard",
-                "{{cartId}}",
                 "{{userId}}"
               ]
             }
