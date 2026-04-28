@@ -65,7 +65,7 @@ export default function Store() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div className="store-actions" style={{ display: 'flex', gap: '8px' }}>
               <Link to="/cart" className="btn btn-ghost">Cart</Link>
-              <Link to="/list" className="btn btn-ghost">Wishlist</Link>
+              <Link to="/wishlist" className="btn btn-ghost">Wishlist</Link>
             </div>
             <input
               type="text"
