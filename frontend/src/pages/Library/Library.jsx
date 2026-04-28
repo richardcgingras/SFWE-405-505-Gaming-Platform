@@ -36,7 +36,8 @@ export default function Library() {
         setLibrary(data || []); // Handle empty response safely
         setError(null);
       } catch (err) {
-        setError(err.message);
+        setLibrary([]);
+        setError(null);
       } finally {
         setLoading(false);
       }
@@ -52,9 +53,6 @@ export default function Library() {
   if (error) {
     return <div className="library-error">Error: {error}</div>;
   }
-
-  console.log(library);
-  console.log("Library Qty: " + library.owner.gameLibrary.length);
 
   return (
     <>
