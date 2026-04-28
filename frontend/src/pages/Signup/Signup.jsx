@@ -1,18 +1,59 @@
 import { useState } from "react";
 import "./Signup.css";
 
+// ── mirrors backend PasswordValidator regex ──────────────────────────────────
+const rules = [
+  {
+    id: "length",
+    label: "8–12 characters",
+    test: (p) => p.length >= 8 && p.length <= 12,
+  },
+  {
+    id: "upper",
+    label: "At least 1 uppercase letter",
+    test: (p) => /[A-Z]/.test(p),
+  },
+  {
+    id: "number",
+    label: "At least 1 number",
+    test: (p) => /\d/.test(p),
+  },
+  {
+    id: "special",
+    label: "At least 1 special character (!@#$%^&* …)",
+    test: (p) => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(p),
+  },
+];
+
+const isPasswordValid = (p) => rules.every((r) => r.test(p));
+
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setMessage("");
     setIsError(false);
 
+    // ── client-side guards ───────────────────────────────────────────────────
+    if (!isPasswordValid(password)) {
+      setMessage("Password does not meet the required criteria.");
+      setIsError(true);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      setIsError(true);
+      return;
+    }
+
+    // ── submit ───────────────────────────────────────────────────────────────
     const response = await fetch("/api/user-profiles", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
