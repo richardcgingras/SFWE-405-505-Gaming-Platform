@@ -132,9 +132,27 @@ export default function VideoGames() {
                                             </div>
                                         </div>
 
-                                        <button className="btn btn-red game-action">
-                                            View
-                                        </button>
+                                        <div className="game-card-actions">
+                                            <button className="btn btn-ghost game-action">
+                                                View
+                                            </button>
+                                            <button
+                                                className="btn btn-red game-action"
+                                                onClick={() => navigate('/checkout', {
+                                                    state: {
+                                                        game: {
+                                                            id: game.id,
+                                                            title: game.name,
+                                                            price: game.price,
+                                                            genre: game.category?.map(c => c.type).join(", "),
+                                                            image: null,
+                                                        }
+                                                    }
+                                                })}
+                                            >
+                                                Buy
+                                            </button>
+                                        </div>
 
                                     </div>
                                 </div>

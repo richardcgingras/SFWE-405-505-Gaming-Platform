@@ -7,6 +7,7 @@ import Library from './pages/Library/Library.jsx'
 import Download from './pages/Download/Download.jsx'
 import VideoGames from './pages/VideoGame/VideoGame.jsx'
 import Community from './pages/Community/Community.jsx'
+import Checkout from './pages/Checkout/Checkout';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
       <Route path="/download" element={<Download />} />
       <Route path="/games" element={<VideoGames />} />
       <Route path="/community" element={<Community />} />
+      <Route path="/checkout" element={<Checkout />} />
     </Routes>
   )
 }
