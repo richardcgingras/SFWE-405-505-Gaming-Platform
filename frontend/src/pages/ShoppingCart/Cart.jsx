@@ -1,29 +1,11 @@
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { removeGameFromCart, getGames } from "../../services/ShoppingCart.js";
 import "./Cart.css";
-
-// Add authentication context or use localStorage for auth state
-const isAuthenticated = !!localStorage.getItem("token"); // Example check
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const userMenu = (
-    <>
-      <div className="nav-avatar"></div>
-      <Link to="/cart" className="btn btn-ghost">
-        Cart
-      </Link>
-      <Link to="/list" className="btn btn-ghost">
-        Wish List
-      </Link>
-      <Link to="/account" className="btn btn-red">
-        Account
-      </Link>
-    </>
-  );
 
   const fetchCartContents = async () => {
     try {
@@ -59,7 +41,6 @@ export default function Cart() {
       return;
     }
     console.log("Proceeding to checkout with", cartItems.length, "items");
-    // Redirect to checkout page or API call
     window.location.href = "/checkout";
   };
 
@@ -71,8 +52,7 @@ export default function Cart() {
 
   if (loading) {
     return (
-      <div className="cart-container">
-        <h2>Shopping Cart</h2>
+      <div className="section-status">
         <p>Loading cart items...</p>
       </div>
     );
@@ -80,182 +60,78 @@ export default function Cart() {
 
   if (error) {
     return (
-      <div className="cart-container">
-        <h2>Shopping Cart</h2>
-        <p className="error-message">{error}</p>
-        <button onClick={fetchCartContents}>Try Again</button>
+      <div className="section-status error">
+        <p>{error}</p>
+        <button className="btn btn-ghost" onClick={fetchCartContents}>Try Again</button>
       </div>
     );
   }
 
   return (
-    //Header and nav bar
-    <div className="page">
-      <div className="bg-glow" />
-
-      <nav className="nav">
-        <div className="nav-logo">
-          <span className="logo-icon"></span>
-          <span className="logo-text">
-            good<span>Gamers</span>
-          </span>
+    <main className="main" style={{ paddingTop: '40px' }}>
+      <section className="section">
+        <div className="section-header">
+          <h2 className="section-title">
+            Shopping Cart ({totalGames} {totalGames === 1 ? "game" : "games"})
+          </h2>
         </div>
-        <ul className="nav-links">
-          <li>
-            <a href="#">Store</a>
-          </li>
-          <li>
-            <a href="Library">Library</a>
-          </li>
-          <li>
-            <Link to="/community">Community</Link>
-          </li>
-          <li>
-            <a href="#">News</a>
-          </li>
-        </ul>
-        <div className="nav-actions">
-          {!isAuthenticated ? (
-            <>
-              <Link to="/login" className="btn btn-ghost">
-                Log In
-              </Link>
-              <Link to="/signup" className="btn btn-red">
-                Sign Up
-              </Link>
-            </>
-          ) : (
-            userMenu
-          )}
-        </div>
-      </nav>
-      <div className="cart-container">
-        <h2>
-          Shopping Cart ({totalGames} {totalGames === 1 ? "game" : "games"})
-        </h2>
 
         {cartItems.length === 0 ? (
-          <p>Your cart is empty. Add some games!</p>
+          <p className="hero-sub">Your cart is empty. Add some games!</p>
         ) : (
           <>
             <div className="cart-items">
               {cartItems.map((game) => (
-                <div key={game.id} className="cart-item">
-                  <div className="item-main-info">
-                    <span className="game-name">{game.name}</span>
-                    <div className="item-details">
-                      {/* <div className="release-date">
-                                            Release Date: {game.releaseDate ? new Date(game.releaseDate.getTime()).toLocaleDateString() : 'N/A'}
-                                        </div> */}
-                      <div className="file-size">
-                        Size: {(game.size || 0).toFixed(2)} GB
+                <div key={game.id} className="game-card" style={{ marginBottom: '20px', padding: '24px' }}>
+                  <div className="item-main-info" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div>
+                      <h3 className="game-card-title" style={{ fontSize: '1.25rem' }}>{game.name}</h3>
+                      <div className="game-meta" style={{ marginTop: '8px' }}>
+                        <span style={{ color: 'var(--text-secondary)' }}>Size: {(game.size || 0).toFixed(2)} GB</span>
+                        {game.ageRating && <span style={{ marginLeft: '16px', color: 'var(--text-secondary)' }}>Rating: {game.ageRating}</span>}
                       </div>
-                      {game.ageRating && (
-                        <div className="age-rating">
-                          Age Rating: {game.ageRating}
-                        </div>
-                      )}
                     </div>
-                  </div>
-
-                  {game.category && game.category.length > 0 && (
-                    <div className="item-category">
-                      Categories:
-                      <ul className="category-list">
-                        {game.category.map((cat, idx) => (
-                          <li key={idx}>{cat.name}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {game.system && game.system.length > 0 && (
-                    <div className="item-system">
-                      Compatible Systems:
-                      <ul className="system-list">
-                        {game.system.map((sys, idx) => (
-                          <li key={idx}>{sys.name}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {game.publisher && (
-                    <div className="item-publisher">
-                      Publisher:{" "}
-                      {game.publisher.name || game.publisher.companyName}
-                    </div>
-                  )}
-
-                  {game.reviews && game.reviews.length > 0 && (
-                    <div className="item-reviews">
-                      Reviews ({game.reviews.reduce((sum, r) => sum + r, 0)}):
-                      {game.reviews.map((r, idx) => (
-                        <span key={idx} title={`Score: ${r}`}>
-                          ★
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="item-files">
-                    Files:{" "}
-                    {game.files && game.files.length > 0
-                      ? game.files.join(", ")
-                      : "No files yet"}
-                  </div>
-
-                  <div className="item-footer">
-                    <span className="item-price">
-                      Price: ${game.price.toFixed(2)}
+                    <span className="game-price" style={{ fontSize: '1.25rem' }}>
+                      ${game.price.toFixed(2)}
                     </span>
+                  </div>
+
+                  <div className="item-footer" style={{ marginTop: '24px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
                     <button
-                      className="remove-btn"
+                      className="btn btn-ghost"
                       onClick={() => removeItem(game.id)}
-                      title="Remove from cart"
+                      style={{ color: 'var(--red)' }}
                     >
-                      Delete
+                      Remove
+                    </button>
+                    <button className="btn btn-red" onClick={() => window.location.href = `/games/${game.id}`}>
+                      View Details
                     </button>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="cart-summary">
-              <div className="summary-row">
-                <span>Total Games:</span>
-                <span>{totalGames}</span>
+            <div className="cart-summary" style={{ background: 'var(--blue-card)', padding: '24px', borderRadius: '8px', border: '1px solid var(--blue-border)', marginTop: '40px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                <span style={{ color: 'var(--text-secondary)' }}>Total Games:</span>
+                <span style={{ fontWeight: 700 }}>{totalGames}</span>
               </div>
-              <div className="summary-row">
-                <span>Total Size:</span>
-                <span>{totalSizeInGB.toFixed(2)} GB</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
+                <span style={{ color: 'var(--text-secondary)' }}>Total Download Size:</span>
+                <span style={{ fontWeight: 700 }}>{totalSizeInGB.toFixed(2)} GB</span>
               </div>
+              <button
+                className="btn btn-red btn-full"
+                onClick={handleCheckout}
+                style={{ fontSize: '1.1rem', padding: '16px' }}
+              >
+                Checkout Now →
+              </button>
             </div>
-
-            <button
-              className="checkout-btn"
-              onClick={handleCheckout}
-              title="Proceed to checkout"
-            >
-              Checkout →
-            </button>
           </>
         )}
-      </div>
-
-      {/*All the boring stuff at bottom of the page*/}
-      <footer className="footer">
-        <div className="footer-logo"> goodGamers</div>
-        <p className="footer-copy">
-          {" "}
-          2026 goodGamers Inc. SFWE 405/505. The University of Arizona
-        </p>
-        <div className="footer-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Support</a>
-        </div>
-      </footer>
-    </div>
+      </section>
+    </main>
   );
 }
