@@ -1,25 +1,23 @@
 import "./Publish.css";
-
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createVideoGame } from "../../services/VideoGame.js";
 import { addGameToDeveloper } from "../../services/Developer.js";
 
 export default function Publish() {
-    const [devId, setDevId] = useState([]);
+    const [devId, setDevId] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [submitted, setSubmitted] = useState(false);
     const navigate = useNavigate();
 
-    // Form data for new video game
     const [formData, setFormData] = useState({
         name: "",
         releaseDate: new Date().toISOString().split("T")[0],
         price: "",
         systems: "",
         size: "",
-        publisher: null
+        ageRating: ""
     });
 
     useEffect(() => {
@@ -27,9 +25,8 @@ export default function Publish() {
             try {
                 setLoading(true);
                 const getQueryParams = () => new URLSearchParams(window.location.search);
-                const devId = parseInt(getQueryParams().get("devId")) || null;
-                console.log(devId)
-                setDevId(devId || []);
+                const devIdParam = parseInt(getQueryParams().get("devId")) || null;
+                setDevId(devIdParam);
                 setError(null);
             } catch (err) {
                 setError(err.message);
@@ -59,13 +56,11 @@ export default function Publish() {
                 name: formData.name,
                 releaseDate: new Date(formData.releaseDate),
                 files: null,
-                system: systems.length > 0 ? systems.map((s) => parseInt(s)) : [],
+                system: systems.length > 0 ? systems.map((s) => parseInt(s) || s) : [],
                 price: parseFloat(formData.price || 0),
                 size: parseFloat(formData.size || 0),
-                ageRating: null
+                ageRating: formData.ageRating
             };
-
-            console.log("Submitting video game data:", gameData);
 
             const createResponse = await createVideoGame(gameData);
 
@@ -78,7 +73,6 @@ export default function Publish() {
                 setSubmitted(true);
                 setError(null);
                 setTimeout(() => {
-                    // Navigate to upload page instead of publish portal
                     navigate("/upload?devId="+devId+"&gameId="+createResponse.id); 
                 }, 2000);
             } else {
@@ -92,80 +86,56 @@ export default function Publish() {
         }
     };
 
-    useEffect(() => {
-        const handleNavigation = () => setSubmitted(false);
-        window.addEventListener("popstate", handleNavigation);
-        return () => window.removeEventListener("popstate", handleNavigation);
-    }, []);
-
     if (loading) {
-        return <div className="loading-spinner">Loading...</div>;
+        return <div className="section-status">Loading Portal...</div>;
     }
 
     return (
-        <div className="page" style={{ minHeight: '100vh', color: '#e8edf5', fontFamily: 'Barlow, sans-serif', backgroundImage: 'radial-gradient(circle at top left, rgba(21, 101, 192, 0.4), transparent)' }}>
-            <div className="bg-glow" />
-                <nav className="nav">
-                    <div className="nav-logo">
-                    <Link to="/">
-                        <span className="logo-icon"></span>
-                        <span className="logo-text">good<span>Gamers</span></span>
-                    </Link>
+        <main className="main" style={{ paddingTop: '40px' }}>
+            <section className="section">
+                <div className="section-header">
+                    <div>
+                        <h1 className="section-title">Publish Portal</h1>
+                        <p className="hero-sub" style={{ marginBottom: 0 }}>Create a new game listing</p>
                     </div>
-                    <ul className="nav-links">
-                    <li><a href="/store">Store</a></li>
-                    <li><a href="/library">Library</a></li>
-                    <li><Link to="/community">Community</Link></li>
-                    <li><a href="/news">News</a></li>
-                    </ul>
-                    <div className="nav-actions">
-                    </div>
-                </nav>
-
-            <section className="hero" style={{ position: 'relative', zIndex: 1, padding: '40px 60px 20px', width: '100%' }}>
-                <div className="hero-content">
-                    <h1 className="hero-title" style={{ marginTop: 0 }}>Publish Portal</h1>
                     {submitted && (
-                        <p style={{ color: '#7a96b8' }}>✓ Video game published successfully!</p>
+                        <div style={{ color: '#00ff7f', fontWeight: 700 }}>✓ Game published successfully!</div>
                     )}
                 </div>
-            </section>
 
-            <main className="main" style={{ padding: '20px 60px', background: 'var(--blue-deeper)' }}>
-                <div className="publish-container">
-                    
-                    {devId.length > 0 && (
-                        <div className="info-box">
-                            <p><strong>Developer ID:</strong> {devId}</p>
-                            <p>Please create a new video game to publish.</p>
+                <div className="game-card" style={{ padding: '40px', marginTop: '30px' }}>
+                    {devId && (
+                        <div style={{ marginBottom: '30px', padding: '16px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px', fontSize: '0.9rem' }}>
+                            <span style={{ color: 'var(--text-secondary)' }}>Developer ID:</span> <span style={{ fontWeight: 700 }}>{devId}</span>
                         </div>
                     )}
 
                     {error && (
-                        <div className="error-message" style={{ background: '#ffebee', color: '#c62828' }}>
-                            Error: {error}
+                        <div className="section-status error" style={{ marginBottom: '24px' }}>
+                            {error}
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="publish-form">
+                    <form onSubmit={handleSubmit} className="auth-form">
                         <div className="form-group">
-                            <label htmlFor="name">Game Name:</label>
+                            <label className="form-label">Game Name</label>
                             <input
+                                className="form-input"
                                 type="text"
-                                id="name"
                                 name="name"
                                 value={formData.name}
                                 onChange={handleInputChange}
                                 required
+                                placeholder="Epic Title 2026"
                             />
                         </div>
 
-                        <div className="form-row">
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                             <div className="form-group">
-                                <label htmlFor="releaseDate">Release Date:</label>
+                                <label className="form-label">Release Date</label>
                                 <input
+                                    className="form-input"
                                     type="date"
-                                    id="releaseDate"
                                     name="releaseDate"
                                     value={formData.releaseDate}
                                     onChange={handleInputChange}
@@ -174,43 +144,46 @@ export default function Publish() {
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="price">Price ($):</label>
+                                <label className="form-label">Price ($)</label>
                                 <input
+                                    className="form-input"
                                     type="number"
-                                    id="price"
                                     name="price"
                                     min="0"
                                     step="0.01"
                                     value={formData.price}
                                     onChange={handleInputChange}
                                     required
+                                    placeholder="59.99"
                                 />
                             </div>
                         </div>
 
-                        <div className="form-row">
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                             <div className="form-group">
-                                <label htmlFor="size">Size (GB):</label>
+                                <label className="form-label">Size (GB)</label>
                                 <input
+                                    className="form-input"
                                     type="number"
-                                    id="size"
                                     name="size"
                                     min="0.1"
                                     step="0.1"
                                     value={formData.size}
                                     onChange={handleInputChange}
                                     required
+                                    placeholder="45.0"
                                 />
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="ageRating">Age Rating:</label>
+                                <label className="form-label">Age Rating</label>
                                 <select
-                                    id="ageRating"
+                                    className="form-input"
                                     name="ageRating"
                                     value={formData.ageRating}
                                     onChange={handleInputChange}
                                     required
+                                    style={{ background: 'var(--blue-card)', color: 'var(--text-primary)' }}
                                 >
                                     <option value="">Select rating...</option>
                                     <option value="E">Everyone (E)</option>
@@ -223,35 +196,23 @@ export default function Publish() {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="systems">Console Systems:</label>
+                            <label className="form-label">Console Systems (ID or Name)</label>
                             <input
+                                className="form-input"
                                 type="text"
-                                id="systems"
                                 name="systems"
-                                placeholder="e.g., PC, Steam Deck or leave empty for all platforms"
+                                placeholder="e.g. 1, 2, 3"
                                 value={formData.systems}
                                 onChange={handleInputChange}
                             />
                         </div>
 
-                        <button type="submit" className={`submit-btn ${loading ? 'disabled' : ''}`}>
+                        <button type="submit" className="btn btn-red btn-full" disabled={loading} style={{ marginTop: '20px' }}>
                             {loading ? "Publishing..." : "Publish Video Game"}
                         </button>
                     </form>
-
                 </div>
-            </main>
-            <footer className="footer">
-                <div className="footer-logo">goodGamers</div>
-                <p className="footer-copy">
-                2026 goodGamers Inc. SFWE 405. The University of Arizona
-                </p>
-                <div className="footer-links">
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Support</a>
-                </div>
-            </footer>
-        </div>
+            </section>
+        </main>
     );
 }

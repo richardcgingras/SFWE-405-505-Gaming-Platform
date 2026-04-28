@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home/Home.jsx'
+import LandingPage from './pages/LandingPage/LandingPage.jsx'
 import Login from './pages/Login/Login.jsx'
 import Signup from './pages/Signup/Signup.jsx'
 import ChatPage from './pages/ChatPage/ChatPage.jsx'
@@ -11,22 +12,26 @@ import Store from './pages/Store/Store.jsx'
 import Cart from './pages/ShoppingCart/Cart.jsx'
 import Publish from './pages/Publish/Publish.jsx'
 import Upload from './pages/Upload/Upload.jsx'
+import Layout from './components/Layout/Layout.jsx'
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/chat" element={<ChatPage />} />
-      <Route path="/library" element={<Library />} />
-      <Route path="/download" element={<Download />} />
-      <Route path="/games" element={<VideoGames />} />
-      <Route path="/community" element={<Community />} />
-      <Route path="/store" element={<Store />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/publish" element={<Publish />} />
-      <Route path="/upload" element={<Upload />} />
+      <Route element={<Layout />}>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/library" element={<Library />} />
+        <Route path="/download" element={<Download />} />
+        <Route path="/games" element={<VideoGames />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/publish" element={<Publish />} />
+        <Route path="/upload" element={<Upload />} />
+      </Route>
     </Routes>
   )
 }

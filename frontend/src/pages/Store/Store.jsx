@@ -51,41 +51,17 @@ export default function Store() {
   };
 
   return (
-    <div className="page">
-      <div className="bg-glow" />
+    <main className="main">
+      <section className="section">
+        <div className="store-header">
+          <div>
+            <h2 className="section-title">Store</h2>
+            <p className="store-subtitle">
+              Browse available games, compare prices, and view game details.
+            </p>
+          </div>
 
-      <nav className="nav">
-        <div className="nav-logo">
-          <Link to="/">
-            <span className="logo-icon"></span>
-            <span className="logo-text">good<span>Gamers</span></span>
-          </Link>
-        </div>
-
-        <ul className="nav-links">
-          <li><Link to="/store">Store</Link></li>
-          <li><Link to="/games">Games</Link></li>
-          <li><Link to="/library">Library</Link></li>
-          <li><Link to="/community">Community</Link></li>
-        </ul>
-
-        <div className="nav-actions">
-          <button className="btn btn-ghost" onClick={() => navigate("/")}>
-            Home
-          </button>
-        </div>
-      </nav>
-
-      <main className="main">
-        <section className="section">
-          <div className="store-header">
-            <div>
-              <h2 className="section-title">Store</h2>
-              <p className="store-subtitle">
-                Browse available games, compare prices, and view game details.
-              </p>
-            </div>
-
+         
             <input
               type="text"
               placeholder="Search store..."
@@ -94,93 +70,86 @@ export default function Store() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+   
 
-          {loading && <div className="store-loading">LOADING STORE...</div>}
+        {loading && <div className="store-loading">LOADING STORE...</div>}
 
-          {!loading && message && (
-            <div className="store-empty">{message}</div>
-          )}
+        {!loading && message && (
+          <div className="store-empty">{message}</div>
+        )}
 
-          {!loading && !message && filteredGames.length === 0 && (
-            <div className="store-empty">No games found.</div>
-          )}
+        {!loading && !message && filteredGames.length === 0 && (
+          <div className="store-empty">No games found.</div>
+        )}
 
-          {!loading && !message && filteredGames.length > 0 && (
-            <div className="store-grid">
-              {filteredGames.map((game, index) => (
-                <div
-                  key={game.id}
-                  className="store-card"
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                  <div className="store-card-content">
-                    <div>
-                      <h3 className="store-game-title">
-                        {game.name || game.title}
-                      </h3>
+        {!loading && !message && filteredGames.length > 0 && (
+          <div className="store-grid">
+            {filteredGames.map((game, index) => (
+              <div
+                key={game.id}
+                className="store-card"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <div className="store-card-content">
+                  <div>
+                    <h3 className="store-game-title">
+                      {game.name || game.title}
+                    </h3>
 
-                      <div className="store-price">
-                        {formatPrice(game.price)}
-                      </div>
-
-                      <div className="store-meta">
-                        {getCategories(game)}
-                      </div>
-
-                      {game.releaseDate && (
-                        <div className="store-meta">
-                          Release: {new Date(game.releaseDate).toLocaleDateString()}
-                        </div>
-                      )}
-
-                      {game.ageRating && (
-                        <div className="store-meta">
-                          Rating: {game.ageRating}
-                        </div>
-                      )}
+                    <div className="store-price">
+                      {formatPrice(game.price)}
                     </div>
 
-                    <button
-                      className="btn btn-red store-action"
-                      onClick={() => setSelectedGame(game)}
-                    >
-                      View Details
-                    </button>
+                    <div className="store-meta">
+                      {getCategories(game)}
+                    </div>
+
+                    {game.releaseDate && (
+                      <div className="store-meta">
+                        Release: {new Date(game.releaseDate).toLocaleDateString()}
+                      </div>
+                    )}
+
+                    {game.ageRating && (
+                      <div className="store-meta">
+                        Rating: {game.ageRating}
+                      </div>
+                    )}
                   </div>
+
+                  <button
+                    className="btn btn-red store-action"
+                    onClick={() => setSelectedGame(game)}
+                  >
+                    View Details
+                  </button>
                 </div>
-              ))}
-            </div>
-          )}
-
-          {selectedGame && (
-            <div className="store-detail-card">
-              <div>
-                <h3>{selectedGame.name || selectedGame.title}</h3>
-                <p>{selectedGame.description || "No description available."}</p>
-                <p><strong>Price:</strong> {formatPrice(selectedGame.price)}</p>
-                <p><strong>Categories:</strong> {getCategories(selectedGame)}</p>
-                {selectedGame.size && (
-                  <p><strong>Size:</strong> {selectedGame.size} GB</p>
-                )}
               </div>
+            ))}
+          </div>
+        )}
 
-              <button
-                className="btn btn-ghost"
-                onClick={() => setSelectedGame(null)}
-              >
-                Close
-              </button>
+        {selectedGame && (
+          <div className="store-detail-card">
+            <div>
+              <h3>{selectedGame.name || selectedGame.title}</h3>
+              <p>{selectedGame.description || "No description available."}</p>
+              <p><strong>Price:</strong> {formatPrice(selectedGame.price)}</p>
+              <p><strong>Categories:</strong> {getCategories(selectedGame)}</p>
+              {selectedGame.size && (
+                <p><strong>Size:</strong> {selectedGame.size} GB</p>
+              )}
             </div>
-          )}
-        </section>
-      </main>
 
-      <footer className="footer">
-        <div className="footer-logo">goodGamers</div>
-        <p className="footer-copy">
-          2026 goodGamers Inc. SFWE 405/505. The University of Arizona
-        </p>
-      </footer>
-    </div>
+            <button
+              className="btn btn-ghost"
+              onClick={() => setSelectedGame(null)}
+            >
+              Close
+            </button>
+          </div>
+        )}
+      </section>
+    </main>
   );
 }
