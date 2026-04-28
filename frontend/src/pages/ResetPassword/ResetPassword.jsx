@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "./Signup.css";
+import "./ResetPassword.css";
 
-// ── mirrors backend PasswordValidator regex ──────────────────────────────────
+// ── same rules as Signup & backend PasswordValidator ─────────────────────────
 const rules = [
   {
     id: "length",
@@ -27,68 +27,70 @@ const rules = [
 
 const isPasswordValid = (p) => rules.every((r) => r.test(p));
 
-export default function Signup() {
+export default function ResetPassword() {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const passwordTouched = newPassword.length > 0;
+  const confirmMismatch = confirmPassword.length > 0 && newPassword !== confirmPassword;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setMessage("");
     setIsError(false);
 
-    // ── client-side guards ───────────────────────────────────────────────────
-    if (!isPasswordValid(password)) {
+    if (!username.trim()) {
+      setMessage("Username is required.");
+      setIsError(true);
+      return;
+    }
+
+    if (!isPasswordValid(newPassword)) {
       setMessage("Password does not meet the required criteria.");
       setIsError(true);
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
       setMessage("Passwords do not match.");
       setIsError(true);
       return;
     }
 
-    // ── submit ───────────────────────────────────────────────────────────────
-    const response = await fetch("/api/user-profiles", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userName: username,
-        email,
-        password,
-        status: "active",
-      }),
-    });
+    setLoading(true);
+    try {
+      const response = await fetch("/api/user-profiles/reset-password", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, newPassword }),
+      });
 
-    if (response.status === 201) {
-      setMessage("Account created successfully. You can now log in.");
-      setIsError(false);
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-      return;
-    }
-
-    if (response.status === 409) {
-      setMessage("This email is already in the database. Please use a different email.");
+      if (response.ok) {
+        setMessage("Password reset successfully! You can now log in with your new password.");
+        setIsError(false);
+        setUsername("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else if (response.status === 404) {
+        setMessage("No account found with that username.");
+        setIsError(true);
+      } else {
+        const body = await response.text();
+        setMessage(body || "Something went wrong. Please try again.");
+        setIsError(true);
+      }
+    } catch {
+      setMessage("Unable to reach the server. Please try again later.");
       setIsError(true);
-      return;
+    } finally {
+      setLoading(false);
     }
-
-    const body = await response.text();
-    setMessage(body || "Unable to create account. Please try again.");
-    setIsError(true);
   };
-
-  const passwordTouched = password.length > 0;
-  const confirmMismatch = confirmPassword.length > 0 && password !== confirmPassword;
 
   return (
     <div className="page">
@@ -96,15 +98,23 @@ export default function Signup() {
 
       <nav className="nav">
         <div className="nav-logo">
-          <span className="logo-icon"></span>
-          <span className="logo-text">good<span>Gamers</span></span>
+          <a href="/">
+            <span className="logo-icon"></span>
+            <span className="logo-text">good<span>Gamers</span></span>
+          </a>
         </div>
       </nav>
 
       <div className="auth-container">
         <div className="auth-box">
-          <h2 className="auth-title">Create Account</h2>
-          <p className="auth-sub">Join millions of players on goodGamers</p>
+          {/* ── Header ── */}
+          <div className="reset-icon-wrap">
+            <span className="reset-icon">🔑</span>
+          </div>
+          <h2 className="auth-title">Reset Password</h2>
+          <p className="auth-sub">
+            Enter your username and choose a new password.
+          </p>
 
           <div className="auth-form">
             {message && (
@@ -112,6 +122,7 @@ export default function Signup() {
                 {message}
               </div>
             )}
+
             <form onSubmit={handleSubmit}>
 
               {/* ── Username ── */}
@@ -120,54 +131,42 @@ export default function Signup() {
                 <input
                   className="form-input"
                   type="text"
-                  id="signup-username"
+                  id="reset-username"
                   placeholder="YourGamerTag"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  autoComplete="username"
                   required
                 />
               </div>
 
-              {/* ── Email ── */}
+              {/* ── New Password ── */}
               <div className="form-group">
-                <label className="form-label">Email</label>
-                <input
-                  className="form-input"
-                  type="email"
-                  id="signup-email"
-                  placeholder="you@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* ── Password ── */}
-              <div className="form-group">
-                <label className="form-label">Password</label>
+                <label className="form-label">New Password</label>
                 <input
                   className={`form-input ${
                     passwordTouched
-                      ? isPasswordValid(password)
+                      ? isPasswordValid(newPassword)
                         ? "input-valid"
                         : "input-invalid"
                       : ""
                   }`}
                   type="password"
-                  id="signup-password"
+                  id="reset-new-password"
                   placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                   onFocus={() => setPasswordFocused(true)}
                   onBlur={() => setPasswordFocused(false)}
+                  autoComplete="new-password"
                   required
                 />
 
-                {/* Live checklist — shown when focused or once user starts typing */}
+                {/* Live checklist */}
                 {(passwordFocused || passwordTouched) && (
                   <ul className="pw-checklist">
                     {rules.map((rule) => {
-                      const passed = rule.test(password);
+                      const passed = rule.test(newPassword);
                       return (
                         <li
                           key={rule.id}
@@ -184,7 +183,7 @@ export default function Signup() {
 
               {/* ── Confirm Password ── */}
               <div className="form-group">
-                <label className="form-label">Confirm Password</label>
+                <label className="form-label">Confirm New Password</label>
                 <input
                   className={`form-input ${
                     confirmPassword.length > 0
@@ -194,10 +193,11 @@ export default function Signup() {
                       : ""
                   }`}
                   type="password"
-                  id="signup-confirm-password"
+                  id="reset-confirm-password"
                   placeholder="••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoComplete="new-password"
                   required
                 />
                 {confirmMismatch && (
@@ -205,13 +205,18 @@ export default function Signup() {
                 )}
               </div>
 
-              <button className="btn btn-red btn-full" type="submit">
-                Create Account
+              <button
+                className="btn btn-red btn-full"
+                type="submit"
+                disabled={loading}
+                id="reset-submit-btn"
+              >
+                {loading ? "Resetting…" : "Reset Password"}
               </button>
             </form>
 
             <p className="auth-switch">
-              Already have an account? <a href="/login">Log In</a>
+              Remembered it? <a href="/login">Back to Log In</a>
             </p>
           </div>
         </div>

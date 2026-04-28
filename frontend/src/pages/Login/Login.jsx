@@ -53,6 +53,11 @@ export default function Login() {
               />
             </div>
             <button className="btn btn-red btn-full">Log In</button>
+            <p className="auth-switch" style={{ marginTop: "8px" }}>
+              <a href="/reset-password" style={{ color: "var(--text-muted)", fontSize: "0.82rem" }}>
+                Forgot your password?
+              </a>
+            </p>
             <p className="auth-switch">
               Don't have an account? <a href="/signup">Sign Up</a>
             </p>
