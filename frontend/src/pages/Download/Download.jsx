@@ -1,14 +1,10 @@
-import "./Download.css"
-
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { getVideoGameById, getFile } from "../../services/VideoGame.js"
 
 export default function Download() {
-    const [game, setGame] = useState([]);
+    const [game, setGame] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchGame = async () => {
@@ -17,11 +13,8 @@ export default function Download() {
                 const getQueryParams = () => new URLSearchParams(window.location.search);
                 const gameId = parseInt(getQueryParams().get('id')) || null;
                 const data = await getVideoGameById(gameId);
-                console.log("API response: ", data)
-                setGame(data || []); // Handle empty response safely
+                setGame(data);
                 setError(null);
-                console.log("Game data", game)
-                console.log(game.id)
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -32,21 +25,12 @@ export default function Download() {
         fetchGame();
     }, []);
 
-    if (loading) {
-        return <div className="Game-loading">Loading the Game Files...</div>;
-    }
-
-    if (error) {
-        return <div className="Game-error">Error: {error}</div>;
-    }
-
     const handleFileDownload = async (file) => {
-        if (!game.id || !game.files.length) return;
+        if (!game?.id) return;
 
         try {
             setError(null);
             const response = await getFile(game.id, file);
-            // Create download for Blob response
             if (response instanceof Blob) {
                 const url = URL.createObjectURL(response);
                 const a = document.createElement('a');
@@ -57,7 +41,6 @@ export default function Download() {
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
             } else if (typeof response === 'string') {
-                // Handle JSON/string responses
                 const blob = new Blob([response]);
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -76,27 +59,41 @@ export default function Download() {
         }
     };
 
-    return (
-        <div className="download-page">
-            <h1>Download Files - {game.name}</h1>
+    if (loading) {
+        return <div className="section-status">Loading Game Files...</div>;
+    }
 
-            <div className="file-list">
-                {game.files.length === 0 ? (
-                    <p className="library-empty-text">Game contains no files.</p>
-                ) : (
-                    <ul className="library-grid">
-                    {game.files.map((file) => (
-                    <button
-                        key={file}
-                        onClick={() => handleFileDownload(file)}
-                        className="download-file-btn"
-                    >
-                        📁 {file}
-                    </button>
-                    ))}
-                    </ul>
-                )}
-                </div>
+    if (error) {
+        return <div className="section-status error">Error: {error}</div>;
+    }
+
+    return (
+        <main className="main" style={{ paddingTop: '40px' }}>
+            <div className="section-header">
+                <h2 className="section-title">Download Files - {game?.name}</h2>
             </div>
+
+            {!game || !game.files || game.files.length === 0 ? (
+                <p className="hero-sub">This game contains no files.</p>
+            ) : (
+                <div className="games-grid">
+                    {game.files.map((file) => (
+                        <div
+                            key={file}
+                            className="game-card"
+                            onClick={() => handleFileDownload(file)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <div className="game-card-info">
+                                <h3 className="game-card-title">📁 {file}</h3>
+                                <button className="btn btn-red" style={{ padding: '6px 12px', fontSize: '0.75rem' }}>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </main>
     );
 }

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./Signup.css";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -47,29 +46,20 @@ export default function Signup() {
     setMessage(body || "Unable to create account. Please try again.");
     setIsError(true);
   };
+
   return (
-    <div className="page">
-      <div className="bg-glow" />
+    <div className="auth-container">
+      <div className="auth-box">
+        <h2 className="auth-title">Create Account</h2>
+        <p className="auth-sub">Join millions of players on goodGamers</p>
 
-      <nav className="nav">
-        <div className="nav-logo">
-          <span className="logo-icon"></span>
-          <span className="logo-text">good<span>Gamers</span></span>
-        </div>
-      </nav>
-
-      <div className="auth-container">
-        <div className="auth-box">
-          <h2 className="auth-title">Create Account</h2>
-          <p className="auth-sub">Join millions of players on goodGamers</p>
-
-          <div className="auth-form">
-            {message && (
-              <div className={`auth-message ${isError ? "error" : "success"}`}>
-                {message}
-              </div>
-            )}
-            <form onSubmit={handleSubmit}>
+        <div className="auth-form">
+          {message && (
+            <div className={`auth-message ${isError ? "error" : "success"}`}>
+              {message}
+            </div>
+          )}
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label className="form-label">Username</label>
               <input
@@ -111,11 +101,10 @@ export default function Signup() {
               />
             </div>
             <button className="btn btn-red btn-full" type="submit">Create Account</button>
-            </form>
-            <p className="auth-switch">
-              Already have an account? <a href="/login">Log In</a>
-            </p>
-          </div>
+          </form>
+          <p className="auth-switch">
+            Already have an account? <a href="/login">Log In</a>
+          </p>
         </div>
       </div>
     </div>
