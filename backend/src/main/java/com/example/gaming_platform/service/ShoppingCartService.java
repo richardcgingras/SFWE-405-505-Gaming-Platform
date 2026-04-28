@@ -51,14 +51,9 @@ public class ShoppingCartService {
  * @param userId id of a user
  * @return List of Games
  */
-    public List<VideoGame> getGames(Long userId) throws Exception{
-
-        ShoppingCart shoppingCart = shoppingCartRepository.findByAccount(userProfileRepository.findById(userId).get());
-        if (shoppingCart == null){
-            return List.of();
-        } else {
-            return shoppingCart.getGames();
-        }
+    public List<VideoGame> getGames(Long userId) {
+        ShoppingCart shoppingCart = getCart(userId);
+        return (shoppingCart != null) ? shoppingCart.getGames() : List.of();
     }
 
 /**
@@ -68,7 +63,23 @@ public class ShoppingCartService {
  * @return shopping cart
  */
     public ShoppingCart getCart(Long userId){
-        return shoppingCartRepository.findByAccount(userProfileRepository.findById(userId).get());
+        Optional<UserProfile> userOpt = userProfileRepository.findById(userId);
+        if (userOpt.isEmpty()) return null;
+        
+        UserProfile user = userOpt.get();
+        ShoppingCart shoppingCart = shoppingCartRepository.findByAccount(user);
+        
+        if (shoppingCart == null) {
+            shoppingCart = new ShoppingCart();
+            shoppingCart.setAccount(user);
+            shoppingCart.setGames(new java.util.ArrayList<>());
+            shoppingCart.setPrice(0.0f);
+            shoppingCart = shoppingCartRepository.save(shoppingCart);
+            
+            user.setShoppingCart(shoppingCart);
+            userProfileRepository.save(user);
+        }
+        return shoppingCart;
     }
 
 /**
@@ -91,7 +102,7 @@ public class ShoppingCartService {
             return "Game does not exist";
         }
         if (shoppingCart == null){
-            return "Shopping cart does not exist";
+            return "User not found";
         }
 
         // Tests:
@@ -136,7 +147,7 @@ public class ShoppingCartService {
             return "Game does not exist";
         }
         if (shoppingCart == null){
-            return "Shopping cart does not exist";
+            return "User not found";
         }
 
         List<VideoGame> currentGamesList = shoppingCart.getGames();
@@ -173,7 +184,7 @@ public class ShoppingCartService {
 
         ShoppingCart shoppingCart = getCart(userId);
         if (shoppingCart == null){
-            return "Shopping cart does not exist";
+            return "User not found";
         }
 
         return "Success: %.2f".formatted(shoppingCart.getTotal());
