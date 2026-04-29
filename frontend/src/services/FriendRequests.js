@@ -18,15 +18,6 @@ export async function getCurrentUser() {
   return response.json();
 }
 
-export async function getAllUsers() {
-  const response = await fetch(`${API_BASE}/user-profiles`, {
-    headers: authHeaders(),
-  });
-
-  if (!response.ok) throw new Error("Unable to load users");
-  return response.json();
-}
-
 export async function getUserProfileById(id) {
   const response = await fetch(`${API_BASE}/user-profiles/${id}`, {
     headers: authHeaders(),
@@ -34,16 +25,6 @@ export async function getUserProfileById(id) {
 
   if (!response.ok) throw new Error("Profile not found");
   return response.json();
-}
-
-export async function getFriendStatus(senderId, receiverId) {
-  const response = await fetch(
-    `${API_BASE}/friend-requests/status?senderId=${senderId}&receiverId=${receiverId}`,
-    { headers: authHeaders() }
-  );
-
-  if (!response.ok) throw new Error("Unable to load friend status");
-  return response.text();
 }
 
 export async function sendFriendRequest(senderId, receiverId) {
@@ -79,6 +60,20 @@ export async function acceptFriendRequest(requestId) {
   if (!response.ok) {
     const text = await response.text();
     throw new Error(text || "Unable to accept request");
+  }
+
+  return response.text();
+}
+
+export async function denyFriendRequest(requestId) {
+  const response = await fetch(`${API_BASE}/friend-requests/${requestId}/deny`, {
+    method: "POST",
+    headers: authHeaders(),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(text || "Unable to deny request");
   }
 
   return response.text();

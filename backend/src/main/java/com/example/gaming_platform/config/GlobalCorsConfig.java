@@ -12,7 +12,7 @@ public class GlobalCorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOriginPatterns("*")  // ✅ FIXED LINE
+                .allowedOriginPatterns("*")  
                 .allowedMethods("GET", "POST", "DELETE", "OPTIONS", "PUT", "PATCH")
                 .allowedHeaders("*")
                 .allowCredentials(true);

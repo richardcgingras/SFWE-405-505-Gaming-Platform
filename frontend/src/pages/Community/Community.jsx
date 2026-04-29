@@ -14,7 +14,6 @@ function getUserIdFromToken(token) {
     if (parts.length < 2) return null;
     const payload = base64UrlDecodeJson(parts[1]);
     const sub = payload?.sub;
-    if (sub == null) return null;
     const id = Number(sub);
     return Number.isFinite(id) ? id : null;
   } catch {
@@ -23,106 +22,44 @@ function getUserIdFromToken(token) {
 }
 
 function normalizeStatus(raw) {
-  const s = String(raw || "").trim().toLowerCase();
-  if (!s) return { label: "Unknown", tone: "unknown" };
-  if (["online", "active", "available"].includes(s)) return { label: "Online", tone: "online" };
-  if (["offline", "inactive", "away", "busy"].includes(s)) return { label: s[0].toUpperCase() + s.slice(1), tone: s };
-  return { label: s[0].toUpperCase() + s.slice(1), tone: "unknown" };
+  const s = String(raw || "").toLowerCase();
+  if (["online", "active"].includes(s)) return { label: "Online", tone: "online" };
+  return { label: "Offline", tone: "offline" };
 }
 
 export default function Community() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const [profile, setProfile] = useState(null);
   const [addUsername, setAddUsername] = useState("");
-  const [addBusy, setAddBusy] = useState(false);
   const [addMessage, setAddMessage] = useState("");
+  const [requests, setRequests] = useState([]);
 
   const token = useMemo(() => localStorage.getItem("token"), []);
-  const userId = useMemo(() => (token ? getUserIdFromToken(token) : null), [token]);
+  const userId = useMemo(() => getUserIdFromToken(token), [token]);
 
   useEffect(() => {
-    if (!token) {
+    if (!token || !userId) {
       navigate("/login");
       return;
     }
 
-    if (!userId) {
-      localStorage.removeItem("token");
-      navigate("/login");
-      return;
-    }
+    loadData();
+  }, []);
 
-    let cancelled = false;
-
-    const fetchProfile = async () => {
-      try {
-        setError("");
-
-        const res = await fetch(`/api/user-profiles/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (res.status === 401) {
-          localStorage.removeItem("token");
-          navigate("/login");
-          return;
-        }
-
-        if (!res.ok) {
-          throw new Error(`Failed to load profile (${res.status})`);
-        }
-
-        const data = await res.json();
-
-        if (!cancelled) {
-          setProfile(data);
-          setLoading(false);
-        }
-      } catch (e) {
-        if (!cancelled) {
-          setError(e?.message || "Failed to load friends list.");
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchProfile();
-    const interval = setInterval(fetchProfile, 10_000);
-
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
-  }, [navigate, token, userId]);
-
-  const friends = Array.isArray(profile?.friends) ? profile.friends : [];
-
-  const refreshProfile = async () => {
-    if (!token || !userId) return;
-
-    const res = await fetch(`/api/user-profiles/${userId}`, {
+  const loadData = async () => {
+    const profileRes = await fetch(`/api/user-profiles/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    setProfile(await profileRes.json());
 
-    if (res.status === 401) {
-      localStorage.removeItem("token");
-      navigate("/login");
-      return;
-    }
-
-    if (!res.ok) {
-      throw new Error(`Failed to refresh profile (${res.status})`);
-    }
-
-    const data = await res.json();
-    setProfile(data);
+    const reqRes = await fetch(`/api/friend-requests/received/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setRequests(await reqRes.json());
   };
 
-  const handleAddFriend = async (e) => {
+  const sendRequest = async (e) => {
     e.preventDefault();
-    if (!token || !userId) return;
 
     const username = addUsername.trim();
     setAddMessage("");
@@ -132,76 +69,51 @@ export default function Community() {
       return;
     }
 
-    setAddBusy(true);
+    const lookup = await fetch(`/api/user-profiles/username/${encodeURIComponent(username)}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-    try {
-      const lookupRes = await fetch(`/api/user-profiles/username/${encodeURIComponent(username)}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (lookupRes.status === 401) {
-        localStorage.removeItem("token");
-        navigate("/login");
-        return;
-      }
-
-      if (lookupRes.status === 404) {
-        setAddMessage("No user found with that username.");
-        return;
-      }
-
-      if (!lookupRes.ok) {
-        throw new Error(`Lookup failed (${lookupRes.status})`);
-      }
-
-      const receiver = await lookupRes.json();
-      const receiverId = receiver?.id;
-
-      if (!receiverId) {
-        throw new Error("Lookup response missing user id.");
-      }
-
-      if (Number(receiverId) === Number(userId)) {
-        setAddMessage("You can’t send a friend request to yourself.");
-        return;
-      }
-
-      const requestRes = await fetch(`/api/friend-requests`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          senderId: userId,
-          receiverId,
-        }),
-      });
-
-      if (requestRes.status === 401) {
-        localStorage.removeItem("token");
-        navigate("/login");
-        return;
-      }
-
-      if (!requestRes.ok) {
-        const body = await requestRes.text();
-        setAddMessage(body || "Unable to send friend request.");
-        return;
-      }
-
-      const result = await requestRes.json();
-
-      setAddUsername("");
-      setAddMessage(result.message || "Request Sent");
-
-      await refreshProfile();
-    } catch (err) {
-      setAddMessage(err?.message || "Unable to send friend request.");
-    } finally {
-      setAddBusy(false);
+    if (!lookup.ok) {
+      setAddMessage("User not found.");
+      return;
     }
+
+    const receiver = await lookup.json();
+
+    const res = await fetch(`/api/friend-requests`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        senderId: userId,
+        receiverId: receiver.id,
+      }),
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      setAddMessage(text || "Unable to send friend request.");
+      return;
+    }
+
+    const data = await res.json();
+    setAddMessage(data.message || "Request Sent");
+    setAddUsername("");
+    loadData();
   };
+
+  const handleAction = async (id, action) => {
+    await fetch(`/api/friend-requests/${id}/${action}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    loadData();
+  };
+
+  const friends = profile?.friends || [];
 
   return (
     <main className="main" style={{ paddingTop: "40px" }}>
@@ -227,72 +139,121 @@ export default function Community() {
           </div>
         </div>
 
-        {!loading && !error && (
+        <div className="game-card" style={{ padding: "24px", marginBottom: "30px" }}>
+          <h3 className="game-card-title" style={{ marginBottom: "16px" }}>
+            Send Friend Request
+          </h3>
+
+          <form onSubmit={sendRequest} style={{ display: "flex", gap: "12px" }}>
+            <input
+              className="form-input"
+              type="text"
+              placeholder="Enter username"
+              style={{ flex: 1 }}
+              value={addUsername}
+              onChange={(e) => setAddUsername(e.target.value)}
+            />
+
+            <button className="btn btn-red" type="submit">
+              Send Request
+            </button>
+          </form>
+
+          {addMessage && (
+            <div
+              style={{
+                marginTop: "12px",
+                fontSize: "0.95rem",
+                color:
+                  addMessage.includes("Request") || addMessage.includes("Sent")
+                    ? "var(--blue)"
+                    : "var(--red)",
+              }}
+            >
+              {addMessage}
+            </div>
+          )}
+        </div>
+
+        {requests.length > 0 && (
           <div className="game-card" style={{ padding: "24px", marginBottom: "40px" }}>
             <h3 className="game-card-title" style={{ marginBottom: "16px" }}>
-              Send Friend Request
+              Pending Friend Requests
             </h3>
 
-            <form onSubmit={handleAddFriend} style={{ display: "flex", gap: "12px" }}>
-              <input
-                className="form-input"
-                type="text"
-                placeholder="Enter username"
-                style={{ flex: 1 }}
-                value={addUsername}
-                onChange={(ev) => setAddUsername(ev.target.value)}
-                disabled={addBusy}
-              />
-
-              <button className="btn btn-red" type="submit" disabled={addBusy}>
-                {addBusy ? "Sending..." : "Send Request"}
-              </button>
-            </form>
-
-            {addMessage && (
+            {requests.map((r) => (
               <div
+                key={r.id}
                 style={{
-                  marginTop: "12px",
-                  fontSize: "0.9rem",
-                  color:
-                    addMessage.includes("Request Sent") || addMessage.includes("sent")
-                      ? "var(--blue)"
-                      : "var(--red)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "14px 0",
+                  borderBottom: "1px solid rgba(255,255,255,0.06)",
                 }}
               >
-                {addMessage}
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <div className="nav-avatar" style={{ width: "38px", height: "38px" }}>
+                    {String(r.sender?.userName || "?").slice(0, 1).toUpperCase()}
+                  </div>
+
+                  <div>
+                    <div className="game-card-title">
+                      {r.sender?.userName || "Unknown user"}
+                    </div>
+                    <div style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>
+                      wants to be friends
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button
+                    className="btn btn-ghost"
+                    onClick={() => handleAction(r.id, "accept")}
+                  >
+                    Accept
+                  </button>
+
+                  <button
+                    className="btn btn-red"
+                    onClick={() => handleAction(r.id, "deny")}
+                  >
+                    Deny
+                  </button>
+                </div>
               </div>
-            )}
+            ))}
           </div>
         )}
 
-        {loading && <div className="section-status">LOADING...</div>}
+        <h3 className="section-title" style={{ fontSize: "1.3rem", marginBottom: "18px" }}>
+          Friends
+        </h3>
 
-        {!loading && error && <div className="section-status error">{error}</div>}
-
-        {!loading && !error && friends.length === 0 && (
+        {friends.length === 0 && (
           <div className="hero-sub">
-            No friends yet. Send a friend request to connect with another user.
+            No friends yet. Send or accept a friend request to connect with another user.
           </div>
         )}
 
-        {!loading && !error && friends.length > 0 && (
+        {friends.length > 0 && (
           <div className="games-grid">
             {friends.map((f) => {
-              const { label, tone } = normalizeStatus(f?.status);
+              const { label, tone } = normalizeStatus(f.status);
 
               return (
-                <div key={f?.id ?? `${f?.userName}-${label}`} className="game-card">
+                <div key={f.id} className="game-card">
                   <div className="game-card-info" style={{ alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
                       <div className="nav-avatar" style={{ width: "40px", height: "40px" }}>
-                        {String(f?.userName || "?").slice(0, 1).toUpperCase()}
+                        {String(f.userName || "?").slice(0, 1).toUpperCase()}
                       </div>
 
                       <div>
-                        <div className="game-card-title">{f?.userName || "Unknown user"}</div>
+                        <div className="game-card-title">{f.userName}</div>
                         <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
-                          {f?.email || ""}
+                          {f.email}
                         </div>
                       </div>
                     </div>

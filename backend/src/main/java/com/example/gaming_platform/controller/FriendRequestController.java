@@ -185,4 +185,21 @@ public class FriendRequestController {
 
         return ResponseEntity.ok("Friend request accepted");
     }
+
+    /**
+    * Denies a friend request.
+    */
+    @PostMapping("/{requestId}/deny")
+    public ResponseEntity<?> denyFriendRequest(@PathVariable Long requestId) {
+
+        FriendRequest request = friendRequestRepository.findById(requestId).orElse(null);
+        if (request == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        request.setStatus("DENIED");
+        friendRequestRepository.save(request);
+
+        return ResponseEntity.ok("Friend request denied");
+    }
 }
