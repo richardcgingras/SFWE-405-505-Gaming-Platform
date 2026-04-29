@@ -1,0 +1,365 @@
+.checkout-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 0;
+    min-height: calc(100vh - 64px);
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 40px 60px;
+    align-items: start;
+  }
+  
+  @media (max-width: 900px) {
+    .checkout-layout {
+      grid-template-columns: 1fr;
+      padding: 24px 20px 40px;
+      gap: 32px;
+    }
+  }
+  
+  /* ── Shared section label ─────────────────── */
+  .checkout-section-label {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  
+  /* ══════════════════════════════════════════
+     ORDER SUMMARY (left column)
+     ══════════════════════════════════════════ */
+  .checkout-summary {
+    background: var(--blue-card);
+    border: 1px solid var(--blue-border);
+    border-radius: 8px;
+    padding: 32px 28px;
+    position: sticky;
+    top: 88px;
+    animation: fadeUp 0.45s ease both;
+  }
+  
+  /* Game card inside summary */
+  .order-game-card {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 16px;
+    background: var(--blue-panel);
+    border: 1px solid var(--blue-border);
+    border-radius: 6px;
+    margin-bottom: 28px;
+  }
+  
+  .order-game-art {
+    width: 72px;
+    height: 72px;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: rgba(21, 101, 192, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .order-game-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .order-game-art-placeholder {
+    font-size: 2rem;
+  }
+  
+  .order-game-details {
+    flex: 1;
+  }
+  .order-game-title {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .order-game-genre {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .order-game-type {
+    font-size: 0.78rem;
+    color: var(--blue);
+    font-weight: 600;
+  }
+  
+  /* Price breakdown */
+  .order-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--blue-border);
+  }
+  .order-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+  }
+  .order-line-total {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding-top: 10px;
+    border-top: 1px solid var(--blue-border);
+    margin-top: 4px;
+  }
+  .order-total-price {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--red);
+    letter-spacing: 0.04em;
+  }
+  
+  /* Secure badge */
+  .order-secure-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    letter-spacing: 0.06em;
+  }
+  .secure-icon {
+    font-size: 0.9rem;
+  }
+  
+  /* ══════════════════════════════════════════
+     PAYMENT FORM (right column)
+     ══════════════════════════════════════════ */
+  .checkout-form-panel {
+    padding: 0 0 0 48px;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+  
+  @media (max-width: 900px) {
+    .checkout-form-panel {
+      padding: 0;
+    }
+  }
+  
+  .checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 480px;
+  }
+  
+  /* Divider with label */
+  .form-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 4px 0;
+  }
+  .form-divider::before,
+  .form-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--blue-border);
+  }
+  
+  /* Card number with icons overlay */
+  .card-input-wrapper {
+    position: relative;
+  }
+  .card-input-wrapper .form-input {
+    width: 100%;
+    padding-right: 80px;
+  }
+  .card-icons {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 6px;
+  }
+  .card-icon-visa,
+  .card-icon-mc {
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+  .card-icon-visa {
+    background: #1a1f71;
+    color: #fff;
+  }
+  .card-icon-mc {
+    background: #eb001b;
+    color: #fff;
+  }
+  
+  /* Side-by-side row */
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  
+  /* Validation */
+  .input-error {
+    border-color: var(--red) !important;
+    box-shadow: 0 0 0 2px var(--red-glow);
+  }
+  .field-error {
+    font-size: 0.75rem;
+    color: var(--red);
+    font-family: var(--font-ui);
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+  
+  /* Submit button */
+  .checkout-submit {
+    padding: 14px 24px;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    margin-top: 8px;
+  }
+  
+  /* Loading dots inside button */
+  .loading-dots {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+  }
+  .loading-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+    animation: dotBounce 0.8s infinite ease-in-out;
+  }
+  .loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes dotBounce {
+    0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+    40%           { transform: scale(1);   opacity: 1; }
+  }
+  
+  /* Terms */
+  .checkout-terms {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.6;
+  }
+  .checkout-terms a {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .checkout-terms a:hover { color: var(--red); }
+  
+  /* ══════════════════════════════════════════
+     SUCCESS SCREEN
+     ══════════════════════════════════════════ */
+  .checkout-success-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 64px);
+    padding: 40px 20px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .success-box {
+    background: var(--blue-card);
+    border: 1px solid var(--blue-border);
+    border-radius: 10px;
+    padding: 52px 44px;
+    max-width: 460px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    animation: fadeUp 0.5s ease both;
+  }
+  
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(232, 25, 44, 0.12);
+    border: 2px solid var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: var(--red);
+    margin: 0 auto 24px;
+    box-shadow: 0 0 30px var(--red-glow);
+    animation: successPop 0.5s 0.2s ease both;
+  }
+  
+  @keyframes successPop {
+    from { transform: scale(0.5); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+  
+  .success-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+  
+  .success-sub {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+  
+  .success-game-name {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    color: var(--red);
+  }
+  
+  .success-email {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+  .success-email strong { color: var(--text-secondary); }
+  
+  .success-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }

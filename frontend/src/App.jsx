@@ -9,6 +9,7 @@ import Library from './pages/Library/Library.jsx'
 import Download from './pages/Download/Download.jsx'
 import VideoGames from './pages/VideoGame/VideoGame.jsx'
 import Community from './pages/Community/Community.jsx'
+import Checkout from './pages/Checkout/Checkout';
 import Store from './pages/Store/Store.jsx'
 import Cart from './pages/ShoppingCart/Cart.jsx'
 import Publish from './pages/Publish/Publish.jsx'
