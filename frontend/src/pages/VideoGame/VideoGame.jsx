@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./VideoGame.css";
 
 export default function VideoGames() {
     const [games, setGames] = useState([]);
@@ -12,7 +11,6 @@ export default function VideoGames() {
     useEffect(() => {
         const token = localStorage.getItem("token");
 
-        // 🚨 If not logged in → redirect
         if (!token) {
             navigate("/login");
             return;
@@ -25,7 +23,6 @@ export default function VideoGames() {
         })
             .then(res => {
                 if (res.status === 401) {
-                    // token invalid or expired
                     localStorage.removeItem("token");
                     navigate("/login");
                     return null;
@@ -48,88 +45,43 @@ export default function VideoGames() {
     );
 
     return (
-        <div className="page">
-            {/* BACKGROUND */}
-            <div className="bg-glow"></div>
-
-            {/* NAV */}
-            <nav className="nav">
-                <div className="nav-logo">
-                    <span className="logo-icon">🎮</span>
-                    <span className="logo-text">
-            GOOD<span>GAMERS</span>
-          </span>
+        <main className="main" style={{ paddingTop: '40px' }}>
+            <section className="section">
+                <div className="section-header">
+                    <h2 className="section-title">All Games</h2>
+                    <input
+                        type="text"
+                        placeholder="Search games..."
+                        className="form-input"
+                        style={{ width: '300px' }}
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
                 </div>
 
-                <ul className="nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/games">Games</a></li>
-                </ul>
+                {loading && <div className="section-status">LOADING...</div>}
 
-                <div className="nav-actions">
-                    <button
-                        className="btn btn-ghost"
-                        onClick={() => {
-                            localStorage.removeItem("token");
-                            navigate("/login");
-                        }}
-                    >
-                        Logout
-                    </button>
-                </div>
-            </nav>
+                {!loading && filteredGames.length === 0 && (
+                    <div className="hero-sub">No games found.</div>
+                )}
 
-            {/* MAIN */}
-            <main className="main">
-                <section className="section">
-
-                    {/* HEADER */}
-                    <div className="games-header">
-                        <h2 className="section-title">All Games</h2>
-
-                        <input
-                            type="text"
-                            placeholder="Search games..."
-                            className="games-search"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
-                    </div>
-
-                    {/* STATES */}
-                    {loading && <div className="games-loading">LOADING...</div>}
-
-                    {!loading && filteredGames.length === 0 && (
-                        <div className="games-empty">No games found.</div>
-                    )}
-
-                    {/* GRID */}
-                    {!loading && filteredGames.length > 0 && (
-                        <div className="games-grid">
-                            {filteredGames.map((game, index) => (
-                                <div
-                                    key={game.id}
-                                    className="game-card"
-                                    style={{ animationDelay: `${index * 0.05}s` }}
-                                >
-                                    <div className="game-card-info">
-
-                                        <div className="game-meta">
-                                            <div className="game-card-title">
-                                                {game.name}
-                                            </div>
-
-                                            <div className="game-price">
-                                                ${game.price}
-                                            </div>
-
-                                            <div className="game-category">
-                                                {game.category?.map(c => c.type).join(", ")}
-                                            </div>
-
-                                            <div className="game-date">
-                                                {new Date(game.releaseDate).toLocaleDateString()}
-                                            </div>
+                {!loading && filteredGames.length > 0 && (
+                    <div className="games-grid">
+                        {filteredGames.map((game, index) => (
+                            <div
+                                key={game.id}
+                                className="game-card"
+                                style={{ animationDelay: `${index * 0.05}s` }}
+                            >
+                                <div className="game-card-info" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: '10px' }}>
+                                        <h3 className="game-card-title">{game.name}</h3>
+                                        <span className="game-price">${game.price}</span>
+                                    </div>
+                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                                        <div>{game.category?.map(c => c.type).join(", ")}</div>
+                                        <div style={{ marginTop: '4px', opacity: 0.7 }}>
+                                            Released: {new Date(game.releaseDate).toLocaleDateString()}
                                         </div>
 
                                         <div className="game-card-actions">
@@ -155,19 +107,15 @@ export default function VideoGames() {
                                         </div>
 
                                     </div>
+                                    <button className="btn btn-red" style={{ width: '100%', marginTop: '20px', padding: '8px' }}>
+                                        View Details
+                                    </button>
                                 </div>
-                            ))}
-                        </div>
-                    )}
-
-                </section>
-            </main>
-
-            {/* FOOTER */}
-            <footer className="footer">
-                <div className="footer-logo">GOODGAMERS</div>
-                <div className="footer-copy">© 2026 Gaming Platform</div>
-            </footer>
-        </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </section>
+        </main>
     );
 }

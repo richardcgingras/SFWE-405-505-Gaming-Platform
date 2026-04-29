@@ -2,16 +2,20 @@ package com.example.gaming_platform.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.gaming_platform.entity.PasswordResetRequest;
 import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.repository.UserProfileRepository;
 import com.example.gaming_platform.service.UserProfileService;
+import com.example.gaming_platform.util.PasswordValidator;
 
 /**
  * REST controller for user profile operations.
@@ -22,15 +26,21 @@ public class UserProfileController {
 
     private final UserProfileRepository userProfileRepository;
     private final UserProfileService userProfileService;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * Creates a new UserProfileController instance.
      *
      * @param userProfileRepository the user profile repository
+     * @param userProfileService the user profile service
+     * @param passwordEncoder the BCrypt password encoder
      */
-    public UserProfileController(UserProfileRepository userProfileRepository, UserProfileService userProfileService) {
+    public UserProfileController(UserProfileRepository userProfileRepository,
+                                 UserProfileService userProfileService,
+                                 PasswordEncoder passwordEncoder) {
         this.userProfileRepository = userProfileRepository;
         this.userProfileService = userProfileService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -79,6 +89,14 @@ public class UserProfileController {
             userProfile.setStatus("active");
         }
 
+        // Validate password against platform rules
+        if (!PasswordValidator.isValid(userProfile.getPassword())) {
+            return ResponseEntity.badRequest().body(PasswordValidator.requirementsMessage());
+        }
+
+        // Hash the password before persisting
+        userProfile.setPassword(passwordEncoder.encode(userProfile.getPassword()));
+
         UserProfile savedUserProfile = userProfileRepository.save(userProfile);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUserProfile);
     }
@@ -119,5 +137,32 @@ public class UserProfileController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    /**
+     * Resets a user's password.
+     * Validates the new password against platform rules, then saves the BCrypt hash.
+     *
+     * @param request the reset request containing the username and new password
+     * @return 200 OK on success, 400 on invalid password, 404 if user not found
+     */
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest request) {
+        if (request.getUsername() == null || request.getUsername().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Username is required");
+        }
+
+        if (!PasswordValidator.isValid(request.getNewPassword())) {
+            return ResponseEntity.badRequest().body(PasswordValidator.requirementsMessage());
+        }
+
+        UserProfile user = userProfileRepository.findByUserName(request.getUsername());
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userProfileRepository.save(user);
+        return ResponseEntity.ok("Password reset successfully");
     }
 }

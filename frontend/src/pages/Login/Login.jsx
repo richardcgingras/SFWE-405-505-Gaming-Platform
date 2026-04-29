@@ -1,4 +1,3 @@
-import "./Login.css"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/Login.js"
@@ -13,11 +12,11 @@ export default function Login() {
     try {
       const data = await login(username, password);
       localStorage.setItem("token", data.accessToken);
-      localStorage.setItem("username", username); // ✅ store username
+      localStorage.setItem("username", username);
+      localStorage.setItem("userId", data.userId);
       console.log("Got token: ", data.accessToken);
-      console.log(localStorage.getItem("token"))
-      console.log("Logged in");
-      navigate("/");
+      navigate("/home");
+      window.location.reload(); // Quick fix to refresh navbar state
     } catch (err) {
       console.error(err);
       alert("Login failed.");
@@ -53,6 +52,11 @@ export default function Login() {
               />
             </div>
             <button className="btn btn-red btn-full">Log In</button>
+            <p className="auth-switch" style={{ marginTop: "8px" }}>
+              <a href="/reset-password" style={{ color: "var(--text-muted)", fontSize: "0.82rem" }}>
+                Forgot your password?
+              </a>
+            </p>
             <p className="auth-switch">
               Don't have an account? <a href="/signup">Sign Up</a>
             </p>

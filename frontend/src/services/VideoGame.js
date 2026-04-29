@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080/api";
+const BASE_URL = "/api";
 
 // Helper to get token from localStorage
 const getToken = () => localStorage.getItem("token") || "";
@@ -12,15 +12,15 @@ const getToken = () => localStorage.getItem("token") || "";
  * @returns {Promise<Array>} - A promise that resolves to an array of video games.
  */
 export async function getAllVideoGames() {
-  const response = await fetch(`${BASE_URL}/video-games`, {
-    headers: {
-      'Content-Type': 'application/json'
+    const response = await fetch(`${BASE_URL}/video-games`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
     }
-  });
-  if (!response.ok) {
-    throw new Error(`Error: ${response.status}`);
-  }
-  return response.json();
+    return response.json();
 }
 
 /**
@@ -87,4 +87,32 @@ export async function getFile(id, file) {
     
     // Return file content or response body as string
     return response.text();
+
+}
+
+/**
+ * Uploads a file for a video game.
+ * @param {number} id - The Video game ID.
+ * @param {File} file - The file to upload.
+ * @returns {Promise<Object>} - A promise that resolves to the response body or error.
+ */
+export async function uploadFile(id, file) {
+    const token = getToken();
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(`${BASE_URL}/video-games/upload/${id}`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`
+        },// Note: Don't set Content-Type for FormData, browser sets it automatically with boundary
+        body: formData
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Upload failed: ${response.status} - ${errorText}`);
+    }
+
+    return response.blob();
 }
