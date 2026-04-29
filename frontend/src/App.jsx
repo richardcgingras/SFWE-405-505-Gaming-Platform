@@ -13,24 +13,31 @@ import Store from './pages/Store/Store.jsx'
 import Cart from './pages/ShoppingCart/Cart.jsx'
 import Publish from './pages/Publish/Publish.jsx'
 import Upload from './pages/Upload/Upload.jsx'
+import Wishlist from './pages/wishList/wishlist.jsx'
+import UserProfile from './pages/UserProfile/userProfile.jsx'
 import Layout from './components/Layout/Layout.jsx'
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/chat" element={<ChatPage />} />
-      <Route path="/library" element={<Library />} />
-      <Route path="/download" element={<Download />} />
-      <Route path="/games" element={<VideoGames />} />
-      <Route path="/community" element={<Community />} />
-      <Route path="/store" element={<Store />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/publish" element={<Publish />} />
-      <Route path="/upload" element={<Upload />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route element={<Layout />}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/library" element={<Library />} />
+        <Route path="/download" element={<Download />} />
+        <Route path="/games" element={<VideoGames />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/publish" element={<Publish />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/profile/:id" element={<UserProfile />} />
+      </Route>
     </Routes>
   )
 }

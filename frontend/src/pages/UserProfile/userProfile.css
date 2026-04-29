@@ -1,0 +1,217 @@
+/* ══ USER PROFILE PAGE STYLING ══ */
+
+.profile-page {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Header Section */
+.profile-header {
+    margin-bottom: 48px;
+    padding: 32px;
+    background: var(--blue-card);
+    border: 1px solid var(--blue-border);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(232, 25, 44, 0.05));
+    pointer-events: none;
+}
+
+.profile-main-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.profile-username {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1;
+}
+
+.profile-status-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--blue-border);
+    border-radius: 20px;
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--text-muted);
+}
+
+.status-dot.active { background: #4caf50; box-shadow: 0 0 8px #4caf50; }
+.status-dot.away { background: #ff9800; }
+.status-dot.busy { background: var(--red); }
+
+.profile-email {
+    font-family: var(--font-ui);
+    color: var(--blue);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.profile-bio-box {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 3px solid var(--red);
+}
+
+.profile-section-mini-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+}
+
+.profile-bio-text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Category Tags */
+.category-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.category-tag {
+    background: rgba(21, 101, 192, 0.15);
+    border: 1px solid var(--blue-border);
+    color: var(--blue);
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Game Grids */
+.profile-game-grid, .profile-wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.profile-game-card {
+    background: var(--blue-card);
+    border: 1px solid var(--blue-border);
+    padding: 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.profile-game-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-3px);
+}
+
+.wishlist-card {
+    border-left: 3px solid var(--red);
+}
+
+.game-price {
+    display: block;
+    margin-top: 8px;
+    color: var(--red);
+    font-weight: 700;
+}
+
+/* Friends Section */
+.friends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.friend-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: var(--blue-card);
+    border: 1px solid var(--blue-border);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.friend-card:hover {
+    border-color: var(--blue);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.friend-avatar {
+    width: 48px;
+    height: 48px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.friend-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.friend-name {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.friend-status {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: capitalize;
+}
+
+.empty-msg {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .profile-username {
+        font-size: 2.5rem;
+    }
+    
+    .profile-main-info {
+        flex-direction: column;
+        gap: 16px;
+    }
+}
