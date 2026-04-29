@@ -73,7 +73,7 @@ export default function Checkout() {
   
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1400));
+      await purchaseGame({ gameId: game.id });
       setSuccess(true);
     } catch (err) {
       showToast(err.message || 'Payment failed. Please try again.');
