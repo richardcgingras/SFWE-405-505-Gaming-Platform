@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllVideoGames } from "../../services/VideoGame.js";
+import { addGameToCart } from "../../services/ShoppingCart.js";
+import { addGameToWishlist } from "../../services/Wishlist.js";
 import "./Store.css";
 
 export default function Store() {
@@ -9,6 +11,7 @@ export default function Store() {
   const [selectedGame, setSelectedGame] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [notification, setNotification] = useState("");
 
   const navigate = useNavigate();
 
@@ -50,6 +53,40 @@ export default function Store() {
       .join(", ");
   };
 
+  const handleAddToCart = async (gameId) => {
+    try {
+      const response = await addGameToCart(gameId);
+      if (response.Status === "success") {
+        setNotification("Game added to cart!");
+        setTimeout(() => setNotification(""), 3000);
+      } else {
+        setNotification(response.Status || "Error adding to cart.");
+        setTimeout(() => setNotification(""), 3000);
+      }
+    } catch (err) {
+      console.error("Cart error:", err);
+      setNotification("Failed to add to cart. Are you logged in?");
+      setTimeout(() => setNotification(""), 3000);
+    }
+  };
+
+  const handleAddToWishlist = async (gameId) => {
+    try {
+      const response = await addGameToWishlist(gameId);
+      if (response.Status === "success") {
+        setNotification("Game added to wishlist!");
+        setTimeout(() => setNotification(""), 3000);
+      } else {
+        setNotification(response.Status || "Error adding to wishlist.");
+        setTimeout(() => setNotification(""), 3000);
+      }
+    } catch (err) {
+      console.error("Wishlist error:", err);
+      setNotification("Failed to add to wishlist. Are you logged in?");
+      setTimeout(() => setNotification(""), 3000);
+    }
+  };
+
   return (
     <main className="main">
       <section className="section">
@@ -77,6 +114,9 @@ export default function Store() {
           </div>
    
           </div>
+        {notification && (
+          <div className="store-notification">{notification}</div>
+        )}
         {loading && <div className="store-loading">LOADING STORE...</div>}
 
         {!loading && message && (
@@ -146,12 +186,27 @@ export default function Store() {
               )}
             </div>
 
-            <button
-              className="btn btn-ghost"
-              onClick={() => setSelectedGame(null)}
-            >
-              Close
-            </button>
+            <div className="store-detail-actions" style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
+              <button
+                className="btn btn-red"
+                onClick={() => handleAddToCart(selectedGame.id)}
+              >
+                Add to Cart
+              </button>
+              <button
+                className="btn btn-ghost"
+                style={{ border: '1px solid var(--blue-border)' }}
+                onClick={() => handleAddToWishlist(selectedGame.id)}
+              >
+                Add to Wishlist
+              </button>
+              <button
+                className="btn btn-ghost"
+                onClick={() => setSelectedGame(null)}
+              >
+                Close
+              </button>
+            </div>
           </div>
         )}
       </section>

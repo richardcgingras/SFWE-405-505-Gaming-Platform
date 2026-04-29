@@ -43,6 +43,8 @@ const Navbar = () => {
       <ul className="nav-links">
         <li><Link to="/store">Store</Link></li>
         {user && <li><Link to="/library">Library</Link></li>}
+        {user && <li><Link to="/wishlist">Wishlist</Link></li>}
+        {user && <li><Link to="/cart">Cart</Link></li>}
         <li><Link to="/community">Community</Link></li>
         <li><Link to="/news">News</Link></li>
       </ul>

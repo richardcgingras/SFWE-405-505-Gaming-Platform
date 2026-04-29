@@ -1,10 +1,11 @@
 package com.example.gaming_platform.impl;
 
-import com.example.gaming_platform.Payment;
-import com.example.gaming_platform.entity.PaymentResponse;
 import java.util.Calendar;
 import java.util.UUID;
 import java.util.regex.Pattern;
+
+import com.example.gaming_platform.Payment;
+import com.example.gaming_platform.entity.PaymentResponse;
 
 public class CreditCardPayment implements Payment {
     private String cardNumber;
@@ -14,6 +15,9 @@ public class CreditCardPayment implements Payment {
 
     @Override
     public boolean validatePaymentDetails() {
+        System.out.println("!!: "+ isValidCardNumber() + "'" + cardNumber + "'");
+        System.out.println("!!: "+ isValidCVV() + "'" + cvv + "'");
+        System.out.println("!!: "+ isValidExpiry() + "'" + expiryDate + "'");
         return isValidCardNumber() && isValidCVV() && isValidExpiry();
     }
 
