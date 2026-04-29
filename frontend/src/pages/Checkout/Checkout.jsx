@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Checkout.css';
 import { purchaseGame } from "../../services/Checkout";
+import {checkoutWithCreditCard, addGameToCart} from "../../services/ShoppingCart.js";
 
 export default function Checkout() {
   const location = useLocation();
@@ -73,7 +74,13 @@ export default function Checkout() {
   
     setLoading(true);
     try {
-      await purchaseGame({ gameId: game.id });
+      // await purchaseGame({ gameId: game.id });
+      await addGameToCart(game.id);
+      await checkoutWithCreditCard({"cardNumber": form.cardNumber.replace(/\s/g, ''),
+                                    "cardHolderName": form.cardName,
+                                    "expiryDate": form.expiry,
+                                    "cvv": form.cvv
+      })
       setSuccess(true);
     } catch (err) {
       showToast(err.message || 'Payment failed. Please try again.');
