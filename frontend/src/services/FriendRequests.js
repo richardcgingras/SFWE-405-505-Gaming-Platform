@@ -43,7 +43,7 @@ export async function getFriendStatus(senderId, receiverId) {
   );
 
   if (!response.ok) throw new Error("Unable to load friend status");
-  return response.json();
+  return response.text();
 }
 
 export async function sendFriendRequest(senderId, receiverId) {

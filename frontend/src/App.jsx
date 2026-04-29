@@ -18,19 +18,22 @@ import Layout from './components/Layout/Layout.jsx'
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/chat" element={<ChatPage />} />
-      <Route path="/library" element={<Library />} />
-      <Route path="/download" element={<Download />} />
-      <Route path="/games" element={<VideoGames />} />
-      <Route path="/community" element={<Community />} />
-      <Route path="/store" element={<Store />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/publish" element={<Publish />} />
-      <Route path="/upload" element={<Upload />} />
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/library" element={<Library />} />
+        <Route path="/download" element={<Download />} />
+        <Route path="/games" element={<VideoGames />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/publish" element={<Publish />} />
+        <Route path="/upload" element={<Upload />} />
+      </Route>
     </Routes>
   )
 }

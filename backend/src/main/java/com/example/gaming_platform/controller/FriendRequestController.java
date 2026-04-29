@@ -95,6 +95,37 @@ public class FriendRequestController {
     }
 
     /**
+     * Gets the friend status between two users.
+     */
+    @GetMapping("/status")
+    public ResponseEntity<?> getFriendStatus(
+            @RequestParam Long senderId,
+            @RequestParam Long receiverId
+    ) {
+        UserProfile sender = userProfileRepository.findById(senderId).orElse(null);
+        UserProfile receiver = userProfileRepository.findById(receiverId).orElse(null);
+
+        if (sender == null || receiver == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (sender.getFriends() != null &&
+            sender.getFriends().stream().anyMatch(f -> f.getId().equals(receiver.getId()))) {
+            return ResponseEntity.ok("FRIENDS");
+        }
+
+        boolean pending =
+                friendRequestRepository.existsBySenderAndReceiverAndStatus(sender, receiver, "PENDING") ||
+                friendRequestRepository.existsBySenderAndReceiverAndStatus(receiver, sender, "PENDING");
+
+        if (pending) {
+            return ResponseEntity.ok("PENDING");
+        }
+
+        return ResponseEntity.ok("NONE");
+    }
+
+    /**
      * Gets all incoming friend requests for a user.
      */
     @GetMapping("/received/{userId}")
