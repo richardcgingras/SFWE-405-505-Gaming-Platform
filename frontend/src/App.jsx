@@ -9,6 +9,7 @@ import Library from './pages/Library/Library.jsx'
 import Download from './pages/Download/Download.jsx'
 import VideoGames from './pages/VideoGame/VideoGame.jsx'
 import Community from './pages/Community/Community.jsx'
+import Checkout from './pages/Checkout/Checkout';
 import Store from './pages/Store/Store.jsx'
 import Cart from './pages/ShoppingCart/Cart.jsx'
 import Publish from './pages/Publish/Publish.jsx'
@@ -20,8 +21,8 @@ import Layout from './components/Layout/Layout.jsx'
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
       <Route element={<Layout />}>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

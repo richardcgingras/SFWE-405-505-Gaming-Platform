@@ -101,6 +101,17 @@
     letter-spacing: 0.08em;
 }
 
+.store-notification {
+    background: var(--blue-glow-dim);
+    border: 1px solid var(--blue);
+    color: var(--text-primary);
+    padding: 12px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
 .store-detail-card {
     margin-top: 28px;
     padding: 24px;

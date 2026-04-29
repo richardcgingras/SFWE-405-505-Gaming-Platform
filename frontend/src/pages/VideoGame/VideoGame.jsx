@@ -83,6 +83,29 @@ export default function VideoGames() {
                                         <div style={{ marginTop: '4px', opacity: 0.7 }}>
                                             Released: {new Date(game.releaseDate).toLocaleDateString()}
                                         </div>
+
+                                        <div className="game-card-actions">
+                                            <button className="btn btn-ghost game-action">
+                                                View
+                                            </button>
+                                            <button
+                                                className="btn btn-red game-action"
+                                                onClick={() => navigate('/checkout', {
+                                                    state: {
+                                                        game: {
+                                                            id: game.id,
+                                                            title: game.name,
+                                                            price: game.price,
+                                                            genre: game.category?.map(c => c.type).join(", "),
+                                                            image: null,
+                                                        }
+                                                    }
+                                                })}
+                                            >
+                                                Buy
+                                            </button>
+                                        </div>
+
                                     </div>
                                     <button className="btn btn-red" style={{ width: '100%', marginTop: '20px', padding: '8px' }}>
                                         View Details

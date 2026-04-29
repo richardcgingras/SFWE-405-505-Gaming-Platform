@@ -1,0 +1,93 @@
+/* ══ WISHLIST PAGE STYLING ══ */
+/* Consistent with Cart.css and Global Theme */
+
+.wishlist-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.wishlist-summary {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wishlist-summary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Reusing some logic from global but ensuring specific wishlist look */
+.game-card {
+    background: var(--blue-card);
+    border: 1px solid var(--blue-border);
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--red);
+    opacity: 0.7;
+}
+
+.game-card:hover {
+    border-color: var(--red);
+    box-shadow: 0 8px 32px rgba(232, 25, 44, 0.15);
+    transform: translateX(5px);
+}
+
+.game-card-title {
+    font-family: var(--font-display);
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+}
+
+.game-price {
+    font-family: var(--font-display);
+    color: var(--red);
+    font-weight: 700;
+}
+
+.game-meta {
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+}
+
+/* Status Messages */
+.section-status {
+    text-align: center;
+    padding: 3rem;
+    background: var(--blue-card);
+    border: 1px solid var(--blue-border);
+    border-radius: 12px;
+    color: var(--text-secondary);
+}
+
+.section-status.error {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+/* Button override for ghost buttons in wishlist */
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+    .item-footer {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .item-footer .btn {
+        width: 100%;
+    }
+}
