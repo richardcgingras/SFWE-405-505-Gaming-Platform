@@ -1,5 +1,6 @@
 package com.example.gaming_platform.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -53,13 +54,9 @@ public class ShoppingCartService {
  */
     public List<VideoGame> getGames(Long userId) throws Exception{
 
-        ShoppingCart shoppingCart = shoppingCartRepository.findByAccount(userProfileRepository.findById(userId).get());
-        if (shoppingCart == null){
-            return List.of();
-        } else {
-            return shoppingCart.getGames();
+        ShoppingCart shoppingCart = getCart(userId);
+        return shoppingCart.getGames();
         }
-    }
 
 /**
  * Gets a user's shopping cart
@@ -68,7 +65,13 @@ public class ShoppingCartService {
  * @return shopping cart
  */
     public ShoppingCart getCart(Long userId){
-        return shoppingCartRepository.findByAccount(userProfileRepository.findById(userId).get());
+        ShoppingCart gotCart = shoppingCartRepository.findByAccount(userProfileRepository.findById(userId).get());
+        if (gotCart == null){
+            gotCart = new ShoppingCart();
+            gotCart.setAccount(userProfileRepository.findById(userId).get());
+            shoppingCartRepository.save(gotCart);
+        }
+        return gotCart;
     }
 
 /**
@@ -78,41 +81,47 @@ public class ShoppingCartService {
  * @param gameId the id of the game to add
  * @return the operation result
  */
-    public String addGame(Long userId, Long gameId){
+    public String addGame(Long userId, Long gameId) {
         // Attempt too add the specified game to the shopping cart
-
         VideoGame gameTooAdd;
         ShoppingCart shoppingCart = getCart(userId);
 
         Optional<VideoGame> gameLookup = videoGameRepository.findById(gameId);
-        if (gameLookup.isPresent()){
+        if (gameLookup.isPresent()) {
             gameTooAdd = gameLookup.get();
         } else {
             return "Game does not exist";
         }
-        if (shoppingCart == null){
+        if (shoppingCart == null) {
             return "Shopping cart does not exist";
+        }
+
+        // Initialize games list if null to prevent NullPointerException
+        List<VideoGame> currentGamesList = shoppingCart.getGames();
+        if (currentGamesList == null) {
+            currentGamesList = new ArrayList<>();
+            shoppingCart.setGames(currentGamesList);
         }
 
         // Tests:
         Calendar currentDate = Calendar.getInstance();
         if (currentDate.after(gameTooAdd.getReleaseDate())){
-            // Past the release date to continue testing
-            boolean gameExists = shoppingCart.getGames().stream()
-                .anyMatch(g -> g == gameTooAdd);
-            if (gameExists) {
-                return "Game is already in the Shopping Cart";
+            if (shoppingCart.getGames() != null){
+                boolean gameExists = shoppingCart.getGames().stream()
+                    .anyMatch(g -> g == gameTooAdd);
+                if (gameExists) {
+                    return "Game is already in the Shopping Cart";
+                }
             }
         } else {
-            // Game is not available for sale yet
             return "Game is not for sale yet";
         }
 
         // Add the game to the list
-        List<VideoGame> currentGamesList = shoppingCart.getGames();
         currentGamesList.add(gameTooAdd);
         shoppingCart.setGames(currentGamesList);
         shoppingCartRepository.save(shoppingCart);
+        System.out.println("?" + shoppingCart.getId() + ", ");
         return "Success";
     }
 
