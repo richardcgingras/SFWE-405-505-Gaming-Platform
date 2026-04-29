@@ -51,3 +51,21 @@ export async function addFriend(userId, friendId) {
     });
     return response.json();
 }
+
+// Update bio
+export async function updateBio(userId, bio) {
+    const token = getToken();
+    const response = await fetch(`${BASE_URL}/user-profiles/${userId}/bio`, {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: bio // Sending as raw string if the backend expects @RequestBody String
+    });
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Failed to update bio");
+    }
+    return true;
+}

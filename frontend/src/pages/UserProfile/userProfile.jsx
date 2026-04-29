@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getUserProfile } from "../../services/UserProfile.js";
+import { getUserProfile, updateBio } from "../../services/UserProfile.js";
 import "./userProfile.css";
 
 export default function UserProfile() {
@@ -8,6 +8,12 @@ export default function UserProfile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editingBio, setEditingBio] = useState(false);
+  const [newBio, setNewBio] = useState("");
+  const [savingBio, setSavingBio] = useState(false);
+
+  const currentUserId = localStorage.getItem("userId");
+  const isOwnProfile = currentUserId === id;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -15,6 +21,7 @@ export default function UserProfile() {
         setLoading(true);
         const data = await getUserProfile(id);
         setProfile(data);
+        setNewBio(data.bio || "");
         setError(null);
       } catch (err) {
         console.error("Error fetching profile:", err);
@@ -28,6 +35,20 @@ export default function UserProfile() {
       fetchProfile();
     }
   }, [id]);
+
+  const handleSaveBio = async () => {
+    try {
+      setSavingBio(true);
+      await updateBio(id, newBio);
+      setProfile({ ...profile, bio: newBio });
+      setEditingBio(false);
+    } catch (err) {
+      console.error("Failed to save bio:", err);
+      alert(err.message || "Failed to save bio");
+    } finally {
+      setSavingBio(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -65,8 +86,50 @@ export default function UserProfile() {
         <div className="profile-contact-bio">
           <p className="profile-email">{profile.email}</p>
           <div className="profile-bio-box">
-            <h3 className="profile-section-mini-title">About Me</h3>
-            <p className="profile-bio-text">{profile.bio || "No bio provided."}</p>
+            <div className="profile-section-header-mini">
+              <h3 className="profile-section-mini-title">About Me</h3>
+              {isOwnProfile && !editingBio && (
+                <button 
+                  className="btn-link-small" 
+                  onClick={() => setEditingBio(true)}
+                >
+                  Edit Bio
+                </button>
+              )}
+            </div>
+            
+            {editingBio ? (
+              <div className="bio-edit-container">
+                <textarea
+                  className="bio-textarea"
+                  value={newBio}
+                  onChange={(e) => setNewBio(e.target.value)}
+                  placeholder="Tell us about yourself..."
+                  maxLength={500}
+                />
+                <div className="bio-edit-actions">
+                  <button 
+                    className="btn btn-red btn-small" 
+                    onClick={handleSaveBio}
+                    disabled={savingBio}
+                  >
+                    {savingBio ? "Saving..." : "Save"}
+                  </button>
+                  <button 
+                    className="btn btn-ghost btn-small" 
+                    onClick={() => {
+                      setEditingBio(false);
+                      setNewBio(profile.bio || "");
+                    }}
+                    disabled={savingBio}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className="profile-bio-text">{profile.bio || "No bio provided."}</p>
+            )}
           </div>
         </div>
       </header>

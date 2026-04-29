@@ -165,4 +165,23 @@ public class UserProfileController {
         userProfileRepository.save(user);
         return ResponseEntity.ok("Password reset successfully");
     }
+
+    /**
+     * Updates a user's bio.
+     *
+     * @param id the user id
+     * @param bio the new bio text
+     * @return 200 OK on success, or 400 if validation fails
+     */
+    @PutMapping("/{id}/bio")
+    public ResponseEntity<?> updateBio(@PathVariable Long id, @RequestBody String bio) {
+        try {
+            userProfileService.editBio(id, bio);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

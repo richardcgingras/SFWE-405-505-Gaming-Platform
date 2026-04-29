@@ -92,6 +92,61 @@
     margin-bottom: 8px;
 }
 
+.profile-section-header-mini {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.btn-link-small {
+    background: none;
+    border: none;
+    color: var(--blue);
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: var(--font-ui);
+}
+
+.btn-link-small:hover {
+    color: var(--text-primary);
+}
+
+.bio-edit-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bio-textarea {
+    width: 100%;
+    min-height: 100px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--blue-border);
+    border-radius: 4px;
+    padding: 12px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    resize: vertical;
+    outline: none;
+}
+
+.bio-textarea:focus {
+    border-color: var(--blue);
+}
+
+.bio-edit-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-small {
+    padding: 6px 16px;
+    font-size: 0.85rem;
+}
+
 .profile-bio-text {
     color: var(--text-secondary);
     line-height: 1.6;
