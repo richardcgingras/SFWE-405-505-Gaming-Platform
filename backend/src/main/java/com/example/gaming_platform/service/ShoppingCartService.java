@@ -145,7 +145,7 @@ public class ShoppingCartService {
             return "Game does not exist";
         }
         if (shoppingCart == null){
-            return "Shopping cart does not exist";
+            return "User not found";
         }
 
         List<VideoGame> currentGamesList = shoppingCart.getGames();
@@ -182,7 +182,7 @@ public class ShoppingCartService {
 
         ShoppingCart shoppingCart = getCart(userId);
         if (shoppingCart == null){
-            return "Shopping cart does not exist";
+            return "User not found";
         }
 
         return "Success: %.2f".formatted(shoppingCart.getTotal());
