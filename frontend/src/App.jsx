@@ -9,7 +9,7 @@ import Library from './pages/Library/Library.jsx'
 import Download from './pages/Download/Download.jsx'
 import VideoGames from './pages/VideoGame/VideoGame.jsx'
 import Community from './pages/Community/Community.jsx'
-import Checkout from './pages/Checkout/Checkout';
+import Checkout from './pages/Checkout/Checkout.jsx'
 import Store from './pages/Store/Store.jsx'
 import Cart from './pages/ShoppingCart/Cart.jsx'
 import Publish from './pages/Publish/Publish.jsx'
@@ -34,9 +34,10 @@ export default function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/store" element={<Store />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/publish" element={<Publish />} />
         <Route path="/upload" element={<Upload />} />
-        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/profile/:id" element={<UserProfile />} />
       </Route>
     </Routes>
