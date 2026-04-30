@@ -17,27 +17,20 @@ public class ChatRoomService {
 
     @Transactional
     public String getOrCreateChatRoomId(String senderId, String recipientId) {
-        // Check both directions first
-        Optional<ChatRoom> existing = chatRoomRepository
-                .findBySenderIdAndRecipientId(senderId, recipientId);
-        if (existing.isPresent()) return existing.get().getChatRoomId();
+        // Normalize the chatRoomId so both directions produce the same key
+        String smaller = senderId.compareTo(recipientId) <= 0 ? senderId : recipientId;
+        String larger  = senderId.compareTo(recipientId) <= 0 ? recipientId : senderId;
+        String chatRoomId = smaller + "_" + larger;
 
-        Optional<ChatRoom> reverse = chatRoomRepository
-                .findBySenderIdAndRecipientId(recipientId, senderId);
-        if (reverse.isPresent()) return reverse.get().getChatRoomId();
-
-        // Try to create, catch duplicate if another request beat us to it
-        try {
-            String chatRoomId = senderId + "_" + recipientId;
-            chatRoomRepository.save(new ChatRoom(chatRoomId, senderId, recipientId));
-            return chatRoomId;
-        } catch (Exception e) {
-            // Another request already created it, just look it up
-            return chatRoomRepository
-                    .findBySenderIdAndRecipientId(senderId, recipientId)
-                    .or(() -> chatRoomRepository.findBySenderIdAndRecipientId(recipientId, senderId))
-                    .map(ChatRoom::getChatRoomId)
-                    .orElseThrow(() -> new RuntimeException("Could not find or create chat room"));
+        // Look up by the normalized chatRoomId
+        Optional<ChatRoom> existing = chatRoomRepository.findByChatRoomId(chatRoomId);
+        if (existing.isPresent()) {
+            return existing.get().getChatRoomId();
         }
+
+        // Create a new room with the normalized ID
+        ChatRoom room = new ChatRoom(chatRoomId, senderId, recipientId);
+        chatRoomRepository.save(room);
+        return chatRoomId;
     }
 }
