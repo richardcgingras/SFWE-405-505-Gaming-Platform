@@ -18,9 +18,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 
-/**
- * Entity representing user profile data.
- */
 @Entity
 public class UserProfile {
     @Id

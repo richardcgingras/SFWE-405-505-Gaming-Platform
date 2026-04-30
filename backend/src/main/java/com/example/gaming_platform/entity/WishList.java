@@ -25,6 +25,7 @@ public class WishList {
     List<VideoGame> games;
 
     @OneToOne
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private UserProfile account;
 
     float totalPrice;
