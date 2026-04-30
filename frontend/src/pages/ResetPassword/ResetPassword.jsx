@@ -93,132 +93,119 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="page">
-      <div className="bg-glow" />
-
-      <nav className="nav">
-        <div className="nav-logo">
-          <a href="/">
-            <span className="logo-icon"></span>
-            <span className="logo-text">good<span>Gamers</span></span>
-          </a>
+    <div className="auth-container">
+      <div className="auth-box">
+        {/* ── Header ── */}
+        <div className="reset-icon-wrap">
+          <span className="reset-icon">🔑</span>
         </div>
-      </nav>
+        <h2 className="auth-title">Reset Password</h2>
+        <p className="auth-sub">
+          Enter your username and choose a new password.
+        </p>
 
-      <div className="auth-container">
-        <div className="auth-box">
-          {/* ── Header ── */}
-          <div className="reset-icon-wrap">
-            <span className="reset-icon">🔑</span>
-          </div>
-          <h2 className="auth-title">Reset Password</h2>
-          <p className="auth-sub">
-            Enter your username and choose a new password.
+        <div className="auth-form">
+          {message && (
+            <div className={`auth-message ${isError ? "error" : "success"}`}>
+              {message}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+
+            {/* ── Username ── */}
+            <div className="form-group">
+              <label className="form-label">Username</label>
+              <input
+                className="form-input"
+                type="text"
+                id="reset-username"
+                placeholder="YourGamerTag"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                autoComplete="username"
+                required
+              />
+            </div>
+
+            {/* ── New Password ── */}
+            <div className="form-group">
+              <label className="form-label">New Password</label>
+              <input
+                className={`form-input ${
+                  passwordTouched
+                    ? isPasswordValid(newPassword)
+                      ? "input-valid"
+                      : "input-invalid"
+                    : ""
+                }`}
+                type="password"
+                id="reset-new-password"
+                placeholder="••••••••"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                onFocus={() => setPasswordFocused(true)}
+                onBlur={() => setPasswordFocused(false)}
+                autoComplete="new-password"
+                required
+              />
+
+              {/* Live checklist */}
+              {(passwordFocused || passwordTouched) && (
+                <ul className="pw-checklist">
+                  {rules.map((rule) => {
+                    const passed = rule.test(newPassword);
+                    return (
+                      <li
+                        key={rule.id}
+                        className={`pw-rule ${passed ? "pw-rule--pass" : "pw-rule--fail"}`}
+                      >
+                        <span className="pw-rule-icon">{passed ? "✓" : "✕"}</span>
+                        {rule.label}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+
+            {/* ── Confirm Password ── */}
+            <div className="form-group">
+              <label className="form-label">Confirm New Password</label>
+              <input
+                className={`form-input ${
+                  confirmPassword.length > 0
+                    ? confirmMismatch
+                      ? "input-invalid"
+                      : "input-valid"
+                    : ""
+                }`}
+                type="password"
+                id="reset-confirm-password"
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                autoComplete="new-password"
+                required
+              />
+              {confirmMismatch && (
+                <span className="pw-mismatch">Passwords do not match</span>
+              )}
+            </div>
+
+            <button
+              className="btn btn-red btn-full"
+              type="submit"
+              disabled={loading}
+              id="reset-submit-btn"
+            >
+              {loading ? "Resetting…" : "Reset Password"}
+            </button>
+          </form>
+
+          <p className="auth-switch">
+            Remembered it? <a href="/login">Back to Log In</a>
           </p>
-
-          <div className="auth-form">
-            {message && (
-              <div className={`auth-message ${isError ? "error" : "success"}`}>
-                {message}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit}>
-
-              {/* ── Username ── */}
-              <div className="form-group">
-                <label className="form-label">Username</label>
-                <input
-                  className="form-input"
-                  type="text"
-                  id="reset-username"
-                  placeholder="YourGamerTag"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  autoComplete="username"
-                  required
-                />
-              </div>
-
-              {/* ── New Password ── */}
-              <div className="form-group">
-                <label className="form-label">New Password</label>
-                <input
-                  className={`form-input ${
-                    passwordTouched
-                      ? isPasswordValid(newPassword)
-                        ? "input-valid"
-                        : "input-invalid"
-                      : ""
-                  }`}
-                  type="password"
-                  id="reset-new-password"
-                  placeholder="••••••••"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  onFocus={() => setPasswordFocused(true)}
-                  onBlur={() => setPasswordFocused(false)}
-                  autoComplete="new-password"
-                  required
-                />
-
-                {/* Live checklist */}
-                {(passwordFocused || passwordTouched) && (
-                  <ul className="pw-checklist">
-                    {rules.map((rule) => {
-                      const passed = rule.test(newPassword);
-                      return (
-                        <li
-                          key={rule.id}
-                          className={`pw-rule ${passed ? "pw-rule--pass" : "pw-rule--fail"}`}
-                        >
-                          <span className="pw-rule-icon">{passed ? "✓" : "✕"}</span>
-                          {rule.label}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </div>
-
-              {/* ── Confirm Password ── */}
-              <div className="form-group">
-                <label className="form-label">Confirm New Password</label>
-                <input
-                  className={`form-input ${
-                    confirmPassword.length > 0
-                      ? confirmMismatch
-                        ? "input-invalid"
-                        : "input-valid"
-                      : ""
-                  }`}
-                  type="password"
-                  id="reset-confirm-password"
-                  placeholder="••••••••"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  autoComplete="new-password"
-                  required
-                />
-                {confirmMismatch && (
-                  <span className="pw-mismatch">Passwords do not match</span>
-                )}
-              </div>
-
-              <button
-                className="btn btn-red btn-full"
-                type="submit"
-                disabled={loading}
-                id="reset-submit-btn"
-              >
-                {loading ? "Resetting…" : "Reset Password"}
-              </button>
-            </form>
-
-            <p className="auth-switch">
-              Remembered it? <a href="/login">Back to Log In</a>
-            </p>
-          </div>
         </div>
       </div>
     </div>
