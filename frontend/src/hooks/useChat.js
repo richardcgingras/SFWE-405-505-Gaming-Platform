@@ -3,7 +3,6 @@ import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
 const SOCKET_URL = "http://localhost:8080/ws";
-const BASE_URL = "http://localhost:8080/api";
 
 const getToken = () => localStorage.getItem("token") || "";
 
@@ -20,7 +19,7 @@ const getCurrentUserId = () => {
 };
 
 export function useChat(recipientId) {
-  const currentUserId = getCurrentUserId(); // ✅ pulled from token automatically
+  const currentUserId = getCurrentUserId();
   const [messages, setMessages] = useState([]);
   const [connected, setConnected] = useState(false);
   const clientRef = useRef(null);
@@ -29,16 +28,22 @@ export function useChat(recipientId) {
     if (!currentUserId || !recipientId) return;
 
     const token = getToken();
-    fetch(`${BASE_URL}/messages/${currentUserId}/${recipientId}`, {
+    fetch(`/api/messages/${currentUserId}/${recipientId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) return [];
+        return res.json();
+      })
       .then(setMessages)
-      .catch(console.error);
+      .catch((err) => {
+        console.error("Failed to load messages:", err);
+        setMessages([]);
+      });
   }, [currentUserId, recipientId]);
 
   useEffect(() => {
@@ -60,6 +65,9 @@ export function useChat(recipientId) {
         });
       },
       onDisconnect: () => setConnected(false),
+      onStompError: (frame) => {
+        console.error("STOMP error:", frame.headers["message"]);
+      },
     });
 
     client.activate();

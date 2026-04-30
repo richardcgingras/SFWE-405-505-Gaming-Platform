@@ -258,27 +258,37 @@ export default function Community() {
                       </div>
                     </div>
 
-                    <div
-                      style={{
-                        padding: "4px 12px",
-                        borderRadius: "100px",
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.05em",
-                        background:
-                          tone === "online"
-                            ? "rgba(0, 255, 127, 0.1)"
-                            : "rgba(255, 255, 255, 0.05)",
-                        color: tone === "online" ? "#00ff7f" : "var(--text-muted)",
-                        border: `1px solid ${
-                          tone === "online"
-                            ? "rgba(0, 255, 127, 0.2)"
-                            : "rgba(255, 255, 255, 0.1)"
-                        }`,
-                      }}
-                    >
-                      {label}
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <div
+                        style={{
+                          padding: "4px 12px",
+                          borderRadius: "100px",
+                          fontSize: "0.75rem",
+                          fontWeight: 700,
+                          textTransform: "uppercase",
+                          letterSpacing: "0.05em",
+                          background:
+                            tone === "online"
+                              ? "rgba(0, 255, 127, 0.1)"
+                              : "rgba(255, 255, 255, 0.05)",
+                          color: tone === "online" ? "#00ff7f" : "var(--text-muted)",
+                          border: `1px solid ${
+                            tone === "online"
+                              ? "rgba(0, 255, 127, 0.2)"
+                              : "rgba(255, 255, 255, 0.1)"
+                          }`,
+                        }}
+                      >
+                        {label}
+                      </div>
+
+                      <button
+                        className="btn btn-ghost"
+                        onClick={() => navigate(`/chat/${f.id}`)}
+                        style={{ padding: "4px 14px", fontSize: "0.8rem" }}
+                      >
+                        Chat
+                      </button>
                     </div>
                   </div>
                 </div>
