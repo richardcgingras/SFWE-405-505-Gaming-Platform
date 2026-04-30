@@ -22,6 +22,7 @@ public class ShoppingCart {
     private List<VideoGame> games;
 
     @OneToOne
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private UserProfile account;
 
     private float totalPrice;

@@ -15,6 +15,7 @@ import Cart from './pages/ShoppingCart/Cart.jsx'
 import Publish from './pages/Publish/Publish.jsx'
 import Upload from './pages/Upload/Upload.jsx'
 import Wishlist from './pages/wishList/wishlist.jsx'
+import UserProfile from './pages/UserProfile/userProfile.jsx'
 import Layout from './components/Layout/Layout.jsx'
 
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="/publish" element={<Publish />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/profile/:id" element={<UserProfile />} />
       </Route>
     </Routes>
   )

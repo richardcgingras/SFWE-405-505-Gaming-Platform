@@ -34,6 +34,7 @@ public class UserProfile {
 
     // TODO: There is a bug here where there is a recursive data getting pulled because a profile is in a profile.
     @ManyToMany(fetch = FetchType.LAZY)
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"friends", "wishList", "shoppingCart", "gameLibrary"})
     private List<UserProfile> friends;
 
     /*

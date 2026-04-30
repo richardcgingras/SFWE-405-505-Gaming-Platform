@@ -54,7 +54,7 @@ const Navbar = () => {
               <div className="nav-avatar">
                 {user.username?.[0]?.toUpperCase()}
               </div>
-              <span className="nav-username">{user.username}</span>
+              <Link to={`/profile/${user.id}`} className="nav-username">{user.username}</Link>
             <button className="btn btn-ghost" onClick={handleLogout}>
                 Log Out
               </button>
