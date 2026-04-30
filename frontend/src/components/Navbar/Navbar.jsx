@@ -36,7 +36,7 @@ const Navbar = () => {
     <nav className="nav">
       <div className="nav-logo">
         <Link to={user ? "/home" : "/"}>
-          <span className="logo-icon"></span>
+          <span className="logo-icon">🎮</span>
           <span className="logo-text">good<span>Gamers</span></span>
         </Link>
       </div>

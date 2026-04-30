@@ -606,3 +606,76 @@
   gap: 10px;
   cursor: pointer;
 }
+
+/* ══ HOME TILES ══ */
+.home-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.home-tile {
+  background: var(--blue-card);
+  border: 1px solid var(--blue-border);
+  border-radius: 12px;
+  padding: 40px 24px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.home-tile:hover {
+  transform: translateY(-8px);
+  border-color: var(--red);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--red-glow);
+  background: rgba(10, 22, 40, 0.9);
+}
+
+.home-tile::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(232, 25, 44, 0.05), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.home-tile:hover::before {
+  transform: translateX(100%);
+}
+
+.home-tile-icon {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+  transition: transform 0.3s ease;
+}
+
+.home-tile:hover .home-tile-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.home-tile-label {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 10px;
+}
+
+.home-tile-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 200px;
+}

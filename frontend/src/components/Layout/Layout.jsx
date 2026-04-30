@@ -10,7 +10,7 @@ const Layout = () => {
   return (
     <div className="page">
       <div className="bg-glow" />
-      {!isHomePage && <Navbar />}
+      <Navbar />
       <div className="main-content">
         <Outlet />
       </div>
