@@ -1,91 +1,45 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getAllVideoGames } from "../../services/VideoGame.js";
-
-const getToken = () => localStorage.getItem("token") || "";
-
-const getCurrentUser = () => {
-  const token = getToken();
-  if (!token) return null;
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return {
-      id: payload.sub,
-      username: localStorage.getItem("username") || "User",
-    };
-  } catch {
-    return null;
-  }
-};
 
 export default function Home() {
-  const [games, setGames] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState("Gamer");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const currentUser = getCurrentUser();
-    if (!currentUser) {
+    const token = localStorage.getItem("token");
+    if (!token) {
       navigate("/");
-    } else {
-      setUser(currentUser);
+      return;
     }
+    setUsername(localStorage.getItem("username") || "Gamer");
   }, [navigate]);
 
-  useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const data = await getAllVideoGames();
-        setGames(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (getToken()) {
-      fetchGames();
-    }
-  }, []);
+  const tiles = [
+    { to: "/store",     icon: "🛒", label: "Store",     desc: "Browse & buy new games" },
+    { to: "/library",   icon: "📚", label: "Library",   desc: "Your owned games"        },
+    { to: "/community", icon: "💬", label: "Community", desc: "Chat & connect"           },
+    { to: "/news",      icon: "📰", label: "News",      desc: "Latest updates"           },
+  ];
 
   return (
-    <main className="main" style={{ paddingTop: '40px' }}>
-      <header className="dashboard-header" style={{ marginBottom: '40px' }}>
-        <h1 className="hero-title" style={{ fontSize: '3rem', marginBottom: '10px' }}>
-          Welcome back, <span className="hero-title-accent">{user?.username}</span>
+    <main className="main" style={{ paddingTop: "48px" }}>
+      <header style={{ marginBottom: "48px" }}>
+        <h1 className="hero-title" style={{ fontSize: "2.8rem", marginBottom: "10px" }}>
+          Welcome back, <span className="hero-title-accent">{username}</span>
         </h1>
         <p className="hero-sub">What are we playing today?</p>
       </header>
 
       <section className="section">
-        <div className="section-header">
-          <h2 className="section-title">Jump Back In</h2>
-          <Link to="/games" className="section-link">Browse All Games →</Link>
+        <div className="home-tiles">
+          {tiles.map((t) => (
+            <Link key={t.to} to={t.to} className="home-tile">
+              <span className="home-tile-icon">{t.icon}</span>
+              <span className="home-tile-label">{t.label}</span>
+              <span className="home-tile-desc">{t.desc}</span>
+            </Link>
+          ))}
         </div>
-
-        {loading && <p className="section-status">Loading your universe...</p>}
-        {error && <p className="section-status error">Error: {error}</p>}
-
-        {!loading && !error && (
-          <div className="games-grid">
-            {games.map((game, i) => (
-              <div
-                key={game.id}
-                className="game-card"
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
-                <div className="game-card-info">
-                  <h3 className="game-card-title">{game.title}</h3>
-                  <span className="game-price">
-                    {game.price === 0 ? "FREE" : `$${game.price}`}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </section>
     </main>
   );

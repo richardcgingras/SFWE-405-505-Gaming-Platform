@@ -66,14 +66,13 @@ export async function createVideoGame(videoGame) {
  * Retrieves a video game file by name.
  * @param {number} id - The Video game ID.
  * @param {string} file - The file name.
- * @returns {Promise<string|null>} - A promise that resolves to the file content or null on 404.
+ * @returns {Promise<Blob|null>} - A promise that resolves to the file blob or null on 404.
  */
 export async function getFile(id, file) {
     const token = getToken();
     const response = await fetch(`${BASE_URL}/video-games/download?id=${id}&file=${encodeURIComponent(file)}`,{
         headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            Authorization: `Bearer ${token}`
         }});
     
     // Handle 404 as requested (return null instead of throwing)
@@ -85,8 +84,7 @@ export async function getFile(id, file) {
         throw new Error(`Error: ${response.status}`);
     }
     
-    // Return file content or response body as string
-    return response.text();
+    return response.blob();
 
 }
 

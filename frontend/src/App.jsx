@@ -6,7 +6,6 @@ import Signup from './pages/Signup/Signup.jsx'
 import ResetPassword from './pages/ResetPassword/ResetPassword.jsx'
 import ChatPage from './pages/ChatPage/ChatPage.jsx'
 import Library from './pages/Library/Library.jsx'
-import Download from './pages/Download/Download.jsx'
 import VideoGames from './pages/VideoGame/VideoGame.jsx'
 import Community from './pages/Community/Community.jsx'
 import Checkout from './pages/Checkout/Checkout.jsx'
@@ -29,13 +28,11 @@ export default function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/library" element={<Library />} />
-        <Route path="/download" element={<Download />} />
         <Route path="/games" element={<VideoGames />} />
         <Route path="/community" element={<Community />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/store" element={<Store />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/publish" element={<Publish />} />
         <Route path="/upload" element={<Upload />} />

@@ -7,6 +7,7 @@ import "./Store.css";
 
 export default function Store() {
   const [games, setGames] = useState([]);
+  const [ownedGameIds, setOwnedGameIds] = useState(new Set());
   const [search, setSearch] = useState("");
   const [selectedGame, setSelectedGame] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,6 +17,9 @@ export default function Store() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    const token  = localStorage.getItem("token");
+
     const loadGames = async () => {
       try {
         const data = await getAllVideoGames();
@@ -28,7 +32,23 @@ export default function Store() {
       }
     };
 
+    const loadOwned = async () => {
+      if (!userId || !token) return;
+      try {
+        const res = await fetch(`/api/gamelibrary/user/${userId}/games`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const owned = await res.json();
+          setOwnedGameIds(new Set((owned || []).map((g) => g.id)));
+        }
+      } catch (err) {
+        console.warn("Could not load owned games:", err);
+      }
+    };
+
     loadGames();
+    loadOwned();
   }, []);
 
   const filteredGames = games.filter((game) =>
@@ -84,6 +104,30 @@ export default function Store() {
       console.error("Wishlist error:", err);
       setNotification("Failed to add to wishlist. Are you logged in?");
       setTimeout(() => setNotification(""), 3000);
+    }
+  };
+
+  const handleBuyNow = async (gameId) => {
+    const userId = localStorage.getItem("userId");
+    const token  = localStorage.getItem("token");
+    if (!userId || !token) {
+      setNotification("Please log in to buy games.");
+      setTimeout(() => setNotification(""), 3000);
+      return;
+    }
+    try {
+      const response = await addGameToCart(gameId);
+      if (response && response.Status === "success") {
+        // Redirect to cart for checkout
+        navigate("/cart");
+      } else {
+        setNotification(response?.Status || "Failed to add to cart.");
+        setTimeout(() => setNotification(""), 3000);
+      }
+    } catch (err) {
+      console.error("Buy error:", err);
+      setNotification(`Failed to process: ${err.message}`);
+      setTimeout(() => setNotification(""), 4000);
     }
   };
 
@@ -163,11 +207,32 @@ export default function Store() {
                   </div>
 
                   <button
-                    className="btn btn-red store-action"
+                    className="btn btn-ghost store-action"
+                    style={{ fontSize: '0.8rem', padding: '6px 12px' }}
                     onClick={() => setSelectedGame(game)}
                   >
-                    View Details
+                    Details
                   </button>
+                  <button
+                    className="btn btn-ghost store-action"
+                    style={{ fontSize: '0.8rem', padding: '6px 12px' }}
+                    onClick={() => handleAddToWishlist(game.id)}
+                    title="Add to Wishlist"
+                  >
+                    ♡ Wishlist
+                  </button>
+                  {ownedGameIds.has(game.id) ? (
+                    <button className="btn store-action store-purchased" disabled>
+                      ✓ Purchased
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-red store-action"
+                      onClick={() => handleBuyNow(game.id)}
+                    >
+                      Buy Now
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
@@ -186,9 +251,22 @@ export default function Store() {
               )}
             </div>
 
-            <div className="store-detail-actions" style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
+            <div className="store-detail-actions" style={{ display: 'flex', gap: '12px', marginTop: '24px', flexWrap: 'wrap' }}>
+              {ownedGameIds.has(selectedGame.id) ? (
+                <button className="btn store-purchased" disabled style={{ minWidth: '160px' }}>
+                  ✓ Already in Library
+                </button>
+              ) : (
+                <button
+                  className="btn btn-red"
+                  onClick={() => handleBuyNow(selectedGame.id)}
+                >
+                  🛒 Buy Now — Add to Library
+                </button>
+              )}
               <button
-                className="btn btn-red"
+                className="btn btn-ghost"
+                style={{ border: '1px solid var(--blue-border)' }}
                 onClick={() => handleAddToCart(selectedGame.id)}
               >
                 Add to Cart

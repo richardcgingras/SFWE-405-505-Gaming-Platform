@@ -1,20 +1,52 @@
-/* ══ LIBRARY CONTAINER ══ */
-.library-container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background-color: var(--blue-card);
-  border: 1px solid var(--blue-border);
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+/* ══ LIBRARY GRID & CARDS ══ */
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-.library-container h2 {
-  margin-bottom: 1rem;
+.library-game-card {
+  padding: 1.25rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--blue-border);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.library-game-card:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.library-game-card h3 {
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
   color: var(--text-primary);
-  font-size: 1.8rem;
-  font-family: var(--font-display);
-  letter-spacing: 0.05em;
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+.item-details {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.system-info, .file-size, .age-rating {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+}
+
+.age-rating {
+  color: var(--red);
+  font-weight: 500;
 }
 
 .library-error {
@@ -32,70 +64,71 @@
   font-family: var(--font-ui);
 }
 
-/* ══ LIBRARY GRID & CARDS ══ */
-.library-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.library-game-card {
-  padding: 1.25rem;
-  background-color: rgba(255, 255, 255, 0.03);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.library-game-card:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.library-game-card h3 {
-  font-family: var(--font-ui);
-  font-size: 1.1rem;
-  color: var(--text-primary);
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.03em;
-}
-
-.item-details {
+.library-empty-state {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  padding: 60px 20px;
+  text-align: center;
 }
 
-.system-info, .file-size, .age-rating {
+.library-empty-icon {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+  filter: grayscale(0.3);
+}
+
+.library-empty-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+/* ══ DOWNLOAD BUTTON ══ */
+.lib-download-btn {
+  margin-top: auto;
+  width: 100%;
+  padding: 10px;
+  font-size: 0.9rem;
+}
+
+.lib-download-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ══ TOAST ══ */
+.lib-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--blue-panel);
+  border: 1px solid var(--blue-border);
+  color: var(--text-primary);
   font-family: var(--font-ui);
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  letter-spacing: 0.03em;
-}
-
-.age-rating {
-  color: var(--red);
-  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  animation: fadeUp 0.25s ease both;
+  white-space: nowrap;
 }
 
 /* ══ LOADING STATE ══ */
 .library-loading {
   text-align: center;
   padding: 40px;
-  color: #6c63ff;
+  color: var(--text-secondary);
   font-family: var(--font-ui);
 }
 
 /* ══ RESPONSIVE ══ */
 @media (max-width: 768px) {
-    .library-container {
-        margin: 1rem;
-        padding: 1rem;
-    }
-
-    .library-grid {
-        grid-template-columns: 1fr;
-    }
+  .library-grid { grid-template-columns: 1fr; }
 }
