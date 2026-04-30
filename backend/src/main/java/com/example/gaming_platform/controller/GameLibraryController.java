@@ -17,6 +17,7 @@ import com.example.gaming_platform.entity.UserProfile;
 import com.example.gaming_platform.entity.VideoGame;
 import com.example.gaming_platform.repository.GameLibraryRepository;
 import com.example.gaming_platform.repository.UserProfileRepository;
+import com.example.gaming_platform.repository.VideoGameRepository;
 import com.example.gaming_platform.service.GameLibraryService;
 
 /**
@@ -29,19 +30,24 @@ public class GameLibraryController {
     private GameLibraryService gameLibraryService;
     private GameLibraryRepository gameLibraryRepository;
     private UserProfileRepository userProfileRepository;
+    private VideoGameRepository videoGameRepository;
 
 /**
  * Creates a new GameLibraryController instance.
  *
  * @param gameLibraryService the game library service
  * @param gameLibraryRepository the game library repository
+ * @param userProfileRepository the user profile repository
+ * @param videoGameRepository the video game repository
  */
     public GameLibraryController(GameLibraryService gameLibraryService,
                                  GameLibraryRepository gameLibraryRepository,
-                                 UserProfileRepository userProfileRepository) {
+                                 UserProfileRepository userProfileRepository,
+                                 VideoGameRepository videoGameRepository) {
         this.gameLibraryService = gameLibraryService;
         this.gameLibraryRepository = gameLibraryRepository;
         this.userProfileRepository = userProfileRepository;
+        this.videoGameRepository = videoGameRepository;
     }
 
     // GET /api/gamelibrary
@@ -131,6 +137,64 @@ public class GameLibraryController {
         }
 
         return ResponseEntity.ok(library);
+    }
+
+    // POST /api/gamelibrary/user/{userId}/games/{gameId}
+    /**
+     * Adds a game to the library owned by the given user.
+     * Auto-creates the library if one does not exist yet.
+     *
+     * @param userId the user (owner) ID
+     * @param gameId the game ID
+     * @return the updated library
+     */
+    @PostMapping("/user/{userId}/games/{gameId}")
+    public ResponseEntity<GameLibrary> addGameByUserId(@PathVariable Long userId,
+                                                       @PathVariable Long gameId) {
+        UserProfile owner = userProfileRepository.findById(userId).orElse(null);
+        if (owner == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        GameLibrary library = gameLibraryRepository.findByOwner(owner);
+        if (library == null) {
+            library = new GameLibrary();
+            library.setOwner(owner);
+            library = gameLibraryRepository.save(library);
+        }
+
+        VideoGame game = videoGameRepository.findById(gameId).orElse(null);
+        if (game == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        library.addGame(game);
+        return ResponseEntity.ok(gameLibraryRepository.save(library));
+    }
+
+    // GET /api/gamelibrary/user/{userId}/games
+    /**
+     * Returns the game list for the library owned by the given user.
+     * Auto-creates an empty library if none exists.
+     *
+     * @param userId the user (owner) ID
+     * @return list of games
+     */
+    @GetMapping("/user/{userId}/games")
+    public ResponseEntity<List<VideoGame>> getGamesByUserId(@PathVariable Long userId) {
+        UserProfile owner = userProfileRepository.findById(userId).orElse(null);
+        if (owner == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        GameLibrary library = gameLibraryRepository.findByOwner(owner);
+        if (library == null) {
+            library = new GameLibrary();
+            library.setOwner(owner);
+            library = gameLibraryRepository.save(library);
+        }
+
+        return ResponseEntity.ok(library.getGames());
     }
 
     // DELETE /api/gamelibrary/{id}/games/{gameId}
