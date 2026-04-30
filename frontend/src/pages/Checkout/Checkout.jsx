@@ -124,8 +124,6 @@ export default function Checkout() {
       {/* NAV */}
       <nav className="nav">
         <div className="nav-logo">
-          <span className="logo-icon">◈</span>
-          <span className="logo-text">NEXUS<span>PLAY</span></span>
         </div>
         <button className="btn btn-ghost" onClick={() => navigate(-1)}>
           ← Back
