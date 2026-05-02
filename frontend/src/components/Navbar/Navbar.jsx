@@ -47,6 +47,7 @@ const Navbar = () => {
         {user && <li><Link to="/cart">Cart</Link></li>}
         <li><Link to="/community">Community</Link></li>
         <li><Link to="/news">News</Link></li>
+        <li><Link to="/publish?devId=101">Developer Portal</Link></li>
       </ul>
       <div className="nav-actions">
         {user ? (

@@ -18,7 +18,7 @@ export default function Home() {
     { to: "/store",     icon: "🛒", label: "Store",     desc: "Browse & buy new games" },
     { to: "/library",   icon: "📚", label: "Library",   desc: "Your owned games"        },
     { to: "/community", icon: "💬", label: "Community", desc: "Chat & connect"           },
-    { to: "/news",      icon: "📰", label: "News",      desc: "Latest updates"           },
+    { to: "https://www.ign.com/",      icon: "📰", label: "News",      desc: "Latest updates"           },
   ];
 
   return (
