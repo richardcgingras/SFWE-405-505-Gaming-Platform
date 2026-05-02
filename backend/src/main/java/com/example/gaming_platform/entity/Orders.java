@@ -45,12 +45,12 @@ public class Orders {
  */
     public UserProfile getDestinationAccount(){return destinationAccount;}
     public VideoGame getGame(){return game;}
-    public Calendar getDate(){return purchaseTimestamp;}
+    public Calendar getPurchaseTimestamp(){return purchaseTimestamp;}
     public Boolean getPaymentProcessed(){return paymentProcessed;}
 
     // Setters
     public void setDestinationAccount(UserProfile newDestinationAccount){destinationAccount = newDestinationAccount;}
     public void setGame(VideoGame newGame){game = newGame;}
-    public void setDate(Calendar newDate){purchaseTimestamp = newDate;}
+    public void setPurchaseTimestamp(Calendar newDate){purchaseTimestamp = newDate;}
     public void setPaymentProcessed(Boolean newBool){paymentProcessed = newBool;}
 }
