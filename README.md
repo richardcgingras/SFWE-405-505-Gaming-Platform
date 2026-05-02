@@ -1,70 +1,121 @@
 # SFWE-405-505-Gaming-Platform
+
 SFWE 405/505 Semester Project
 
-This project is a Spring Boot backend for a gaming platform. It provides APIs for managing users, video games, developers, wishlists, chat messaging, and more. Authentication is implemented using JWT.
+This project is a full-stack gaming platform built with a Spring Boot backend and React frontend. It provides APIs and UI features for managing users, video games, developers, wishlists, shopping carts, checkout, game libraries, messaging, friend requests, and authentication using JWT.
 
 ## Prerequisites
+
 - Java 21 installed
-- Maven (or use ./mvnw)
+- Maven or Maven wrapper (`./mvnw`)
+- Node.js / npm
 
 ## Tech Stack
+
 - Java 21
 - Spring Boot
 - Spring Data JPA
 - Spring Security (JWT)
 - H2 Database
 - Maven
+- React / Vite
 
 ## Running the Backend
-From the `backend` directory: ./mvnw spring-boot:run
+
+From the `backend` directory:
+./mvnw spring-boot:run or
+mvn spring-boot:run
+
 Backend runs at: http://localhost:8080
+
 Base API URL: http://localhost:8080/api
 
 ## Database
-Uses an H2 in-memory database
+
+Uses an H2 in-memory database.
 H2 Console: http://localhost:8080/h2-console
+
 JDBC URL: jdbc:h2:mem:testdb
+
 Username: sa
-Password: (blank)
+Password: blank
 
 ## Authentication
-  ### Login
-    curl -X POST http://localhost:8080/api/auth/login \
-    -H "Content-Type: application/json" \
-    -d '{"username":"johna","password":"password"}'
+
+Login (after creating an account)
+
+curl -X POST http://localhost:8080/api/auth/login \
+-H "Content-Type: application/json" \
+-d '{"username":"johna","password":"password"}'
 
 Example response:
-{"accessToken":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxMDEiLCJpYXQiOjE3NzQ5MTczMzUsImV4cCI6MTc3NTAwMzczNX0.VTnnIUtDnB2i3UgUhzixa2Bv4XToNbso6QRYzUVaKdpOF8CNk3oQ0J_xBq0f08XD","tokenType":"Bearer"}
+
+{
+  "accessToken": "your_jwt_token",
+  "tokenType": "Bearer"
+}
+
+Use the token for protected endpoints:
+
+Authorization: Bearer <token>
+
+## Account Setup
+
+There are no predefined user accounts in the system.
+
+To use the platform:
+1. Create a new account using the signup page (`/signup` in the frontend).
+2. Log in using the credentials you created.
+3. Use the returned JWT token (automatically handled by the frontend or manually in Postman) for protected requests.
+
+This ensures all features (friend requests, wishlist, cart, etc.) are tied to your created account.
 
 ## Postman Setup
+
 Postman files are located in the postman/ folder:
--SFWE_405_api_testing.postman_collection.json
--SFWE_405_Local_Variables.postman_environment.json
+
+SFWE_405_api_testing.postman_collection.json
+SFWE_405_Local_Variables.postman_environment.json
 
 Steps:
--Import both files into Postman
--Select the environment: SFWE_405_Local_Variables
--Run the Auth -> Login request
--Use the token for authenticated requests
+1. Import both files into Postman.
+2. Select the environment: SFWE_405_Local_Variables.
+3. Run the Auth → Login request.
+4. Use the returned token for authenticated requests.
+5. Test endpoints for users, video games, wishlist, shopping cart, friend requests, messaging, and checkout.
+
+## Features
+-User signup, login, and password reset
+-JWT-based authentication
+-Game store and game detail pages
+-Shopping cart and checkout flow
+-Wishlist functionality
+-Game library and downloads
+-Developer publishing and upload pages
+-Friend requests, including send, accept, and deny
+-Messaging between users
+-User profile pages with bio and account information
 
 ## API Coverage
+
 Includes endpoints for:
 -Authentication
--Video Games
 -User Profiles
+-Friend Requests
+-Video Games
 -Developers
 -Wishlist
+-Shopping Cart
+-Checkout / Orders
+-Reviews
 -Chat / Messaging
--Orders, Reviews, Shopping Cart, Webstore
+-Webstore
 
 See Postman collection for full endpoint details.
 
 ## Notes
--Backend must be running before testing APIs
--Some endpoints require existing data (IDs must exist)
--Authentication is required for protected endpoints
--Database resets on restart
-
-## Frontend
-Frontend setup is documented separately in the frontend README.
-
+-Backend must be running before testing APIs.
+-Frontend should be running when testing UI features. There is a separate frontend readme file in the frontend folder.
+-Some endpoints require existing data, such as valid user IDs or game IDs.
+-Authentication is required for protected endpoints.
+-The H2 database resets on restart.
