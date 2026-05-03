@@ -239,7 +239,7 @@ public class ShoppingCartService {
             Orders newOrder = new Orders();
             newOrder.setDestinationAccount(destinationAccount);
             newOrder.setGame(game);
-            newOrder.setDate(orderTime);
+            newOrder.setPurchaseTimestamp(orderTime);
             newOrder.setPaymentProcessed(true);
             ordersRepository.save(newOrder);
             // Attach the game to the user account

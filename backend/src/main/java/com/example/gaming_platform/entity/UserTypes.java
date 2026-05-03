@@ -17,4 +17,10 @@ public class UserTypes {
     private String type;
 
     private String description;
+
+    public String getType(){return type;}
+    public String getDescription(){return description;}
+
+    public void setType(String newType){this.type = newType;}
+    public void setDescscription(String newDescription){this.description = newDescription;}
 }

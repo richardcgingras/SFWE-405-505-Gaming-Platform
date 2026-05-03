@@ -71,7 +71,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Halo Infinite\",\n  \"releaseDate\": \"2026-02-17T00:00:00.000+00:00\",\n  \"category\": \"ACTION\",\n  \"system\": \"XBOX\"\n}",
+              "raw": "{\n  \"name\": \"Halo Infinite\",\n  \"releaseDate\": \"2026-02-17T00:00:00.000+00:00\",\n  \"system\": [\"XBOX\"]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -135,7 +135,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Vary",
@@ -208,7 +208,7 @@
                   "description": "fuck me",
                   "type": "file",
                   "uuid": "21fd405d-0676-49e8-ab45-2a462252f7e9",
-                  "src": "/tmp/aFile"
+                  "src": "/home/g-mantech/Git/Github/SFWE-405-505-Gaming-Platform/postman/README.md"
                 }
               ]
             },
@@ -223,14 +223,6 @@
                 "{{gameId}}"
               ]
             }
-          },
-          "response": []
-        },
-        {
-          "name": "New Request",
-          "request": {
-            "method": "GET",
-            "header": []
           },
           "response": []
         }
@@ -289,11 +281,14 @@
         {
           "name": "Create User Profile",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"renae@example.com\",\n  \"userName\": \"Gamer1\",\n  \"status\": \"ACTIVE\",\n  \"preferredCategories\": [\"RPG\", \"INDIE\"],\n  \"gameLibrary\": [],\n  \"id\":\"1\"\n}",
+              "raw": "{\n  \"email\": \"renae@example.com\",\n  \"userName\": \"Gamer1\",\n  \"password\": \"ThePassw0rd!\",\n  \"status\": \"active\",\n  \"preferredCategories\": [\"RPG\", \"INDIE\"],\n  \"gameLibrary\": []\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -359,7 +354,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"typeName\": \"ADMIN\"\r\n}",
+              "raw": "{\r\n  \"type\": \"ADMIN\",\r\n  \"description\": \"The people in charge\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -425,7 +420,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"orderDate\": \"2026-03-24T12:00:00\",\r\n  \"totalAmount\": 59.99\r\n}",
+              "raw": "{\r\n  \"destinationAccount\": {\r\n    \"id\": 101\r\n  },\r\n  \"purchaseTimestamp\": \"2028-06-24T16:34:56.000+00:00\",\r\n  \"game\": {\r\n    \"id\": 110\r\n  },\r\n  \"paymentProcessed\": true\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -472,9 +467,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "GET {{baseUrl}}{{api}}/category/{{id}}",
+              "raw": "{{baseUrl}}{{api}}/category/{{id}}",
               "host": [
-                "GET {{baseUrl}}{{api}}"
+                "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "category",
@@ -491,7 +486,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"RPG\"\r\n}",
+              "raw": "{\r\n  \"type\": \"NEW\",\r\n  \"description\": \"ITS NEW!!!\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -499,9 +494,9 @@
               }
             },
             "url": {
-              "raw": "POST {{baseUrl}}{{api}}/category",
+              "raw": "{{baseUrl}}{{api}}/category",
               "host": [
-                "POST {{baseUrl}}{{api}}"
+                "{{baseUrl}}{{api}}"
               ],
               "path": [
                 "category"
@@ -521,56 +516,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "GET {{baseUrl}}{{api}}/chat",
-              "host": [
-                "GET {{baseUrl}}{{api}}"
-              ],
-              "path": [
-                "chat"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Chat By ID",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}{{api}}/chat/{{id}}",
+              "raw": "{{baseUrl}}{{api}}/messages/101/102",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
-                "chat",
-                "{{id}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create Chat",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"message\": \"Hello world\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{api}}/chat",
-              "host": [
-                "{{baseUrl}}{{api}}"
-              ],
-              "path": [
-                "chat"
+                "messages",
+                "101",
+                "102"
               ]
             }
           },
@@ -623,7 +576,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Nintendo\"\r\n}",
+              "raw": "{\r\n  \"email\": \"GamersHaveMoney@greed.com\",\r\n  \"username\": \"GiveMeYourMoney\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -716,32 +669,6 @@
               "path": [
                 "gamelibrary",
                 "{{id}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create Game Library",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Renae's Library\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{api}}/gamelibrary",
-              "host": [
-                "{{baseUrl}}{{api}}"
-              ],
-              "path": [
-                "gamelibrary"
               ]
             }
           },
@@ -875,7 +802,7 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/reviews/submit?userId={{userId}}&gameId={{gameId}}&rating={{rating}}&comment={{comment}}",
+              "raw": "{{baseUrl}}{{api}}/reviews/submit?userId={{userId}}&gameId={{gameId}}&rating={{rating}}&comments={{comment}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
@@ -897,7 +824,7 @@
                   "value": "{{rating}}"
                 },
                 {
-                  "key": "comment",
+                  "key": "comments",
                   "value": "{{comment}}"
                 }
               ]
@@ -1284,7 +1211,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"username\": \"johna\",\r\n  \"password\": \"password\"\r\n}",
+              "raw": "{\r\n  \"username\": \"Gamer1\",\r\n  \"password\": \"ThePassw0rd!\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1315,56 +1242,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/wishlists",
+              "raw": "{{baseUrl}}{{api}}/wishlist",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
-                "wishlists"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Wishlist By ID",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}{{api}}/wishlists/{{id}}",
-              "host": [
-                "{{baseUrl}}{{api}}"
-              ],
-              "path": [
-                "wishlists",
-                "{{id}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create Wishlist",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"games\": [],\r\n  \"totalPrice\": 0.0\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{api}}/wishlists",
-              "host": [
-                "{{baseUrl}}{{api}}"
-              ],
-              "path": [
-                "wishlists"
+                "wishlist"
               ]
             }
           },
@@ -1373,7 +1256,7 @@
         {
           "name": "Add Game To Wishlist",
           "request": {
-            "method": "PUT",
+            "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
@@ -1385,14 +1268,14 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}{{api}}/wishlists/{{id}}/add-game",
+              "raw": "{{baseUrl}}{{api}}/wishlist/game/{{id}}",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
-                "wishlists",
-                "{{id}}",
-                "add-game"
+                "wishlist",
+                "game",
+                "{{id}}"
               ]
             }
           },
@@ -1404,14 +1287,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}{{api}}/wishlists/total-price/{{id}}",
+              "raw": "{{baseUrl}}{{api}}/wishlist/total",
               "host": [
                 "{{baseUrl}}{{api}}"
               ],
               "path": [
-                "wishlists",
-                "total-price",
-                "{{id}}"
+                "wishlist",
+                "total"
               ]
             }
           },
