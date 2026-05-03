@@ -185,7 +185,7 @@ public class ShoppingCartService {
             return "User not found";
         }
 
-        return "Success: %.2f".formatted(shoppingCart.getTotal());
+        return "Success: %.2f".formatted(calcPrice(userId));
     }
 
 /**

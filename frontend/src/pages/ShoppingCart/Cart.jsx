@@ -49,6 +49,10 @@ export default function Cart() {
     (sum, game) => sum + (game.size || 0),
     0,
   );
+  const totalPrice = cartItems.reduce(
+    (sum, game) => sum + (game.price || 0),
+    0,
+  );
 
   if (loading) {
     return (
@@ -120,6 +124,10 @@ export default function Cart() {
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Total Download Size:</span>
                 <span style={{ fontWeight: 700 }}>{totalSizeInGB.toFixed(2)} GB</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px', paddingTop: '12px', borderTop: '1px solid var(--blue-border)' }}>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 700 }}>Estimated Total:</span>
+                <span style={{ fontWeight: 800, color: 'var(--red)', fontSize: '1.2rem' }}>${totalPrice.toFixed(2)}</span>
               </div>
               <button
                 className="btn btn-red btn-full"

@@ -1,21 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Checkout.css';
-import { purchaseGame } from "../../services/Checkout";
-import {checkoutWithCreditCard, addGameToCart} from "../../services/ShoppingCart.js";
+import { checkoutWithCreditCard, addGameToCart, getGames, getCartTotal } from "../../services/ShoppingCart.js";
 
 export default function Checkout() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Game passed from the "Buy" button via router state
-  const game = location.state?.game || {
-    id: 'unknown',
-    title: 'Unknown Game',
-    price: 0,
-    genre: '',
-    image: null,
-  };
+  const [cartItems, setCartItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [isInitializing, setIsInitializing] = useState(true);
 
   const [form, setForm] = useState({
     cardName: '',
@@ -29,6 +23,35 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [toast, setToast]     = useState('');
+
+  useEffect(() => {
+    const initCheckout = async () => {
+      try {
+        setIsInitializing(true);
+        
+        // If we came from a specific "Buy Now" button, add that game to cart first
+        if (location.state?.game?.id && location.state.game.id !== 'unknown') {
+          await addGameToCart(location.state.game.id);
+        }
+        
+        // Fetch current cart contents and total
+        const [items, totalData] = await Promise.all([
+          getGames(),
+          getCartTotal()
+        ]);
+        
+        setCartItems(items || []);
+        setTotalPrice(parseFloat(totalData.total) || 0);
+      } catch (err) {
+        console.error("Failed to initialize checkout:", err);
+        showToast("Failed to load cart items.");
+      } finally {
+        setIsInitializing(false);
+      }
+    };
+    
+    initCheckout();
+  }, [location.state]);
 
   const showToast = (msg) => {
     setToast(msg);
@@ -74,13 +97,12 @@ export default function Checkout() {
   
     setLoading(true);
     try {
-      // await purchaseGame({ gameId: game.id });
-      await addGameToCart(game.id);
-      await checkoutWithCreditCard({"cardNumber": form.cardNumber.replace(/\s/g, ''),
-                                    "cardHolderName": form.cardName,
-                                    "expiryDate": form.expiry,
-                                    "cvv": form.cvv
-      })
+      await checkoutWithCreditCard({
+        "cardNumber": form.cardNumber.replace(/\s/g, ''),
+        "cardHolderName": form.cardName,
+        "expiryDate": form.expiry,
+        "cvv": form.cvv
+      });
       setSuccess(true);
     } catch (err) {
       showToast(err.message || 'Payment failed. Please try again.');
@@ -98,7 +120,10 @@ export default function Checkout() {
             <div className="success-icon">✓</div>
             <h2 className="success-title">PURCHASE COMPLETE</h2>
             <p className="success-sub">
-              <span className="success-game-name">{game.title}</span> has been added to your library.
+              {cartItems.length === 1 
+                ? <><span className="success-game-name">{cartItems[0].name}</span> has been added to your library.</>
+                : `${cartItems.length} games have been added to your library.`
+              }
             </p>
             <p className="success-email">Confirmation sent to <strong>{form.email}</strong></p>
             <div className="success-actions">
@@ -136,24 +161,39 @@ export default function Checkout() {
         <div className="checkout-summary">
           <p className="checkout-section-label">ORDER SUMMARY</p>
 
-          <div className="order-game-card">
-            <div className="order-game-art">
-              {game.image
-                ? <img src={game.image} alt={game.title} />
-                : <div className="order-game-art-placeholder">🎮</div>
-              }
-            </div>
-            <div className="order-game-details">
-              <p className="order-game-title">{game.title}</p>
-              {game.genre && <p className="order-game-genre">{game.genre}</p>}
-              <p className="order-game-type">Digital Download</p>
-            </div>
+          <div className="order-items-list">
+            {isInitializing ? (
+              <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '20px' }}>Loading items...</p>
+            ) : cartItems.length === 0 ? (
+              <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '20px' }}>No items in cart.</p>
+            ) : (
+              cartItems.map((item) => (
+                <div key={item.id} className="order-game-card">
+                  <div className="order-game-art">
+                    {item.image
+                      ? <img src={item.image} alt={item.name} />
+                      : <div className="order-game-art-placeholder">🎮</div>
+                    }
+                  </div>
+                  <div className="order-game-details">
+                    <p className="order-game-title">{item.name}</p>
+                    {item.category && item.category.length > 0 && (
+                      <p className="order-game-genre">{item.category[0].type}</p>
+                    )}
+                    <p className="order-game-type">Digital Download</p>
+                  </div>
+                  <div className="order-item-price" style={{ fontWeight: 700, color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                    ${item.price.toFixed(2)}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
           <div className="order-breakdown">
             <div className="order-line">
-              <span>Subtotal</span>
-              <span>${Number(game.price).toFixed(2)}</span>
+              <span>Subtotal ({cartItems.length} items)</span>
+              <span>${totalPrice.toFixed(2)}</span>
             </div>
             <div className="order-line">
               <span>Platform Fee</span>
@@ -161,7 +201,7 @@ export default function Checkout() {
             </div>
             <div className="order-line order-line-total">
               <span>Total</span>
-              <span className="order-total-price">${Number(game.price).toFixed(2)}</span>
+              <span className="order-total-price">${totalPrice.toFixed(2)}</span>
             </div>
           </div>
 
@@ -264,11 +304,11 @@ export default function Checkout() {
             <button
               className="btn btn-red btn-full checkout-submit"
               onClick={handleSubmit}
-              disabled={loading}
+              disabled={loading || isInitializing || cartItems.length === 0}
             >
               {loading
                 ? <span className="loading-dots"><span /><span /><span /></span>
-                : `PAY $${Number(game.price).toFixed(2)}`
+                : `PAY $${totalPrice.toFixed(2)}`
               }
             </button>
 
