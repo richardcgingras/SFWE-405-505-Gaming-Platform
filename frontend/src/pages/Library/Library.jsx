@@ -28,14 +28,14 @@ export default function Library() {
     const fetchLibrary = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/gamelibrary/user/${userId}/games`, {
+        const response = await fetch(`/api/user-profiles/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         if (!response.ok) throw new Error(`Failed to load library (HTTP ${response.status})`);
 
         const data = await response.json();
-        setGames(Array.isArray(data) ? data : []);
+        setGames(Array.isArray(data.gameLibrary) ? data.gameLibrary : []);
         setError(null);
       } catch (err) {
         setError(err.message);

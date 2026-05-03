@@ -43,6 +43,28 @@
     animation: fadeUp 0.45s ease both;
   }
   
+  /* List of items in summary */
+  .order-items-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding-right: 8px;
+  }
+  
+  .order-items-list::-webkit-scrollbar {
+    width: 4px;
+  }
+  .order-items-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .order-items-list::-webkit-scrollbar-thumb {
+    background: var(--blue-border);
+    border-radius: 4px;
+  }
+  .order-items-list::-webkit-scrollbar-thumb:hover {
+    background: var(--blue);
+  }
+
   /* Game card inside summary */
   .order-game-card {
     display: flex;

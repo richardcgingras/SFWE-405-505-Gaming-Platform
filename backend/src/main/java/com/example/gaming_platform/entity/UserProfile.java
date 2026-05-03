@@ -46,8 +46,7 @@ public class UserProfile {
     })
     private List<UserProfile> friends;
 
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "user_profile_category",
             joinColumns = @JoinColumn(name = "user_profile_id"),
@@ -55,8 +54,7 @@ public class UserProfile {
     )
     private List<Category> preferredCategories;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "user_profile_game_library",
             joinColumns = @JoinColumn(name = "user_profile_id"),
@@ -68,7 +66,6 @@ public class UserProfile {
     @OneToOne
     private ShoppingCart shoppingCart;
 
-    @JsonIgnore
     @OneToOne
     private WishList wishList;
 
